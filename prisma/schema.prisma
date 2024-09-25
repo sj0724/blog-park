@@ -12,7 +12,6 @@ model User {
   id                String          @id @default(cuid())
   name              String?
   email             String?         @unique
-  emailVerified     DateTime?       @map("email_verified") // 이메일 인증 시간
   password          String
   image             String?
   introduction      String?         // 사용자 소개
