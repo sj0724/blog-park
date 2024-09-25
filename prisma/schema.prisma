@@ -8,9 +8,134 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+model User {
+  id                String          @id @default(cuid())
+  name              String?
+  email             String?         @unique
+  emailVerified     DateTime?       @map("email_verified") // 이메일 인증 시간
+  password          String
+  image             String?
+  introduction      String?         // 사용자 소개
+  createdAt         DateTime        @default(now()) // 사용자 생성 시간
+  updatedAt         DateTime        @updatedAt // 사용자 수정 시간
+  posts             Post[]          // 사용자가 작성한 일반 게시물
+  temporaryPosts    TemporaryPost[]  // 사용자가 작성한 임시 게시물
+  alarms            Alarm[]         // 사용자 알림
+  likes             Like[]          // 사용자가 좋아요를 누른 게시물
+  follows           Follow[]        @relation("UserFollows") // 사용자가 팔로우한 관계
+  followers         Follow[]        @relation("UserFollowers") // 사용자를 팔로우한 관계
+  accounts          Account[]        // 사용자 계정
+  sessions          Session[]        // 사용자 세션
+  comments          Comment[]
+
+  @@map("users")
+}
+
 model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  title     String   // 게시물 제목
+  content   String   // 게시물 내용
+  summation String   // 게시물 요약
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  likes     Like[]   // 이 게시물에 대한 좋아요
+  comments  Comment[] // 이 게시물에 대한 댓글
+  createdAt DateTime @default(now()) // 게시물 생성 시간
+  updatedAt DateTime @updatedAt // 게시물 수정 시간
+  isPublished Boolean @default(false) // 게시물 공개 여부
+
+  @@map("posts")
+}
+
+model TemporaryPost {
+  id        String   @id @default(cuid())
+  title     String   // 임시 게시물 제목
+  content   String   // 임시 게시물 내용
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime // 임시 게시물 만료 시간
+
+  @@map("temporary_posts")
+}
+
+model Alarm {
+  id      String   @id @default(cuid())
+  userId  String   @map("user_id")
+  content String   // 알림 내용
+  isRead  Boolean  @default(false) // 알림 읽음 여부
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("alarms")
+}
+
+model Like {
+  id      String   @id @default(cuid())
+  userId  String   @map("user_id")
+  postId  String   @map("post_id")
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post    Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId]) // 사용자가 특정 게시물에 대해 좋아요를 한 경우는 유일해야 함.
+  @@map("likes")
+}
+
+model Comment {
+  id      String   @id @default(cuid())
+  content String   // 댓글 내용
+  postId  String   @map("post_id")
+  userId  String   @map("user_id")
+  post    Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
+}
+
+model Follow {
+  id          String   @id @default(cuid())
+  followerId  String   // 사용자 ID (팔로워)
+  followingId String   // 사용자 ID (팔로잉)
+  follower    User     @relation("UserFollowers", fields: [followerId], references: [id], onDelete: Cascade)
+  following   User     @relation("UserFollows", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId]) // 팔로우 관계는 유일해야 함.
+  @@map("follows")
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String  @map("user_id")
+  type               String
+  provider           String
+  providerAccountId  String  @map("provider_account_id")
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verificationtokens")
 }
