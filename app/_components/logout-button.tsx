@@ -1,10 +1,13 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { logout } from '../action/user';
 
 export default function LogoutButton() {
+  const router = useRouter();
   const signOut = async () => {
-    await logout();
+    const result = await logout();
+    if (result.success) router.refresh();
   };
   return (
     <div onClick={signOut} className='cursor-pointer'>

@@ -34,7 +34,7 @@ export default function LoginForm() {
 
   const onSubmit = async (values: LoginSchemaType) => {
     const result = await login(values);
-    if (result.success) router.replace('/');
+    if (result.success) router.refresh();
   };
 
   return (
