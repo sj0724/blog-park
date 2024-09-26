@@ -17,10 +17,12 @@ import { Button } from '@/components/ui/button';
 import { loginFields } from '@/constants/form-filed';
 import { z } from 'zod';
 import { login } from '@/app/action/user';
+import { useRouter } from 'next/navigation';
 
 export type LoginSchemaType = z.infer<typeof LoginSchema>;
 
 export default function LoginForm() {
+  const router = useRouter();
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -32,7 +34,7 @@ export default function LoginForm() {
 
   const onSubmit = async (values: LoginSchemaType) => {
     const result = await login(values);
-    console.log(result);
+    if (result.success) router.replace('/');
   };
 
   return (

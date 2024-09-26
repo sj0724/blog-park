@@ -17,10 +17,12 @@ import { RegisterSchema } from '@/schema';
 import { cn } from '@/lib/utils';
 import { register } from '@/app/action/user';
 import { registerFields } from '@/constants/form-filed';
+import { useRouter } from 'next/navigation';
 
 export type RegisterSchemaType = z.infer<typeof RegisterSchema>;
 
 export default function RegisterForm() {
+  const router = useRouter();
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -34,32 +36,32 @@ export default function RegisterForm() {
 
   const onSubmit = async (values: RegisterSchemaType) => {
     const result = await register(values);
-    console.log(result.message);
+    if (result.success) router.replace('/sign-in');
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
         <FormField
           control={form.control}
           name={registerFields[0].name as keyof RegisterSchemaType}
           render={({ field: controllerField }) => (
             <FormItem className='relative'>
-              <FormLabel>{registerFields[0].label}</FormLabel>
-              <FormControl className='text-base'>
-                <div className='relative'>
-                  <Input
-                    type={registerFields[0].type}
-                    placeholder={registerFields[0].placeholder}
-                    className={cn(
-                      form.getFieldState(
-                        registerFields[0].name as keyof RegisterSchemaType
-                      ).error && 'bg-red bg-opacity-10 border-red',
-                      'border border-gray-300'
-                    )}
-                    {...controllerField}
-                  />
-                </div>
+              <FormLabel className='text-base'>
+                {registerFields[0].label}
+              </FormLabel>
+              <FormControl>
+                <Input
+                  type={registerFields[0].type}
+                  placeholder={registerFields[0].placeholder}
+                  className={cn(
+                    form.getFieldState(
+                      registerFields[0].name as keyof RegisterSchemaType
+                    ).error && 'bg-red bg-opacity-10 border-red',
+                    'border border-gray-300'
+                  )}
+                  {...controllerField}
+                />
               </FormControl>
               <div className='h-5'>
                 <FormMessage className='text-xs' />
@@ -72,21 +74,21 @@ export default function RegisterForm() {
           name={registerFields[1].name as keyof RegisterSchemaType}
           render={({ field: controllerField }) => (
             <FormItem className='relative'>
-              <FormLabel>{registerFields[1].label}</FormLabel>
-              <FormControl className='text-base'>
-                <div className='relative'>
-                  <Input
-                    type={registerFields[1].type}
-                    placeholder={registerFields[1].placeholder}
-                    className={cn(
-                      form.getFieldState(
-                        registerFields[1].name as keyof RegisterSchemaType
-                      ).error && 'bg-red bg-opacity-10 border-red',
-                      'border border-gray-300'
-                    )}
-                    {...controllerField}
-                  />
-                </div>
+              <FormLabel className='text-base'>
+                {registerFields[1].label}
+              </FormLabel>
+              <FormControl>
+                <Input
+                  type={registerFields[1].type}
+                  placeholder={registerFields[1].placeholder}
+                  className={cn(
+                    form.getFieldState(
+                      registerFields[1].name as keyof RegisterSchemaType
+                    ).error && 'bg-red bg-opacity-10 border-red',
+                    'border border-gray-300'
+                  )}
+                  {...controllerField}
+                />
               </FormControl>
               <div className='h-5'>
                 <FormMessage className='text-xs' />
@@ -99,21 +101,21 @@ export default function RegisterForm() {
           name={registerFields[2].name as keyof RegisterSchemaType}
           render={({ field: controllerField }) => (
             <FormItem className='relative'>
-              <FormLabel>{registerFields[2].label}</FormLabel>
-              <FormControl className='text-base'>
-                <div className='relative'>
-                  <Input
-                    type={registerFields[2].type}
-                    placeholder={registerFields[2].placeholder}
-                    className={cn(
-                      form.getFieldState(
-                        registerFields[2].name as keyof RegisterSchemaType
-                      ).error && 'bg-red bg-opacity-10 border-red',
-                      'border border-gray-300'
-                    )}
-                    {...controllerField}
-                  />
-                </div>
+              <FormLabel className='text-base'>
+                {registerFields[2].label}
+              </FormLabel>
+              <FormControl>
+                <Input
+                  type={registerFields[2].type}
+                  placeholder={registerFields[2].placeholder}
+                  className={cn(
+                    form.getFieldState(
+                      registerFields[2].name as keyof RegisterSchemaType
+                    ).error && 'bg-red bg-opacity-10 border-red',
+                    'border border-gray-300'
+                  )}
+                  {...controllerField}
+                />
               </FormControl>
               <div className='h-5'>
                 <FormMessage className='text-xs' />
@@ -126,8 +128,10 @@ export default function RegisterForm() {
           name={registerFields[3].name as keyof RegisterSchemaType}
           render={({ field: controllerField }) => (
             <FormItem className='relative'>
-              <FormLabel>{registerFields[3].label}</FormLabel>
-              <FormControl className='text-base'>
+              <FormLabel className='text-base'>
+                {registerFields[3].label}
+              </FormLabel>
+              <FormControl>
                 <Input
                   placeholder={registerFields[3].placeholder}
                   autoComplete='off'
