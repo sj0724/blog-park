@@ -10,6 +10,7 @@ body {
   .prose {
     @apply max-w-none; /* 기본 너비 제한 제거 */
     @apply whitespace-pre-line; /* 줄바꿈 처리 */
+    @apply text-lg;
   }
   .prose h1 {
     @apply text-3xl font-bold mb-4; /* 제목 스타일 */
