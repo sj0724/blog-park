@@ -4,7 +4,6 @@ import LogoutButton from './logout-button';
 
 export default async function Nav() {
   const session = await auth();
-  console.log(session);
 
   return (
     <section className='fixed top-0 right-0 flex justify-between px-4 py-2 w-screen'>

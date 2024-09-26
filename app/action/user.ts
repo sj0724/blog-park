@@ -14,7 +14,6 @@ export const register = async (
 ): Promise<ActionType<User>> => {
   try {
     const validate = RegisterSchema.safeParse(form);
-    console.log(validate);
     if (!validate.success)
       return { success: false, message: '올바른 값을 입력해 주세요.' };
 
