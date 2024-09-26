@@ -28,7 +28,7 @@ export const authConfig = {
 
             const passwordsMatch = verifyPassword(password, user.password);
 
-            if (passwordsMatch) return { ...user, name: user.name };
+            if (passwordsMatch) return user;
           }
           return null;
         } catch {
