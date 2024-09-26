@@ -37,6 +37,18 @@ export const authConfig = {
       },
     }),
   ],
+  callbacks: {
+    jwt({ token, user }) {
+      if (user) {
+        if (user.id) token.id = user.id;
+      }
+      return token;
+    },
+    session({ session, token }) {
+      session.user.id = token.id;
+      return session;
+    },
+  },
 } satisfies NextAuthConfig;
 
 export const {
