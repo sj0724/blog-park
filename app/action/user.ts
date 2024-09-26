@@ -5,7 +5,7 @@ import { hashPassword } from '@/lib/utils';
 import { RegisterSchemaType } from '../(auth)/sign-up/_components/register-form';
 import { LoginSchema, RegisterSchema } from '@/schema';
 import { ActionType, User } from '@/type';
-import { signIn } from '@/auth';
+import { signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
 import { LoginSchemaType } from '../(auth)/sign-in/_components/login-form';
 
@@ -90,5 +90,15 @@ export const login = async (
       }
     }
     return { success: false, message: '로그인 중에 에러가 발생하였습니다.' };
+  }
+};
+
+export const logout = async (): Promise<ActionType<null>> => {
+  try {
+    await signOut({ redirect: false });
+
+    return { success: true, message: '로그아웃에 성공 하였습니다.' };
+  } catch {
+    return { success: false, message: '로그아웃에 실패 하였습니다.' };
   }
 };
