@@ -24,3 +24,33 @@ export const registerFields = [
     type: 'password',
   },
 ];
+
+export const loginFields = [
+  {
+    name: 'email',
+    label: '이메일',
+    placeholder: '이메일을 입력해 주세요',
+    type: 'text',
+  },
+  {
+    name: 'password',
+    label: '비밀번호',
+    placeholder: '비밀번호를 입력해 주세요',
+    type: 'password',
+  },
+];
+
+export const postFields = [
+  {
+    name: 'title',
+    label: '제목',
+    placeholder: '제목을 입력해 주세요',
+    type: 'text',
+  },
+  {
+    name: 'summation',
+    label: '포스팅 요약',
+    placeholder: '포스팅을 요약해주세요',
+    type: 'text',
+  },
+];
