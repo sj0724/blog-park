@@ -1,3 +1,9 @@
+import PostContainer from './_components/post-container';
+
 export default function Home() {
-  return <div>블로그입니다.</div>;
+  return (
+    <div className='flex w-screen'>
+      <PostContainer />
+    </div>
+  );
 }
