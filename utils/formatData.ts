@@ -4,7 +4,7 @@ const formatDateRange = ({ dateString }: { dateString: string }) => {
   const formattedDate = formatInTimeZone(
     dateString,
     'Asia/Seoul',
-    'yyyy.MM.dd'
+    'yyyy년 MM월 dd일'
   );
   return formattedDate;
 };
