@@ -1,14 +1,13 @@
 'use client';
 
 import { Textarea } from '@/components/ui/textarea';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import rehypeStringify from 'rehype-stringify';
 import remarkGfm from 'remark-gfm';
 import { unified } from 'unified';
-import { Button } from '@/components/ui/button';
-import { creatPost } from '@/app/action/post';
+import { CreatPostDialog } from './creat-post-dialog';
 
 export default function CreatePostContainer() {
   const [markdown, setMarkdown] = useState<string>('');
@@ -28,20 +27,9 @@ export default function CreatePostContainer() {
     setHtmlContent(String(processedHtml));
   };
 
-  const handleSave = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const result = await creatPost({
-      title: 'test',
-      content: htmlContent,
-      summation: 'test입니다.',
-      isPublished: true,
-    });
-    if (result) console.log(result.message);
-  };
-
   return (
     <div className='flex'>
-      <form className='flex flex-col relative' onSubmit={handleSave}>
+      <form className='flex flex-col relative'>
         <div className='flex w-screen h-[calc(100vh-52px-68px)]'>
           <div className='flex flex-col w-1/2 gap-2 px-5'>
             <p className='text-2xl font-bold'>Markdown 문법으로 작성</p>
@@ -62,7 +50,7 @@ export default function CreatePostContainer() {
         </div>
         <div className='fixed bottom-0 right-0 px-4 h-fit flex justify-end items-center w-screen bg-white'>
           <div className='py-4'>
-            <Button type='submit'>저장</Button>
+            <CreatPostDialog postContent={htmlContent} />
           </div>
         </div>
       </form>
