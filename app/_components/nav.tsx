@@ -8,10 +8,15 @@ export default async function Nav() {
 
   return (
     <section className='fixed top-0 left-0 right-0 flex justify-between items-center px-4 py-2 h-20 bg-white/50 backdrop-blur-xl shadow-md z-40'>
-      <Link href='/'>
-        <h1 className='text-3xl font-bold'>Blog Park</h1>
-      </Link>
-      <div className='flex text-xl font-bold gap-2'>
+      <div className='flex items-center gap-4'>
+        <Link href='/'>
+          <h1 className='text-5xl font-bold'>Blog Park</h1>
+        </Link>
+        <div className='flex text-xl font-bold gap-2 justify-between'>
+          <Link href='/post/list'>전체 리스트</Link>
+        </div>
+      </div>
+      <div className='flex text-xl font-bold gap-2 justify-between'>
         {session ? (
           <>
             <LinkCreatePost />
