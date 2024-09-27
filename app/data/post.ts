@@ -1,11 +1,11 @@
 import { supabase } from '@/utils/supabase';
 
-export const getPostList = async (cursorId?: string, limit = 5) => {
+export const getPostList = async (page = 1, limit = 6) => {
   const { data: postList } = await supabase
     .from('posts')
-    .select('*')
+    .select('*', { count: 'exact' })
     .order('createdAt', { ascending: false })
-    .limit(limit);
+    .range((page - 1) * limit, page * limit - 1);
 
   return postList;
 };

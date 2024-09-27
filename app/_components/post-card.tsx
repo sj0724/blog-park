@@ -13,28 +13,20 @@ interface Props {
   title: string;
   summation: string;
   createdAt: string;
-  content: string;
 }
 
-export default function PostCard({
-  id,
-  title,
-  summation,
-  createdAt,
-  content,
-}: Props) {
+export default function PostCard({ id, title, summation, createdAt }: Props) {
   const formatDate = formatDateRange({ dateString: createdAt });
 
   return (
     <Link href={`/post/${id}`}>
-      <Card className='w-[350px]'>
-        <CardHeader>
-          <CardTitle>{title}</CardTitle>
-          <CardDescription>{summation}</CardDescription>
+      <Card className='w-[400px] h-[200px]'>
+        <CardHeader className='gap-2'>
+          <CardTitle className='text-3xl font-extrabold'>{title}</CardTitle>
+          <CardDescription className='h-[70px]'>{summation}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div dangerouslySetInnerHTML={{ __html: content }}></div>
-          <p>{formatDate}</p>
+          <p className='text-xs'>{formatDate}</p>
         </CardContent>
       </Card>
     </Link>

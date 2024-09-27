@@ -7,7 +7,7 @@ export default async function PostContainer() {
   return (
     <div>
       메인 전체 리스트입니다.
-      <ul className='w-full'>
+      <ul className='flex flex-col w-full gap-4'>
         {postList.map((post) => (
           <li key={post.id}>
             <PostCard
@@ -15,7 +15,6 @@ export default async function PostContainer() {
               title={post.title}
               summation={post.summation}
               createdAt={post.createdAt}
-              content={post.content}
             />
           </li>
         ))}
