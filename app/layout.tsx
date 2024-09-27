@@ -32,7 +32,7 @@ export default function RootLayout({
       >
         <Toaster />
         <Nav />
-        <main className='mt-[52px]'>{children}</main>
+        <main className='mt-[80px]'>{children}</main>
       </body>
     </html>
   );
