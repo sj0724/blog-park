@@ -6,6 +6,46 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+@layer components {
+  .prose {
+    @apply max-w-none; /* 기본 너비 제한 제거 */
+    @apply text-lg;
+  }
+  .prose h1 {
+    @apply text-3xl font-bold mb-4; /* 제목 스타일 */
+  }
+  .prose h2 {
+    @apply text-2xl font-semibold mb-3; /* 서브 제목 스타일 */
+  }
+  .prose h3 {
+    @apply text-xl font-semibold mb-1; /* H3 스타일 */
+  }
+  .prose p {
+    @apply mb-0; /* 문단 간격 조절 (기본 4에서 6으로 증가) */
+  }
+  .prose ul {
+    @apply list-disc pl-5 mb-4; /* 리스트 스타일 */
+  }
+  .prose li {
+    @apply mb-0; /* 리스트 항목 간격 */
+  }
+  .prose blockquote {
+    @apply border-l-4 border-gray-300 pl-4 italic text-gray-600 mb-4; /* 인용문 스타일 */
+    @apply mb-6; /* 인용문 간격 조절 */
+  }
+  .prose code {
+    @apply bg-gray-200 rounded px-1; /* 코드 스타일 */
+  }
+  .prose pre {
+    @apply bg-gray-100 p-4 rounded overflow-auto; /* 코드 블록 스타일 */
+  }
+  .prose hr {
+    @apply border-t border-gray-300 my-4; /* 수평선 스타일 */
+  }
+  .prose br {
+    @apply mb-0; /* 줄바꿈 후 간격 조절 */
+  }
+}
 @layer utilities {
   .text-balance {
     text-wrap: balance;

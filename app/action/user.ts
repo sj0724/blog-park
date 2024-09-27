@@ -8,13 +8,13 @@ import { ActionType, User } from '@/type';
 import { signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
 import { LoginSchemaType } from '../(auth)/sign-in/_components/login-form';
+import { supabase } from '@/utils/supabase';
 
 export const register = async (
   form: RegisterSchemaType
 ): Promise<ActionType<User>> => {
   try {
     const validate = RegisterSchema.safeParse(form);
-    console.log(validate);
     if (!validate.success)
       return { success: false, message: '올바른 값을 입력해 주세요.' };
 
@@ -65,11 +65,13 @@ export const login = async (
       redirect: false,
     });
 
-    const user = await db.user.findUnique({
-      where: { email },
-    });
-    if (!user) throw new Error('현재 유저가 존재하지 않습니다.');
+    const user = await supabase
+      .from('users') // 테이블 이름
+      .select('*') // 모든 컬럼 선택
+      .eq('email', email)
+      .single(); // 단일 결과만 반환
 
+    if (!user) throw new Error('현재 유저가 존재하지 않습니다.');
     return {
       success: true,
       message: '로그인에 성공하였습니다.',
