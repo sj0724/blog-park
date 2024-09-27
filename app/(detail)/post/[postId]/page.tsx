@@ -8,6 +8,8 @@ export default async function Page({ params }: { params: { postId: string } }) {
     .eq('id', params.postId)
     .single();
 
+  if (!post) return <div>없는 포스트</div>;
+
   return (
     <div>
       <PostContents contents={post.content} />
