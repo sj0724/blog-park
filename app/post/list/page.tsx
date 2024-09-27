@@ -1,9 +1,13 @@
-import PostContainer from '@/app/_components/post-container';
+import PostContainer from './_components/post-container';
 
-export default function Page() {
+export default async function Page({
+  searchParams: { page },
+}: {
+  searchParams: { page: string };
+}) {
   return (
     <div className='flex max-w-screen'>
-      <PostContainer />
+      <PostContainer page={Number(page)} />
     </div>
   );
 }
