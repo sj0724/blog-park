@@ -1,7 +1,7 @@
 import { supabase } from '@/utils/supabase';
 
 export const getPostList = async (page = 1, limit = 5) => {
-  const { data: postList } = await supabase
+  const postList = await supabase
     .from('posts')
     .select(`*, fk_user(*)`, { count: 'exact' })
     .order('createdAt', { ascending: false })
