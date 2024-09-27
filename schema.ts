@@ -29,3 +29,14 @@ export const RegisterSchema = z
     message: '비밀번호가 일치하지 않습니다.',
     path: ['confirmPassword'],
   });
+
+export const PostSchema = z.object({
+  title: z
+    .string()
+    .min(1, { message: '제목을 입력해 주세요.' })
+    .max(20, { message: '제목은 최대 20글자까지 가능합니다.' }),
+  summation: z
+    .string()
+    .min(1, { message: '포스팅 요약을 입력해주세요' })
+    .max(100, { message: '제목은 최대 20글자까지 가능합니다.' }),
+});
