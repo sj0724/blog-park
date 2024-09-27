@@ -23,13 +23,19 @@ import { postFields } from '@/constants/form-filed';
 import { cn } from '@/lib/utils';
 import { PostSchema } from '@/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
 export type PostSchemaType = z.infer<typeof PostSchema>;
 
-export function CreatPostDialog({ postContent }: { postContent: string }) {
+interface Props {
+  postContent: string;
+}
+
+export function CreatPostDialog({ postContent }: Props) {
+  const router = useRouter();
   const form = useForm<PostSchemaType>({
     resolver: zodResolver(PostSchema),
     defaultValues: {
@@ -47,6 +53,7 @@ export function CreatPostDialog({ postContent }: { postContent: string }) {
       isPublished: true,
     });
     toast.message(result.message);
+    if (result.success) router.replace('/');
   };
 
   return (
