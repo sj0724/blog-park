@@ -5,7 +5,6 @@ export default async function Page({
 }: {
   searchParams: { page: string };
 }) {
-  console.log(page);
   return (
     <div className='flex max-w-screen justify-center py-12'>
       <PostContainer page={page ? Number(page) : 1} />

@@ -22,7 +22,12 @@ export default async function PostContainer({ page }: { page: number }) {
         ))}
       </ul>
       <div className='py-4 flex justify-center'>
-        <Pagination total={count!} currentPage={page} route='/post/list' />
+        <Pagination
+          total={count!}
+          currentPage={page}
+          route='/post/list'
+          limit={2}
+        />
       </div>
     </div>
   );
