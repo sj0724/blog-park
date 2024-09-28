@@ -7,7 +7,7 @@ export default function LogoutButton() {
   const router = useRouter();
   const signOut = async () => {
     const result = await logout();
-    if (result.success) router.refresh();
+    if (result.success) router.replace('/');
   };
   return (
     <div onClick={signOut} className='cursor-pointer'>

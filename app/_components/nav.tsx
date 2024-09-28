@@ -13,7 +13,8 @@ export default async function Nav() {
           <h1 className='text-5xl font-bold'>Blog Park</h1>
         </Link>
         <div className='flex text-xl font-bold gap-2 justify-between'>
-          <Link href='/post/list'>전체 리스트</Link>
+          <Link href='/post/list'>전체 포스트</Link>
+          <Link href='/my/post'>내 포스트</Link>
         </div>
       </div>
       <div className='flex text-xl font-bold gap-2 justify-between'>
