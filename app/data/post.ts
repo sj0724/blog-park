@@ -1,12 +1,26 @@
 import { supabase } from '@/utils/supabase';
 import { getSessionUserData } from './user';
 
-export const getPostList = async (page = 1, limit = 5) => {
-  const postList = await supabase
+export const getPostList = async ({
+  userId,
+  page = 1,
+  limit = 5,
+}: {
+  userId?: string;
+  page: number;
+  limit: number;
+}) => {
+  const query = supabase
     .from('posts')
     .select(`*, fk_user(*)`, { count: 'exact' })
     .order('createdAt', { ascending: false })
     .range((page - 1) * limit, page * limit - 1);
+
+  if (userId) {
+    query.eq('user_id', userId);
+  }
+
+  const postList = await query;
 
   return postList;
 };

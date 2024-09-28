@@ -12,7 +12,7 @@ export default async function PostContainer({ count, list, page }: Props) {
   return (
     <div className='flex flex-col gap-5'>
       <h1 className='text-3xl font-bold'>전체 포스팅</h1>
-      <ul className='flex flex-col w-full gap-4'>
+      <ul className='grid grid-cols-3 w-full gap-4'>
         {list.map((post) => (
           <li key={post.id}>
             <PostCard
@@ -30,7 +30,7 @@ export default async function PostContainer({ count, list, page }: Props) {
           total={count!}
           currentPage={page}
           route='/post/list'
-          limit={5}
+          limit={6}
         />
       </div>
     </div>
