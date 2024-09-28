@@ -29,11 +29,13 @@ export default function PostCard({
   return (
     <Link href={`/post/${id}`}>
       <Card className='w-[400px] h-[200px] hover:shadow-lg hover:-translate-y-1 transition-transform'>
-        <CardHeader className='gap-2'>
+        <CardHeader className='pb-0'>
           <CardTitle className='text-3xl font-extrabold'>{title}</CardTitle>
-          <CardDescription className='h-[70px]'>{summation}</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className='pt-6'>
+          <div className='h-[70px] flex flex-col justify-center'>
+            <p className='text-sm text-gray-600'>{summation}</p>
+          </div>
           <div className='flex justify-between items-center h-5'>
             <p className='text-xs'>{formatDate}</p>
             <p className='text-sm'>{owner.name}</p>

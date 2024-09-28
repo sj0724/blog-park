@@ -30,7 +30,7 @@ export default async function PostContainer({ count, list, page }: Props) {
           total={count!}
           currentPage={page}
           route='/post/list'
-          limit={2}
+          limit={5}
         />
       </div>
     </div>
