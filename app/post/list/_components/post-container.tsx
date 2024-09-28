@@ -1,15 +1,19 @@
 import Pagination from '@/components/pagination';
-import { getPostList } from '../../../data/post';
 import PostCard from './post-card';
+import { Post } from '@/type';
 
-export default async function PostContainer({ page }: { page: number }) {
-  const { data: postList, count } = await getPostList(page, 5);
-  if (!postList) return <div>포스트 없음</div>;
+interface Props {
+  count: number;
+  list: Post[];
+  page: number;
+}
+
+export default async function PostContainer({ count, list, page }: Props) {
   return (
     <div className='flex flex-col gap-5'>
       <h1 className='text-3xl font-bold'>전체 포스팅</h1>
       <ul className='flex flex-col w-full gap-4'>
-        {postList.map((post) => (
+        {list.map((post) => (
           <li key={post.id}>
             <PostCard
               id={post.id}
