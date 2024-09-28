@@ -33,7 +33,7 @@ export default function RootLayout({
       >
         <Toaster />
         <Nav />
-        <main className='mt-[80px]'>{children}</main>
+        <main className='mt-[80px] min-h-[calc(100vh-80px)]'>{children}</main>
         <Footer />
       </body>
     </html>
