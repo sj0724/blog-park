@@ -1,13 +1,19 @@
-import { getMyPost } from '@/app/data/post';
+import { getPostList } from '@/app/data/post';
 import PostContainer from '@/app/post/list/_components/post-container';
 
 export default async function Page({
   searchParams: { page },
+  params: { userId },
 }: {
   searchParams: { page: string };
+  params: { userId: string };
 }) {
   const currentPage = page ? Number(page) : 1;
-  const { data: postList, count } = await getMyPost(currentPage, 5);
+  const { data: postList, count } = await getPostList({
+    userId,
+    page: currentPage,
+    limit: 6,
+  });
   if (!postList) return <div>포스트 없음</div>;
 
   return (
