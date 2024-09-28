@@ -19,7 +19,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { postFields } from '@/constants/form-filed';
+import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { PostSchema } from '@/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -32,22 +32,22 @@ export type PostSchemaType = z.infer<typeof PostSchema>;
 
 interface Props {
   postContent: string;
+  title: string;
 }
 
-export function CreatPostDialog({ postContent }: Props) {
+export function CreatPostDialog({ postContent, title }: Props) {
   const router = useRouter();
   const form = useForm<PostSchemaType>({
     resolver: zodResolver(PostSchema),
     defaultValues: {
-      title: '',
       summation: '',
     },
-    mode: 'onBlur',
+    mode: 'all',
   });
 
   const onSubmit = async (values: PostSchemaType) => {
     const result = await creatPost({
-      title: values.title,
+      title: title,
       content: postContent,
       summation: values.summation,
       isPublished: true,
@@ -59,7 +59,9 @@ export function CreatPostDialog({ postContent }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button type='button'>다음</Button>
+        <Button type='button' className='w-20 h-12 font-semibold text-lg'>
+          다음
+        </Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>
         <Form {...form}>
@@ -68,24 +70,29 @@ export function CreatPostDialog({ postContent }: Props) {
               <DialogTitle>포스팅하기</DialogTitle>
               <DialogDescription aria-hidden />
             </DialogHeader>
-            {postFields.map((field) => (
-              <FormField
-                key={field.name}
-                control={form.control}
-                name={field.name as keyof PostSchemaType}
-                render={({ field: controllerField }) => (
+            <FormField
+              control={form.control}
+              name={'summation' as keyof PostSchemaType}
+              render={({ field: controllerField }) => (
+                <div className='flex flex-col gap-3'>
+                  <FormItem>
+                    <FormLabel className='text-base font-bold'>
+                      포스팅 제목
+                    </FormLabel>
+                    <Input value={title} disabled />
+                  </FormItem>
                   <FormItem className='relative'>
                     <FormLabel className='text-base font-bold'>
-                      {field.label}
+                      포스팅 요약
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        type={field.type}
-                        placeholder={field.placeholder}
+                      <Textarea
+                        placeholder='포스팅을 요약해주세요'
                         className={cn(
-                          form.getFieldState(field.name as keyof PostSchemaType)
-                            .error && 'bg-red bg-opacity-10 border-red',
-                          'border border-gray-300'
+                          form.getFieldState(
+                            'summation' as keyof PostSchemaType
+                          ).error && 'bg-red bg-opacity-10 border-red',
+                          'border border-gray-300 h-20'
                         )}
                         {...controllerField}
                       />
@@ -94,10 +101,13 @@ export function CreatPostDialog({ postContent }: Props) {
                       <FormMessage className='text-xs' />
                     </div>
                   </FormItem>
-                )}
-              />
-            ))}
-            <Button type='submit' disabled={!form.formState.isValid}>
+                </div>
+              )}
+            />
+            <Button
+              type='submit'
+              disabled={!form.formState.isValid || !title || !postContent}
+            >
               제출
             </Button>
           </form>
