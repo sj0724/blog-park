@@ -38,5 +38,5 @@ export const PostSchema = z.object({
   summation: z
     .string()
     .min(1, { message: '포스팅 요약을 입력해주세요' })
-    .max(100, { message: '제목은 최대 20글자까지 가능합니다.' }),
+    .max(50, { message: '요약은 최대 50글자까지 가능합니다.' }),
 });
