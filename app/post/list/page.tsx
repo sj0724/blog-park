@@ -7,7 +7,7 @@ export default async function Page({
   searchParams: { page: string };
 }) {
   const currentPage = page ? Number(page) : 1;
-  const { data: postList, count } = await getPostList(currentPage, 5);
+  const { data: postList, count } = await getPostList(currentPage, 6);
   if (!postList) return <div>포스트 없음</div>;
 
   return (
