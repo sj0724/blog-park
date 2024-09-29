@@ -143,18 +143,22 @@ export type Database = {
       comments: {
         Row: {
           content: string;
+          createdat: string | null;
           id: string;
           post_id: string;
           user_id: string;
+          user: User;
         };
         Insert: {
           content: string;
+          createdat?: string | null;
           id: string;
           post_id: string;
           user_id: string;
         };
         Update: {
           content?: string;
+          createdat?: string | null;
           id?: string;
           post_id?: string;
           user_id?: string;
