@@ -1,3 +1,6 @@
+'use client';
+
+import { deletePost } from '@/app/action/post';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,8 +12,20 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
-export default function PostDeleteButton() {
+export default function PostDeleteButton({ postId }: { postId: string }) {
+  const router = useRouter();
+  const isDelete = async () => {
+    const result = await deletePost(postId);
+    if (result.success) {
+      toast.message(result.message);
+      router.replace('/post/list');
+    }
+  };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -27,7 +42,9 @@ export default function PostDeleteButton() {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>취소</AlertDialogCancel>
-          <AlertDialogAction>삭제하기</AlertDialogAction>
+          <Button type='button' onClick={isDelete}>
+            삭제하기
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

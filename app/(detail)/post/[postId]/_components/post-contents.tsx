@@ -9,6 +9,7 @@ interface Props {
   contents: string;
   user: User;
   createdAt: string;
+  postId: string;
 }
 
 export default async function PostContents({
@@ -16,6 +17,7 @@ export default async function PostContents({
   title,
   user,
   createdAt,
+  postId,
 }: Props) {
   const currentUser = await getSessionUserData();
   const formatData = formatDateRange({ dateString: createdAt });
@@ -27,7 +29,9 @@ export default async function PostContents({
           <p className='font-semibold text-lg'>{user.name}</p>
           <DotFilledIcon width={10} height={10} />
           <p className='text-gray-600'>{formatData}</p>
-          {currentUser?.id === user.id && <PostButtonContainer />}
+          {currentUser?.id === user.id && (
+            <PostButtonContainer postId={postId} />
+          )}
         </div>
       </div>
       <div dangerouslySetInnerHTML={{ __html: contents }} className='prose' />

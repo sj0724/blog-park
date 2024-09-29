@@ -3,6 +3,7 @@
 import db from '@/lib/db';
 import { ActionType } from '@/type';
 import { getSessionUserData } from '../data/user';
+import { supabase } from '@/utils/supabase';
 
 interface ContentProps {
   content: string;
@@ -43,6 +44,30 @@ export const creatPost = async ({
     return {
       success: true,
       message: '포스팅중 에러',
+    };
+  }
+};
+
+export const deletePost = async (postId: string): Promise<ActionType<null>> => {
+  try {
+    const { data, error } = await supabase
+      .from('posts')
+      .delete()
+      .eq('id', postId); // postId에 해당하는 포스트 삭제
+
+    if (error) {
+      throw new Error(`Error deleting post: ${error.message}`);
+    }
+
+    return {
+      success: true,
+      message: '포스트를 삭제했습니다.',
+      data,
+    };
+  } catch (err) {
+    return {
+      success: false,
+      message: '포스트 삭제중 에러가 발생했습니다.',
     };
   }
 };
