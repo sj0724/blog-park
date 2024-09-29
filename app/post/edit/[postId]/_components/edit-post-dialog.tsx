@@ -1,6 +1,6 @@
 'use client';
 
-import { creatPost } from '@/app/action/post';
+import { editPost } from '@/app/action/post';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -33,28 +33,36 @@ export type PostSchemaType = z.infer<typeof PostSchema>;
 interface Props {
   postContent: string;
   title: string;
+  postId: string;
+  summation: string;
 }
 
-export function CreatPostDialog({ postContent, title }: Props) {
+export function EditPostDialog({
+  postContent,
+  title,
+  postId,
+  summation,
+}: Props) {
   const router = useRouter();
   const form = useForm<PostSchemaType>({
     resolver: zodResolver(PostSchema),
     defaultValues: {
-      summation: '',
+      summation,
     },
     mode: 'all',
   });
 
   const onSubmit = async (values: PostSchemaType) => {
     const formatSummation = values.summation.replace(/\n/g, '<br>');
-    const result = await creatPost({
+    const result = await editPost({
+      postId,
       title: title,
       content: postContent,
       summation: formatSummation,
       isPublished: true,
     });
     toast.message(result.message);
-    if (result.success) router.replace('/post/list');
+    if (result.success) router.replace(`/post/${postId}`);
   };
 
   return (

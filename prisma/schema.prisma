@@ -9,23 +9,24 @@ datasource db {
 }
 
 model User {
-  id             String          @id @default(cuid())
-  name           String?
-  email          String?         @unique
-  image          String?
-  introduction   String?
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  password       String
-  accounts       Account[]
-  alarms         Alarm[]
-  comments       Comment[]
-  followers      Follow[]        @relation("UserFollowers")
-  follows        Follow[]        @relation("UserFollows")
-  likes          Like[]
-  posts          Post[]
-  sessions       Session[]
-  temporaryPosts TemporaryPost[]
+  id                 String              @id @default(cuid())
+  name               String?
+  email              String?             @unique
+  image              String?
+  introduction       String?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  password           String
+  accounts           Account[]
+  alarms             Alarm[]
+  comments           Comment[]
+  followers          Follow[]            @relation("UserFollowers")
+  follows            Follow[]            @relation("UserFollows")
+  likes              Like[]
+  posts              Post[]
+  sessions           Session[]
+  temporaryPosts     TemporaryPost[]
+  verificationtokens VerificationToken[]
 
   @@map("users")
 }
@@ -41,7 +42,7 @@ model Post {
   isPublished Boolean   @default(false)
   comments    Comment[]
   likes       Like[]
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user")
 
   @@map("posts")
 }
@@ -52,7 +53,7 @@ model TemporaryPost {
   content   String
   userId    String   @map("user_id")
   expiresAt DateTime
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_temporary_post_user")
 
   @@map("temporary_posts")
 }
@@ -71,20 +72,21 @@ model Like {
   id     String @id @default(cuid())
   userId String @map("user_id")
   postId String @map("post_id")
-  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_like_post")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_like_user")
 
   @@unique([userId, postId])
   @@map("likes")
 }
 
 model Comment {
-  id      String @id @default(cuid())
-  content String
-  postId  String @map("post_id")
-  userId  String @map("user_id")
-  post    Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        String    @id @default(cuid())
+  content   String
+  postId    String    @map("post_id")
+  userId    String    @map("user_id")
+  createdat DateTime? @default(now()) @db.Timestamp(6)
+  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("comments")
 }
@@ -124,7 +126,7 @@ model Session {
   sessionToken String   @unique @map("session_token")
   userId       String   @map("user_id")
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_session_user")
 
   @@map("sessions")
 }
@@ -133,6 +135,7 @@ model VerificationToken {
   identifier String
   token      String
   expires    DateTime
+  users      User     @relation(fields: [identifier], references: [email], onDelete: Cascade, onUpdate: NoAction, map: "fk_verification_token_user")
 
   @@unique([identifier, token])
   @@map("verificationtokens")
