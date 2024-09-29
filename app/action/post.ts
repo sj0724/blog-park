@@ -4,6 +4,7 @@ import db from '@/lib/db';
 import { ActionType } from '@/type';
 import { getSessionUserData } from '../data/user';
 import { supabase } from '@/utils/supabase';
+import { revalidatePath } from 'next/cache';
 
 interface ContentProps {
   content: string;
@@ -33,22 +34,24 @@ export const creatPost = async ({
     if (!post)
       return {
         success: true,
-        message: '포스팅 실패',
+        message: '포스팅에 실패했습니다.',
       };
-
+    revalidatePath(`/user/${session?.id}`);
+    revalidatePath('/post/list');
     return {
       success: true,
-      message: '포스팅에 성공',
+      message: '포스팅에 성공했습니다.',
     };
   } catch {
     return {
       success: true,
-      message: '포스팅중 에러',
+      message: '포스팅중 에러가 발생했습니다.',
     };
   }
 };
 
 export const deletePost = async (postId: string): Promise<ActionType<null>> => {
+  const session = await getSessionUserData();
   try {
     const { data, error } = await supabase
       .from('posts')
@@ -58,16 +61,61 @@ export const deletePost = async (postId: string): Promise<ActionType<null>> => {
     if (error) {
       throw new Error(`Error deleting post: ${error.message}`);
     }
-
+    revalidatePath(`/user/${session?.id}`);
+    revalidatePath('/post/list');
     return {
       success: true,
       message: '포스트를 삭제했습니다.',
       data,
     };
-  } catch (err) {
+  } catch {
     return {
       success: false,
       message: '포스트 삭제중 에러가 발생했습니다.',
+    };
+  }
+};
+
+export const editPost = async ({
+  postId,
+  content,
+  title,
+  summation,
+  isPublished = false,
+}: {
+  postId: string;
+  content: string;
+  title: string;
+  summation: string;
+  isPublished?: boolean;
+}): Promise<ActionType<null>> => {
+  const session = await getSessionUserData();
+  try {
+    const { data, error } = await supabase
+      .from('posts')
+      .update({
+        content,
+        title,
+        summation,
+        isPublished,
+      })
+      .eq('id', postId); // postId에 해당하는 포스트 수정
+
+    if (error) {
+      throw new Error(`Error updating post: ${error.message}`);
+    }
+    revalidatePath(`/user/${session?.id}`);
+    revalidatePath(`/post/${postId}`);
+    revalidatePath(`/post/edit/${postId}`);
+    return {
+      success: true,
+      message: '포스트를 수정했습니다.',
+      data,
+    };
+  } catch {
+    return {
+      success: false,
+      message: '포스트 수정 중 에러가 발생했습니다.',
     };
   }
 };
