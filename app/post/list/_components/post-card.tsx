@@ -30,7 +30,10 @@ export default function PostCard({
         </CardHeader>
         <CardContent className='flex flex-col h-full'>
           <div className='flex flex-col justify-center h-full'>
-            <p className='text-sm text-gray-600'>{summation}</p>
+            <div
+              dangerouslySetInnerHTML={{ __html: summation }}
+              className='text-sm text-gray-600'
+            ></div>
           </div>
           <div className='flex justify-between items-center h-5'>
             <p className='text-sm font-semibold'>{formatDate}</p>
