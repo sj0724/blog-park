@@ -3,7 +3,6 @@
 import { deletePost } from '@/app/action/post';
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,

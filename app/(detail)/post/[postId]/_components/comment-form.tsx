@@ -2,7 +2,6 @@
 
 import { createComment } from '@/app/action/comment';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { FormEvent, useState } from 'react';
 import { toast } from 'sonner';
