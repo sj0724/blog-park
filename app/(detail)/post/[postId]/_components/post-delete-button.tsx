@@ -20,9 +20,7 @@ export default function DeleteButton({ isDelete }: Props) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button className='cursor-pointer bg-red-500 hover:bg-red-400'>
-          삭제
-        </Button>
+        <Button className='bg-red-500 hover:bg-red-400'>삭제</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
