@@ -1,5 +1,5 @@
+import PostContainer from '@/app/_components/post-container';
 import { getPostList } from '@/app/data/post';
-import PostContainer from '@/app/post/list/_components/post-container';
 
 export default async function Page({
   searchParams: { page },
