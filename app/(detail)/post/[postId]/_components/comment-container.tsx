@@ -2,9 +2,16 @@ import { getCommentList } from '@/app/data/commnet';
 import CommentForm from './comment-form';
 import CommentCard from './comment-card';
 import { Separator } from '@/components/ui/separator';
+import Pagination from '@/components/pagination';
 
-export default async function CommentContainer({ postId }: { postId: string }) {
-  const commentList = await getCommentList({ page: 1, limit: 5, postId });
+export default async function CommentContainer({
+  postId,
+  page,
+}: {
+  postId: string;
+  page: number;
+}) {
+  const commentList = await getCommentList({ page, limit: 5, postId });
 
   return (
     <div className='w-full max-w-[800px] gap-2 flex flex-col'>
@@ -18,6 +25,14 @@ export default async function CommentContainer({ postId }: { postId: string }) {
           </li>
         ))}
       </ul>
+      <div className='py-4 flex justify-center'>
+        <Pagination
+          total={commentList.totalCount!}
+          currentPage={page}
+          route={`/post/${postId}`}
+          limit={5}
+        />
+      </div>
     </div>
   );
 }

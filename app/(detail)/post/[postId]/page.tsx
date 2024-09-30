@@ -2,7 +2,14 @@ import { supabase } from '@/utils/supabase';
 import PostContents from './_components/post-contents';
 import CommentContainer from './_components/comment-container';
 
-export default async function Page({ params }: { params: { postId: string } }) {
+export default async function Page({
+  params,
+  searchParams,
+}: {
+  params: { postId: string };
+  searchParams: { page: string };
+}) {
+  const currentPage = searchParams.page ? Number(searchParams.page) : 1;
   const { data: post } = await supabase
     .from('posts')
     .select(`*, fk_user(*)`)
@@ -20,7 +27,7 @@ export default async function Page({ params }: { params: { postId: string } }) {
         title={post.title}
         user={post.fk_user}
       />
-      <CommentContainer postId={params.postId} />
+      <CommentContainer postId={params.postId} page={currentPage} />
     </div>
   );
 }
