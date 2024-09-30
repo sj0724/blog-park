@@ -18,7 +18,12 @@ export default async function Page({
 
   return (
     <div className='flex max-w-screen justify-center py-12'>
-      <PostContainer list={postList} count={count!} page={currentPage} />
+      <PostContainer
+        list={postList}
+        count={count!}
+        page={currentPage}
+        title='내 포스팅'
+      />
     </div>
   );
 }
