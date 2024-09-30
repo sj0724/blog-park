@@ -12,8 +12,7 @@ export default async function Nav() {
         <Link href='/'>
           <h1 className='text-5xl font-bold'>Blog Park</h1>
         </Link>
-        <div className='flex text-xl font-bold gap-2 justify-between'>
-          <Link href='/post/list'>전체 포스트</Link>
+        <div className='flex text-xl font-bold'>
           {session && <Link href={`/user/${session.id}`}>내 포스트</Link>}
         </div>
       </div>

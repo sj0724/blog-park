@@ -3,6 +3,7 @@
 import { ActionType } from '@/type';
 import { getSessionUserData } from '../data/user';
 import db from '@/lib/db';
+import { revalidatePath } from 'next/cache';
 
 interface CommentProps {
   content: string;
@@ -33,7 +34,7 @@ export const createComment = async ({
         message: '댓글 생성 실패',
       };
     }
-
+    revalidatePath(`/post/${postId}`);
     // 댓글 생성 성공 시
     return {
       success: true,

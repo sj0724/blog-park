@@ -6,12 +6,18 @@ interface Props {
   count: number;
   list: Post[];
   page: number;
+  title: string;
 }
 
-export default async function PostContainer({ count, list, page }: Props) {
+export default async function PostContainer({
+  count,
+  list,
+  page,
+  title,
+}: Props) {
   return (
-    <div className='flex flex-col gap-5'>
-      <h1 className='text-3xl font-bold'>전체 포스팅</h1>
+    <div className='flex flex-col gap-10'>
+      <h1 className='text-3xl font-bold'>{title}</h1>
       <ul className='grid grid-cols-3 w-full gap-4'>
         {list.map((post) => (
           <li key={post.id}>
@@ -26,12 +32,7 @@ export default async function PostContainer({ count, list, page }: Props) {
         ))}
       </ul>
       <div className='py-4 flex justify-center'>
-        <Pagination
-          total={count!}
-          currentPage={page}
-          route='/post/list'
-          limit={6}
-        />
+        <Pagination total={count!} currentPage={page} route='/' limit={6} />
       </div>
     </div>
   );
