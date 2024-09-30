@@ -3,6 +3,7 @@ import CommentForm from './comment-form';
 import CommentCard from './comment-card';
 import { Separator } from '@/components/ui/separator';
 import Pagination from '@/components/pagination';
+import { getSessionUserData } from '@/app/data/user';
 
 export default async function CommentContainer({
   postId,
@@ -12,6 +13,7 @@ export default async function CommentContainer({
   page: number;
 }) {
   const commentList = await getCommentList({ page, limit: 5, postId });
+  const session = await getSessionUserData();
 
   return (
     <div className='w-full max-w-[800px] gap-2 flex flex-col'>
@@ -20,7 +22,11 @@ export default async function CommentContainer({
       <ul className='flex flex-col gap-3'>
         {commentList.comments.map((comment) => (
           <li key={comment.id}>
-            <CommentCard comment={comment} />
+            <CommentCard
+              comment={comment}
+              userId={session?.id}
+              postId={postId}
+            />
             <Separator className='mt-3' />
           </li>
         ))}

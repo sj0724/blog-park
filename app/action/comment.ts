@@ -74,3 +74,37 @@ export const deleteComment = async (
     };
   }
 };
+
+export const editComment = async ({
+  commentId,
+  content,
+  postId,
+}: {
+  commentId: string;
+  content: string;
+  postId: string;
+}): Promise<ActionType<null>> => {
+  try {
+    const { data, error } = await supabase
+      .from('comments')
+      .update({
+        content,
+      })
+      .eq('id', commentId);
+
+    if (error) {
+      throw new Error(`Error updating post: ${error.message}`);
+    }
+    revalidatePath(`/post/${postId}`);
+    return {
+      success: true,
+      message: '댓글을 수정했습니다.',
+      data,
+    };
+  } catch {
+    return {
+      success: false,
+      message: '댓글 수정 중 에러가 발생했습니다.',
+    };
+  }
+};

@@ -1,10 +1,24 @@
+'use client';
+
 import { UserAvatar } from '@/components/user-avatar';
 import { Comment } from '@/type';
 import CommentButtonContainer from './comment-button-container';
-import { getSessionUserData } from '@/app/data/user';
+import { useState } from 'react';
+import CommentEditForm from './comment-edit-form';
 
-export default async function CommentCard({ comment }: { comment: Comment }) {
-  const session = await getSessionUserData();
+interface Props {
+  comment: Comment;
+  userId?: string;
+  postId: string;
+}
+
+export default function CommentCard({ comment, userId, postId }: Props) {
+  const [isEdit, setIsEdit] = useState(false);
+
+  const toggleEdit = () => {
+    setIsEdit(!isEdit);
+  };
+
   return (
     <div className='px-4 py-2 min-h-20 flex flex-col justify-center gap-3'>
       <div className='flex items-center justify-between'>
@@ -12,11 +26,24 @@ export default async function CommentCard({ comment }: { comment: Comment }) {
           <UserAvatar image={comment.user.image} size='sm' />
           <p className='font-semibold'>{comment.user.name}</p>
         </div>
-        {session?.id === comment.user_id && (
-          <CommentButtonContainer commentId={comment.id} />
+        {userId === comment.user_id && (
+          <CommentButtonContainer
+            commentId={comment.id}
+            toggleEdit={toggleEdit}
+            isEdit={isEdit}
+          />
         )}
       </div>
-      <div dangerouslySetInnerHTML={{ __html: comment.content }}></div>
+      {isEdit ? (
+        <CommentEditForm
+          content={comment.content}
+          toggleEdit={toggleEdit}
+          postId={postId}
+          commentId={comment.id}
+        />
+      ) : (
+        <div dangerouslySetInnerHTML={{ __html: comment.content }}></div>
+      )}
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { deletePost } from '@/app/action/post';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import DeleteButton from './post-delete-button';
+import { Button } from '@/components/ui/button';
 
 export default function PostButtonContainer({ postId }: { postId: string }) {
   const router = useRouter();
@@ -18,7 +19,9 @@ export default function PostButtonContainer({ postId }: { postId: string }) {
 
   return (
     <div className='flex gap-2'>
-      <Link href={`/post/edit/${postId}`}>수정</Link>
+      <Link href={`/post/edit/${postId}`}>
+        <Button type='button'>수정</Button>
+      </Link>
       <DeleteButton isDelete={isDeletePost} />
     </div>
   );
