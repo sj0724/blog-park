@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server';
 import { auth } from './auth';
 
 const authRoutes = ['/sign-in', '/sign-up'];
-const protectedRoutes = ['/my/list'];
 
 export default auth(async (req) => {
   const { nextUrl } = req;
