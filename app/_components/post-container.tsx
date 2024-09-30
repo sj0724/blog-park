@@ -16,7 +16,7 @@ export default async function PostContainer({
   title,
 }: Props) {
   return (
-    <div className='flex flex-col gap-5'>
+    <div className='flex flex-col gap-10'>
       <h1 className='text-3xl font-bold'>{title}</h1>
       <ul className='grid grid-cols-3 w-full gap-4'>
         {list.map((post) => (
