@@ -3,6 +3,7 @@ import formatDateRange from '@/utils/formatData';
 import { User } from '@prisma/client';
 import { DotFilledIcon } from '@radix-ui/react-icons';
 import PostButtonContainer from './post-button-container';
+import Link from 'next/link';
 
 interface Props {
   title: string;
@@ -27,7 +28,9 @@ export default async function PostContents({
         <h1 className='text-6xl font-extrabold'>{title}</h1>
         <div className='flex justify-between'>
           <div className='flex gap-2 items-center text-center h-10'>
-            <p className='font-semibold text-lg'>{user.name}</p>
+            <Link href={`/user/${user.id}`}>
+              <p className='font-semibold text-lg'>{user.name}</p>
+            </Link>
             <DotFilledIcon width={10} height={10} />
             <p className='text-gray-600'>{formatData}</p>
           </div>

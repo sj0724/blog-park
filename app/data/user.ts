@@ -1,6 +1,7 @@
 'use server';
 
 import { auth } from '@/auth';
+import { supabase } from '@/utils/supabase';
 
 export const getSessionUserData = async () => {
   const session = await auth();
@@ -15,5 +16,21 @@ export const getSessionUserData = async () => {
     return { email, name, id, image };
   } catch {
     throw new Error('이메일을 가져오는중에 에러가 발생하였습니다.');
+  }
+};
+
+export const getUserById = async (userId: string) => {
+  try {
+    const { data: user } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', userId)
+      .single();
+
+    if (!user) throw new Error('유저가 없습니다.');
+
+    return user;
+  } catch {
+    throw new Error('유저 정보를 가져오는중에 에러가 발생하였습니다.');
   }
 };

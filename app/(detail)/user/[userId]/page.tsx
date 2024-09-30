@@ -1,5 +1,7 @@
+import PostContainer from '@/app/_components/post-container';
 import { getPostList } from '@/app/data/post';
-import PostContainer from '@/app/post/list/_components/post-container';
+import Profile from './_components/profile';
+import { Separator } from '@/components/ui/separator';
 
 export default async function Page({
   searchParams: { page },
@@ -17,8 +19,17 @@ export default async function Page({
   if (!postList) return <div>포스트 없음</div>;
 
   return (
-    <div className='flex max-w-screen justify-center py-12'>
-      <PostContainer list={postList} count={count!} page={currentPage} />
+    <div className='flex flex-col items-center max-w-screen justify-center py-12'>
+      <div>
+        <Profile userId={userId} />
+        <Separator className='my-20' />
+        <PostContainer
+          list={postList}
+          count={count!}
+          page={currentPage}
+          title='작성한 글'
+        />
+      </div>
     </div>
   );
 }
