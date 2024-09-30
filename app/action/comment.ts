@@ -4,6 +4,7 @@ import { ActionType } from '@/type';
 import { getSessionUserData } from '../data/user';
 import db from '@/lib/db';
 import { revalidatePath } from 'next/cache';
+import { supabase } from '@/utils/supabase';
 
 interface CommentProps {
   content: string;
@@ -45,6 +46,31 @@ export const createComment = async ({
     return {
       success: false,
       message: '댓글 생성 중 에러가 발생했습니다.',
+    };
+  }
+};
+
+export const deleteComment = async (
+  commnetId: string
+): Promise<ActionType<null>> => {
+  try {
+    const { data, error } = await supabase
+      .from('comments')
+      .delete()
+      .eq('id', commnetId);
+
+    if (error) {
+      throw new Error(`Error deleting post: ${error.message}`);
+    }
+    return {
+      success: true,
+      message: '댓글을 삭제했습니다.',
+      data,
+    };
+  } catch {
+    return {
+      success: false,
+      message: '댓글 삭제중 에러가 발생했습니다.',
     };
   }
 };
