@@ -161,3 +161,33 @@ export const editEmail = async (email: string): Promise<ActionType<null>> => {
     return { success: false, message: '수정 중에 에러가 발생하였습니다.' };
   }
 };
+
+export const editIntroduce = async (
+  introduction: string
+): Promise<ActionType<null>> => {
+  try {
+    const session = await getSessionUserData();
+    if (!session) throw Error('인증된 유저가 아닙니다.');
+
+    const result = await supabase
+      .from('users') // 테이블 이름
+      .update({
+        introduction,
+      })
+      .eq('id', session.id);
+
+    if (!result) {
+      return {
+        success: false,
+        message: '수정에 실패했습니다.',
+      };
+    }
+
+    return {
+      success: true,
+      message: '수정에 성공하였습니다.',
+    };
+  } catch {
+    return { success: false, message: '수정 중에 에러가 발생하였습니다.' };
+  }
+};

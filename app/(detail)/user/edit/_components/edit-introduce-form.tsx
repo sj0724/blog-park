@@ -19,24 +19,31 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const EditEmailSchema = z.object({
-  email: z.string().email({ message: '올바른 이메일 형식을 입력해 주세요.' }),
+const EditIntroductionSchema = z.object({
+  introduction: z
+    .string()
+    .min(1, { message: '자기 소개를 입력해주세요' })
+    .max(30, { message: '자기 소개는 30글자까지 가능합니다.' }),
 });
 
-export type EditEmailSchemaType = z.infer<typeof EditEmailSchema>;
+export type EditIntroductionSchemaType = z.infer<typeof EditIntroductionSchema>;
 
-export default function EditEmailForm({ email }: { email: string }) {
+export default function EditIntroductionForm({
+  introduction,
+}: {
+  introduction: string;
+}) {
   const router = useRouter();
-  const form = useForm<EditEmailSchemaType>({
-    resolver: zodResolver(EditEmailSchema),
+  const form = useForm<EditIntroductionSchemaType>({
+    resolver: zodResolver(EditIntroductionSchema),
     defaultValues: {
-      email: email,
+      introduction: introduction,
     },
     mode: 'all',
   });
 
-  const onSubmit = async (values: EditEmailSchemaType) => {
-    const result = await editEmail(values.email);
+  const onSubmit = async (values: EditIntroductionSchemaType) => {
+    const result = await editEmail(values.introduction);
     if (result.success) {
       toast.message(result.message);
       router.refresh();
@@ -51,16 +58,16 @@ export default function EditEmailForm({ email }: { email: string }) {
       >
         <FormField
           control={form.control}
-          name='email'
+          name='introduction'
           render={({ field }) => (
             <FormItem className='relative'>
-              <FormLabel className='text-base'>이메일</FormLabel>
+              <FormLabel className='text-base'>자기 소개</FormLabel>
               <FormControl>
                 <Input
                   type='text'
-                  placeholder='이메일을 입력해 주세요.'
+                  placeholder='자기 소개를 입력해 주세요.'
                   className={cn(
-                    form.getFieldState('email').error &&
+                    form.getFieldState('introduction').error &&
                       'bg-red bg-opacity-10 border-red',
                     'border border-gray-300'
                   )}
