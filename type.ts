@@ -7,6 +7,13 @@ export type ActionType<T> = {
   data?: T;
 };
 
+export type SeesionData = {
+  id: string;
+  name: string;
+  image: string | null;
+  email: string;
+};
+
 export type User = Pick<
   DbUser,
   'id' | 'name' | 'email' | 'image' | 'createdAt'
@@ -15,3 +22,5 @@ export type User = Pick<
 export type Post = Database['public']['Tables']['posts']['Row'];
 
 export type Comment = Database['public']['Tables']['comments']['Row'];
+
+export type SupabaseUser = Database['public']['Tables']['users']['Row'];
