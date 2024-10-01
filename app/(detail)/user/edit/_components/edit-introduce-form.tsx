@@ -60,7 +60,7 @@ export default function EditIntroductionForm({
           control={form.control}
           name='introduction'
           render={({ field }) => (
-            <FormItem className='relative'>
+            <FormItem className='relative w-full'>
               <FormLabel className='text-base'>자기 소개</FormLabel>
               <FormControl>
                 <Input
@@ -80,7 +80,15 @@ export default function EditIntroductionForm({
             </FormItem>
           )}
         />
-        <Button type='submit'>수정</Button>
+        <Button
+          type='submit'
+          disabled={
+            introduction === form.getValues('introduction') ||
+            !form.formState.isValid
+          }
+        >
+          수정
+        </Button>
       </form>
     </Form>
   );

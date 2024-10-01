@@ -50,13 +50,13 @@ export default function EditNameForm({ name }: { name: string }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='w-full flex items-center gap-3'
+        className='w-full flex justify-between items-center gap-3'
       >
         <FormField
           control={form.control}
           name='name'
           render={({ field }) => (
-            <FormItem className='relative'>
+            <FormItem className='relative w-full'>
               <FormLabel className='text-base'>닉네임</FormLabel>
               <FormControl>
                 <Input
@@ -76,7 +76,12 @@ export default function EditNameForm({ name }: { name: string }) {
             </FormItem>
           )}
         />
-        <Button type='submit'>수정</Button>
+        <Button
+          type='submit'
+          disabled={name === form.getValues('name') || !form.formState.isValid}
+        >
+          수정
+        </Button>
       </form>
     </Form>
   );

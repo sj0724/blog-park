@@ -53,7 +53,7 @@ export default function EditEmailForm({ email }: { email: string }) {
           control={form.control}
           name='email'
           render={({ field }) => (
-            <FormItem className='relative'>
+            <FormItem className='relative w-full'>
               <FormLabel className='text-base'>이메일</FormLabel>
               <FormControl>
                 <Input
@@ -73,7 +73,14 @@ export default function EditEmailForm({ email }: { email: string }) {
             </FormItem>
           )}
         />
-        <Button type='submit'>수정</Button>
+        <Button
+          type='submit'
+          disabled={
+            email === form.getValues('email') || !form.formState.isValid
+          }
+        >
+          수정
+        </Button>
       </form>
     </Form>
   );

@@ -53,16 +53,16 @@ export default function EditPasswordForm() {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='w-full flex gap-3 items-center'
+            className='w-full flex gap-3 items-end'
           >
-            <div className='flex flex-col'>
+            <div className='flex flex-col w-full'>
               {editPasswordFields.map((field) => (
                 <FormField
                   key={field.name}
                   control={form.control}
                   name={field.name as keyof EditPasswordSchemaType}
                   render={({ field: controllerField }) => (
-                    <FormItem className='relative'>
+                    <FormItem className='relative w-full'>
                       <FormLabel className='text-base'>{field.label}</FormLabel>
                       <FormControl>
                         <Input
@@ -85,14 +85,20 @@ export default function EditPasswordForm() {
                 />
               ))}
             </div>
-            <Button type='submit'>수정</Button>
+            <Button
+              type='submit'
+              className='mb-7'
+              disabled={!form.formState.isValid}
+            >
+              수정
+            </Button>
           </form>
         </Form>
       ) : (
         <div className='flex flex-col gap-2 w-full'>
           <p>비밀번호</p>
           <div className='flex gap-3'>
-            <Input disabled value='********' />
+            <Input disabled value='********' className='w-full' />
             <Button type='button' onClick={toggleIsEdit}>
               수정
             </Button>
