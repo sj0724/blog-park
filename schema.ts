@@ -1,6 +1,6 @@
 import z from 'zod';
 
-const PASSWORD_REGEX = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/; // 대소문자 구별 없이 알파벳과 숫자 포함하여 8자 이상
+export const PASSWORD_REGEX = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/; // 대소문자 구별 없이 알파벳과 숫자 포함하여 8자 이상
 
 export const LoginSchema = z.object({
   email: z
@@ -36,3 +36,18 @@ export const PostSchema = z.object({
     .min(1, { message: '포스팅 요약을 입력해주세요' })
     .max(50, { message: '요약은 최대 50글자까지 가능합니다.' }),
 });
+
+export const EditPasswordSchema = z
+  .object({
+    password: z.string().regex(PASSWORD_REGEX, {
+      message:
+        '비밀번호는 8자 이상이어야 하며, 알파벳과 숫자를 포함해야 합니다.',
+    }),
+    confirmPassword: z
+      .string()
+      .min(1, { message: '비밀번호를 재입력 해주세요.' }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: '비밀번호가 일치하지 않습니다.',
+    path: ['confirmPassword'],
+  });

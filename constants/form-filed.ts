@@ -48,3 +48,18 @@ export const postFields = [
     type: 'text',
   },
 ];
+
+export const editPasswordFields = [
+  {
+    name: 'password',
+    label: '비밀번호',
+    placeholder: '비밀번호를 입력해 주세요',
+    type: 'text',
+  },
+  {
+    name: 'confirmPassword',
+    label: '비밀번호 확인',
+    placeholder: '비밀번호를 다시 입력해 주세요',
+    type: 'text',
+  },
+];
