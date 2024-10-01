@@ -13,7 +13,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { editPasswordFields } from '@/constants/form-filed';
 import { cn } from '@/lib/utils';
-import { EditPasswordSchema, PASSWORD_REGEX } from '@/schema';
+import { EditPasswordSchema } from '@/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
