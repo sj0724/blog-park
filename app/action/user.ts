@@ -9,6 +9,7 @@ import { signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
 import { LoginSchemaType } from '../(auth)/sign-in/_components/login-form';
 import { supabase } from '@/utils/supabase';
+import { getSessionUserData } from '../data/user';
 
 export const register = async (
   form: RegisterSchemaType
@@ -102,5 +103,123 @@ export const logout = async (): Promise<ActionType<null>> => {
     return { success: true, message: '로그아웃에 성공 하였습니다.' };
   } catch {
     return { success: false, message: '로그아웃에 실패 하였습니다.' };
+  }
+};
+
+export const editName = async (name: string): Promise<ActionType<null>> => {
+  try {
+    const session = await getSessionUserData();
+    if (!session) throw Error('인증된 유저가 아닙니다.');
+
+    const result = await supabase
+      .from('users') // 테이블 이름
+      .update({
+        name,
+      })
+      .eq('id', session.id);
+
+    if (!result) {
+      return {
+        success: false,
+        message: '수정에 실패했습니다.',
+      };
+    }
+
+    return {
+      success: true,
+      message: '수정에 성공하였습니다.',
+    };
+  } catch {
+    return { success: false, message: '수정 중에 에러가 발생하였습니다.' };
+  }
+};
+
+export const editEmail = async (email: string): Promise<ActionType<null>> => {
+  try {
+    const session = await getSessionUserData();
+    if (!session) throw Error('인증된 유저가 아닙니다.');
+
+    const result = await supabase
+      .from('users') // 테이블 이름
+      .update({
+        email,
+      })
+      .eq('id', session.id);
+
+    if (!result) {
+      return {
+        success: false,
+        message: '수정에 실패했습니다.',
+      };
+    }
+
+    return {
+      success: true,
+      message: '수정에 성공하였습니다.',
+    };
+  } catch {
+    return { success: false, message: '수정 중에 에러가 발생하였습니다.' };
+  }
+};
+
+export const editIntroduce = async (
+  introduction: string
+): Promise<ActionType<null>> => {
+  try {
+    const session = await getSessionUserData();
+    if (!session) throw Error('인증된 유저가 아닙니다.');
+
+    const result = await supabase
+      .from('users') // 테이블 이름
+      .update({
+        introduction,
+      })
+      .eq('id', session.id);
+
+    if (!result) {
+      return {
+        success: false,
+        message: '수정에 실패했습니다.',
+      };
+    }
+
+    return {
+      success: true,
+      message: '수정에 성공하였습니다.',
+    };
+  } catch {
+    return { success: false, message: '수정 중에 에러가 발생하였습니다.' };
+  }
+};
+
+export const editPassword = async (
+  password: string
+): Promise<ActionType<null>> => {
+  try {
+    const session = await getSessionUserData();
+    if (!session) throw Error('인증된 유저가 아닙니다.');
+
+    const hashedPassword = hashPassword(password);
+
+    const result = await supabase
+      .from('users') // 테이블 이름
+      .update({
+        password: hashedPassword,
+      })
+      .eq('id', session.id);
+
+    if (!result) {
+      return {
+        success: false,
+        message: '수정에 실패했습니다.',
+      };
+    }
+
+    return {
+      success: true,
+      message: '수정에 성공하였습니다.',
+    };
+  } catch {
+    return { success: false, message: '수정 중에 에러가 발생하였습니다.' };
   }
 };

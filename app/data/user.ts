@@ -1,9 +1,10 @@
 'use server';
 
 import { auth } from '@/auth';
+import { SeesionData } from '@/type';
 import { supabase } from '@/utils/supabase';
 
-export const getSessionUserData = async () => {
+export const getSessionUserData = async (): Promise<SeesionData | null> => {
   const session = await auth();
   try {
     if (!session) return null;
@@ -12,8 +13,9 @@ export const getSessionUserData = async () => {
     if (!email) throw new Error('존재하지 않는 이메일 입니다.');
     if (!name) throw new Error('존재하지 않는 이름 입니다.');
     if (!id) throw new Error('존재하지 않는 id 입니다.');
+    if (image === undefined) throw new Error('존재하지 않는 이미지 입니다.');
 
-    return { email, name, id, image };
+    return { email: email, name: name, id: id, image: image };
   } catch {
     throw new Error('이메일을 가져오는중에 에러가 발생하였습니다.');
   }
