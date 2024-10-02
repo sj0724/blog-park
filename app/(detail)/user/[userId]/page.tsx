@@ -3,12 +3,15 @@ import { getPostList } from '@/app/data/post';
 import Profile from './_components/profile';
 import { Separator } from '@/components/ui/separator';
 import Footer from '@/app/_components/footer';
+import ProfileUserMenu from './_components/profile-user-menu';
+import FollowContainer from './_components/follow-container';
+import LikeContainer from './_components/like-container';
 
 export default async function Page({
-  searchParams: { page },
+  searchParams: { page, menu = 'list' },
   params: { userId },
 }: {
-  searchParams: { page: string };
+  searchParams: { page: string; menu: string };
   params: { userId: string };
 }) {
   const currentPage = page ? Number(page) : 1;
@@ -24,13 +27,18 @@ export default async function Page({
       <div className='flex flex-col items-center max-w-screen justify-center py-12'>
         <div>
           <Profile userId={userId} />
-          <Separator className='my-20' />
-          <PostContainer
-            list={postList}
-            count={count!}
-            page={currentPage}
-            title='작성한 글'
-          />
+          <ProfileUserMenu menu={menu} userId={userId} />
+          <Separator className='my-5' />
+          {menu === 'list' && (
+            <PostContainer
+              list={postList}
+              count={count!}
+              page={currentPage}
+              title='작성한 글'
+            />
+          )}
+          {menu === 'follow' && <FollowContainer />}
+          {menu === 'like' && <LikeContainer />}
         </div>
       </div>
       <Footer />

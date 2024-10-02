@@ -8,7 +8,7 @@ export default async function Profile({ userId }: { userId: string }) {
   const userData = await getUserById(userId);
   const followStatus = await getFollowStatus(userId);
   return (
-    <div className='flex items-center gap-8 pt-8'>
+    <div className='flex items-center gap-8 py-8'>
       <UserAvatar image={userData.image} size='lg' />
       <div className='flex flex-col gap-2'>
         <p className='text-3xl font-semibold'>{userData.name}</p>
