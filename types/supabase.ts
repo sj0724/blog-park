@@ -196,16 +196,19 @@ export type Database = {
       };
       follows: {
         Row: {
+          createdAt: string | null;
           followerId: string;
           followingId: string;
           id: string;
         };
         Insert: {
+          createdAt?: string | null;
           followerId: string;
           followingId: string;
-          id: string;
+          id?: string;
         };
         Update: {
+          createdAt?: string | null;
           followerId?: string;
           followingId?: string;
           id?: string;

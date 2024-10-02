@@ -4,11 +4,11 @@ import { User } from '@prisma/client';
 import Link from 'next/link';
 
 interface Props {
-  id: string;
-  title: string;
-  summation: string;
-  createdAt: string;
-  owner: User;
+  id?: string;
+  title?: string;
+  summation?: string;
+  createdAt?: string;
+  owner?: User;
 }
 
 export default function PostCard({
@@ -18,6 +18,9 @@ export default function PostCard({
   createdAt,
   owner,
 }: Props) {
+  if (!title || !summation || !createdAt || !id)
+    return <div>잘못된 포스트 정보입니다.</div>;
+
   const formatDate = formatDateRange({ dateString: createdAt });
 
   return (
@@ -37,7 +40,7 @@ export default function PostCard({
           </div>
           <div className='flex justify-between items-center h-5'>
             <p className='text-sm font-semibold'>{formatDate}</p>
-            <p className='text-sm'>{owner.name}</p>
+            <p className='text-sm'>{owner?.name}</p>
           </div>
         </CardContent>
       </Card>
