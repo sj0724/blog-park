@@ -147,6 +147,7 @@ export type Database = {
           id: string;
           post_id: string;
           user_id: string;
+          user: User;
         };
         Insert: {
           content: string;

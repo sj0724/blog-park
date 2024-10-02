@@ -34,7 +34,7 @@ export const getMyLikeList = async () => {
   const session = await getSessionUserData();
   if (!session) throw new Error('인증이 필요한 기능입니다.');
 
-  const { data: likeList, error } = await supabase
+  const { data: likeList } = await supabase
     .from('likes')
     .select('*, posts!fk_like_post(*)')
     .eq('user_id', session.id);

@@ -1,5 +1,4 @@
 import PostCard from '@/app/_components/post-card';
-import FollowingUserCard from './following-user-card';
 import { getMyLikeList } from '@/app/data/like';
 
 export default async function LikeContainer() {
