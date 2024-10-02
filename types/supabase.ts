@@ -1,5 +1,3 @@
-import { User } from '@prisma/client';
-
 export type Json =
   | string
   | number
@@ -147,7 +145,6 @@ export type Database = {
           id: string;
           post_id: string;
           user_id: string;
-          user: User;
         };
         Insert: {
           content: string;
@@ -196,16 +193,19 @@ export type Database = {
       };
       follows: {
         Row: {
+          createdAt: string | null;
           followerId: string;
           followingId: string;
           id: string;
         };
         Insert: {
+          createdAt?: string | null;
           followerId: string;
           followingId: string;
-          id: string;
+          id?: string;
         };
         Update: {
+          createdAt?: string | null;
           followerId?: string;
           followingId?: string;
           id?: string;
@@ -287,7 +287,6 @@ export type Database = {
           title: string;
           updatedAt: string;
           user_id: string;
-          fk_user: User;
         };
         Insert: {
           content: string;
