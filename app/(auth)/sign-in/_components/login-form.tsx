@@ -20,6 +20,7 @@ import { login } from '@/app/action/user';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import PasswordInput from '@/components/password-input';
+import Link from 'next/link';
 
 export type LoginSchemaType = z.infer<typeof LoginSchema>;
 
@@ -91,6 +92,12 @@ export default function LoginForm() {
         <Button type='submit' className='w-full'>
           로그인
         </Button>
+        <div className='flex justify-center pt-4 gap-1 items-center'>
+          <p>회원이 아니라면</p>
+          <Link href='/sign-up'>
+            <p className='text-lg w-fit h-fit font-bold'>가입하기!</p>
+          </Link>
+        </div>
       </form>
     </Form>
   );
