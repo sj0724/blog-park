@@ -229,16 +229,19 @@ export type Database = {
       };
       likes: {
         Row: {
+          createdAt: string | null;
           id: string;
           post_id: string;
           user_id: string;
         };
         Insert: {
+          createdAt?: string | null;
           id: string;
           post_id: string;
           user_id: string;
         };
         Update: {
+          createdAt?: string | null;
           id?: string;
           post_id?: string;
           user_id?: string;
