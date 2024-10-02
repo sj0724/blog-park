@@ -24,8 +24,8 @@ export default async function Page({
 
   return (
     <>
-      <div className='flex flex-col items-center max-w-screen justify-center py-12'>
-        <div>
+      <div className='flex flex-col items-center min-w-[1100px] justify-center py-12'>
+        <div className='w-full'>
           <Profile userId={userId} />
           <ProfileUserMenu menu={menu} userId={userId} />
           <Separator className='my-5' />

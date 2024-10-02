@@ -3,6 +3,7 @@
 import { ActionType } from '@/type';
 import { getSessionUserData } from '../data/user';
 import { supabase } from '@/utils/supabase';
+import { revalidatePath } from 'next/cache';
 
 export const toggleFollow = async (
   followingId: string
@@ -22,7 +23,7 @@ export const toggleFollow = async (
 
     if (checkFollow.data && checkFollow.data[0]) {
       await supabase.from('follows').delete().eq('followerId', session.id);
-
+      revalidatePath(`/user/${session.id}?menu=follow`);
       return {
         success: true,
         message: '팔로우를 취소했습니다.',

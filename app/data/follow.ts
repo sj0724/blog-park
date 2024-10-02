@@ -16,3 +16,13 @@ export const getFollowStatus = async (userId: string) => {
     return false;
   }
 };
+
+export const getMyFollow = async () => {
+  const session = await getSessionUserData();
+  if (!session) throw new Error('인증한 유저만 가능합니다.');
+  const { data: followList } = await supabase
+    .from('follows')
+    .select('*')
+    .eq('followerId', session.id);
+  return followList;
+};

@@ -8,7 +8,6 @@ export default function ProfileUserMenu({
   menu: string;
   userId: string;
 }) {
-  console.log(menu);
   return (
     <div className='flex justify-between w-full px-10 py-5'>
       <ProfileMenuButton
