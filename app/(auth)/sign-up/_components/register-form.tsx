@@ -18,6 +18,7 @@ import { cn } from '@/lib/utils';
 import { register } from '@/app/action/user';
 import { registerFields } from '@/constants/form-filed';
 import { useRouter } from 'next/navigation';
+import PasswordInput from '@/components/password-input';
 
 export type RegisterSchemaType = z.infer<typeof RegisterSchema>;
 
@@ -42,6 +43,7 @@ export default function RegisterForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
+        <h1 className='mb-2 text-xl font-semibold'>회원가입</h1>
         <FormField
           control={form.control}
           name={registerFields[0].name as keyof RegisterSchemaType}
@@ -105,8 +107,7 @@ export default function RegisterForm() {
                 {registerFields[2].label}
               </FormLabel>
               <FormControl>
-                <Input
-                  type={registerFields[2].type}
+                <PasswordInput
                   placeholder={registerFields[2].placeholder}
                   className={cn(
                     form.getFieldState(
@@ -132,7 +133,7 @@ export default function RegisterForm() {
                 {registerFields[3].label}
               </FormLabel>
               <FormControl>
-                <Input
+                <PasswordInput
                   placeholder={registerFields[3].placeholder}
                   autoComplete='off'
                   className={cn(
@@ -150,7 +151,11 @@ export default function RegisterForm() {
             </FormItem>
           )}
         />
-        <Button type='submit' disabled={!form.formState.isValid}>
+        <Button
+          type='submit'
+          disabled={!form.formState.isValid}
+          className='w-full'
+        >
           가입
         </Button>
       </form>
