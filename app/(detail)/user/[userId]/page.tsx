@@ -6,6 +6,7 @@ import Footer from '@/app/_components/footer';
 import ProfileUserMenu from './_components/profile-user-menu';
 import FollowContainer from './_components/follow-container';
 import LikeContainer from './_components/like-container';
+import { getSessionUserData } from '@/app/data/user';
 
 export default async function Page({
   searchParams: { page, menu = 'list' },
@@ -14,6 +15,7 @@ export default async function Page({
   searchParams: { page: string; menu: string };
   params: { userId: string };
 }) {
+  const session = await getSessionUserData();
   const currentPage = page ? Number(page) : 1;
   const { data: postList, count } = await getPostList({
     userId,
@@ -27,8 +29,10 @@ export default async function Page({
       <div className='flex flex-col items-center min-w-[1100px] justify-center py-12'>
         <div className='w-full'>
           <Profile userId={userId} />
-          <ProfileUserMenu menu={menu} userId={userId} />
-          <Separator className='my-5' />
+          {session?.id === userId && (
+            <ProfileUserMenu menu={menu} userId={userId} />
+          )}
+          <Separator className={session?.id === userId ? 'my-5' : 'my-20'} />
           {menu === 'list' && (
             <PostContainer
               list={postList}
