@@ -12,7 +12,11 @@ export const createLike = async ({
   postId: string;
 }): Promise<ActionType<null>> => {
   const session = await getSessionUserData();
-  if (!session) throw new Error('인증이 필요합니다.');
+  if (!session)
+    return {
+      success: false,
+      message: '로그인이 필요한 기능합니다.',
+    };
 
   try {
     const { data: checkLikeList } = await supabase
@@ -40,7 +44,7 @@ export const createLike = async ({
     if (!like) {
       return {
         success: false,
-        message: '게시물에 좋아요를 남기는데 실패했습니다..',
+        message: '게시물에 좋아요를 남기는데 실패했습니다.',
       };
     }
 
@@ -50,8 +54,7 @@ export const createLike = async ({
       success: true,
       message: '게시물에 좋아요를 남겼습니다.',
     };
-  } catch (error) {
-    console.error('댓글 생성 중 에러:', error);
+  } catch {
     return {
       success: false,
       message: '게시물에 좋아요를 남기던 중 에러가 발생했습니다.',

@@ -13,7 +13,9 @@ export default function LikeButton({
 }) {
   const isLike = async () => {
     const result = await createLike({ postId });
-    if (result) {
+    if (result.success) {
+      toast.message(result.message);
+    } else {
       toast.message(result.message);
     }
   };
