@@ -18,6 +18,8 @@ import { loginFields } from '@/constants/form-filed';
 import { z } from 'zod';
 import { login } from '@/app/action/user';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import PasswordInput from '@/components/password-input';
 
 export type LoginSchemaType = z.infer<typeof LoginSchema>;
 
@@ -34,7 +36,13 @@ export default function LoginForm() {
 
   const onSubmit = async (values: LoginSchemaType) => {
     const result = await login(values);
-    if (result.success) router.refresh();
+    if (result.success) {
+      router.refresh();
+    } else {
+      toast.error(result.message);
+      form.setError('email', { type: 'manual', message: result.message });
+      form.setError('password', { type: 'manual', message: result.message });
+    }
   };
 
   return (
@@ -51,7 +59,7 @@ export default function LoginForm() {
                 <FormLabel className='text-base'>{field.label}</FormLabel>
                 <FormControl>
                   {field.type === 'password' ? (
-                    <Input
+                    <PasswordInput
                       placeholder={field.placeholder}
                       className={cn(
                         form.getFieldState(field.name as keyof LoginSchemaType)
@@ -80,7 +88,9 @@ export default function LoginForm() {
             )}
           />
         ))}
-        <Button type='submit'>로그인</Button>
+        <Button type='submit' className='w-full'>
+          로그인
+        </Button>
       </form>
     </Form>
   );
