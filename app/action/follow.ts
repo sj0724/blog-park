@@ -7,13 +7,27 @@ import { supabase } from '@/utils/supabase';
 export const toggleFollow = async (
   followingId: string
 ): Promise<ActionType<null>> => {
+  const session = await getSessionUserData();
+  if (!session)
+    return {
+      success: false,
+      message: '로그인한 유저만 가능한 기능입니다.',
+    };
+
   try {
-    const session = await getSessionUserData();
-    if (!session)
+    const checkFollow = await supabase
+      .from('follows')
+      .select('*')
+      .eq('followerId', session.id);
+
+    if (checkFollow.data && checkFollow.data[0]) {
+      await supabase.from('follows').delete().eq('followerId', session.id);
+
       return {
-        success: false,
-        message: '로그인한 유저만 가능한 기능입니다.',
+        success: true,
+        message: '팔로우를 취소했습니다.',
       };
+    }
     const result = await supabase
       .from('follows')
       .insert([{ followerId: session.id, followingId }]);
