@@ -24,11 +24,11 @@ export const createLike = async ({
       .select('*')
       .eq('post_id', postId)
       .eq('user_id', session.id);
-    console.log(checkLikeList);
     if (checkLikeList && checkLikeList[0]) {
       await supabase.from('likes').delete().eq('id', checkLikeList[0].id);
 
       revalidatePath(`/post/${postId}`);
+      revalidatePath(`/user/${session.id}?menu=like`);
       return {
         success: true,
         message: '게시물에 좋아요를 취소했습니다.',

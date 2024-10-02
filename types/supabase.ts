@@ -1,3 +1,5 @@
+import { User } from '@prisma/client';
+
 export type Json =
   | string
   | number
@@ -287,6 +289,7 @@ export type Database = {
           title: string;
           updatedAt: string;
           user_id: string;
+          fk_user: User;
         };
         Insert: {
           content: string;

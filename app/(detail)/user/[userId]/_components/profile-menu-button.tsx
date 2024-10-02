@@ -19,8 +19,8 @@ export default function ProfileMenuButton({
   return (
     <Link href={href}>
       <div
-        className={`flex items-center gap-3 px-7 py-4 w-48 justify-center ${
-          id === currentMenu && 'bg-gray-100 rounded-lg'
+        className={`flex items-center gap-3 px-7 py-4 w-48 justify-center hover:bg-gray-100 rounded-lg ${
+          id === currentMenu && 'bg-gray-100'
         }`}
       >
         {children}

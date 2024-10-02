@@ -1,5 +1,5 @@
 import { Heart, LayoutList, UserPlus } from 'lucide-react';
-import ProfileMenuButton from './\bprofile-menu-button';
+import ProfileMenuButton from './profile-menu-button';
 
 export default function ProfileUserMenu({
   menu,
