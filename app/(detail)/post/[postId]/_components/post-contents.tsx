@@ -4,6 +4,7 @@ import { User } from '@prisma/client';
 import { DotFilledIcon } from '@radix-ui/react-icons';
 import PostButtonContainer from './post-button-container';
 import Link from 'next/link';
+import { Heart } from 'lucide-react';
 
 interface Props {
   title: string;
@@ -11,6 +12,7 @@ interface Props {
   user: User;
   createdAt: string;
   postId: string;
+  totalLike: number;
 }
 
 export default async function PostContents({
@@ -19,6 +21,7 @@ export default async function PostContents({
   user,
   createdAt,
   postId,
+  totalLike,
 }: Props) {
   const currentUser = await getSessionUserData();
   const formatData = formatDateRange({ dateString: createdAt });
@@ -33,6 +36,11 @@ export default async function PostContents({
             </Link>
             <DotFilledIcon width={10} height={10} />
             <p className='text-gray-600'>{formatData}</p>
+            <DotFilledIcon width={10} height={10} />
+            <div className='flex gap-2'>
+              <Heart size={20} />
+              <p>{totalLike}</p>
+            </div>
           </div>
           {currentUser?.id === user.id && (
             <PostButtonContainer postId={postId} />
