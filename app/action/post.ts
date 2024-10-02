@@ -50,6 +50,15 @@ export const creatPost = async ({
   }
 };
 
+export const getPostById = async (postId: string) => {
+  const { data: post } = await supabase
+    .from('posts')
+    .select(`*, fk_user(*)`)
+    .eq('id', postId)
+    .single();
+  return post;
+};
+
 export const deletePost = async (postId: string): Promise<ActionType<null>> => {
   const session = await getSessionUserData();
   try {
