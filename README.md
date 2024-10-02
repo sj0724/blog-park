@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Blog-Park
+- 소개 : 공원(Park)같이 여러 사람이 모여있는 공간으로 여러 유저들의 포스트를 구경해보세요!
 
-## Getting Started
+## 개발 기간
+  전체 개발 기간 : 2024-09-24 ~ <br>
+  기획 : 2024-09-24 ~ 2024-09.25 <br>
+  기능 구현 : 2024-09.25 ~ <br>
 
-First, run the development server:
+## 기술 스택
+- HTML, CSS, JavaScript, TypeScript, Next.js, react-hook-form, zod, Auth.js, Tailwind, supabase, prisma
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 기능 설명
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 로그인, 회원가입
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- 포스트 작성, 수정, 삭제
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- 댓글 등록, 수정, 삭제
 
-## Learn More
+- 유저 팔로우
 
-To learn more about Next.js, take a look at the following resources:
+- 포스트 좋아요, 공유
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 코드 실행 가이드
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`npm run build`를 사용해 코드를 실행해주시면 됩니다.<br/>
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+>환경변수(.env) 안내<br/>
+>```
+>NEXT_PUBLIC_BASE_URL=""
+>DATABASE_URL=""
+>AUTH_SECRET=""
+>NEXT_PUBLIC_SUPABASE_URL=""
+>NEXT_PUBLIC_SUPABASE_ANON_KEY=""
+>```
