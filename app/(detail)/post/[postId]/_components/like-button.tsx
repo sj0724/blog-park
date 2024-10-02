@@ -21,7 +21,7 @@ export default function LikeButton({
   };
 
   return (
-    <>
+    <div className='shadow-md border rounded-full p-2'>
       {personalStatus ? (
         <Heart
           size={30}
@@ -31,8 +31,13 @@ export default function LikeButton({
           onClick={isLike}
         />
       ) : (
-        <Heart size={30} className='cursor-pointer' onClick={isLike} />
+        <Heart
+          size={30}
+          fill='white'
+          className='cursor-pointer'
+          onClick={isLike}
+        />
       )}
-    </>
+    </div>
   );
 }
