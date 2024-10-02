@@ -5,9 +5,7 @@ import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input, InputProps } from '@/components/ui/input';
 
-interface Props extends InputProps {}
-
-const PasswordInput = forwardRef<HTMLInputElement, Props>(
+const PasswordInput = forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...props }, ref) => {
     const [isVisible, setIsVisible] = useState(false);
     const disabled =
