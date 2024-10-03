@@ -54,7 +54,7 @@ export function CreatPostDialog({ postContent, title }: Props) {
       isPublished: true,
     });
     toast.message(result.message);
-    if (result.success) router.replace('/post/list');
+    if (result.success) router.replace('/');
   };
 
   return (
