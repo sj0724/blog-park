@@ -18,7 +18,9 @@ export default function Pagination({
   const router = useRouter();
   const totalPages = Math.ceil(total / limit);
   const changePage = (page: number) => {
-    router.push(`${route}?page=${page}`);
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set('page', page.toString());
+    router.push(`${route}?${searchParams.toString()}`);
   };
 
   const maxVisibleButtons = 5;

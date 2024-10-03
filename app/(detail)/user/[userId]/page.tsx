@@ -7,6 +7,7 @@ import ProfileUserMenu from './_components/profile-user-menu';
 import FollowContainer from './_components/follow-container';
 import LikeContainer from './_components/like-container';
 import { getSessionUserData } from '@/app/data/user';
+import Pagination from '@/components/pagination';
 
 export default async function Page({
   searchParams: { page, menu = 'list' },
@@ -34,12 +35,17 @@ export default async function Page({
           )}
           <Separator className={session?.id === userId ? 'my-5' : 'my-20'} />
           {menu === 'list' && (
-            <PostContainer
-              list={postList}
-              count={count!}
-              page={currentPage}
-              title='작성한 글'
-            />
+            <div className='flex flex-col'>
+              <PostContainer list={postList} title='작성한 글' />
+              <div className='py-4 flex justify-center'>
+                <Pagination
+                  total={count!}
+                  currentPage={currentPage}
+                  route={`/user/${userId}`}
+                  limit={6}
+                />
+              </div>
+            </div>
           )}
           {menu === 'follow' && <FollowContainer />}
           {menu === 'like' && <LikeContainer />}
