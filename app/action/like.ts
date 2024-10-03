@@ -1,6 +1,5 @@
 'use server';
 
-import db from '@/lib/db';
 import { ActionType } from '@/type';
 import { getSessionUserData } from '../data/user';
 import { revalidatePath } from 'next/cache';
@@ -34,14 +33,16 @@ export const createLike = async ({
         message: '게시물에 좋아요를 취소했습니다.',
       };
     }
-    const like = await db.like.create({
-      data: {
-        userId: session.id,
-        postId,
-      },
-    });
+    const result = await supabase
+      .from('likes') // 'likes' 테이블에 좋아요 추가
+      .insert([
+        {
+          user_id: session.id, // 현재 사용자 ID
+          post_id: postId, // 좋아요를 달릴 포스트 ID
+        },
+      ]);
 
-    if (!like) {
+    if (result.error) {
       return {
         success: false,
         message: '게시물에 좋아요를 남기는데 실패했습니다.',

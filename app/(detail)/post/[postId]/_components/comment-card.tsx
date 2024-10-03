@@ -23,8 +23,8 @@ export default function CommentCard({ comment, userId, postId }: Props) {
     <div className='px-4 py-2 min-h-20 flex flex-col justify-center gap-3'>
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-2 py-3'>
-          <UserAvatar image={comment.user.image} size='sm' />
-          <p className='font-semibold'>{comment.user.name}</p>
+          <UserAvatar image={comment.comments_user_id_fkey.image} size='sm' />
+          <p className='font-semibold'>{comment.comments_user_id_fkey.name}</p>
         </div>
         {userId === comment.user_id && (
           <CommentButtonContainer

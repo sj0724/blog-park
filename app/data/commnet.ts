@@ -11,9 +11,9 @@ export const getCommentList = async ({
 }) => {
   const { data, error, count } = await supabase
     .from('comments')
-    .select('*, user:fk_comment_user(*)', { count: 'exact' }) // 사용자 정보를 포함
+    .select('*, user:comments_user_id_fkey(*)', { count: 'exact' }) // 사용자 정보를 포함
     .eq('post_id', postId) // 특정 postId에 해당하는 댓글 필터링
-    .order('createdat', { ascending: false }) // 생성일 기준 정렬
+    .order('createdAt', { ascending: false }) // 생성일 기준 정렬
     .range((page - 1) * limit, page * limit - 1); // 페이지네이션
 
   if (error) {

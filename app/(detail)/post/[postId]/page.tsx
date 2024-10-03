@@ -2,7 +2,7 @@ import PostContents from './_components/post-contents';
 import CommentContainer from './_components/comment-container';
 import FloatingContainer from './_components/floating-container';
 import { getLikeById, getMyLikeByPostId } from '@/app/data/like';
-import { getPostById } from '@/app/action/post';
+import { getPostById } from '@/app/data/post';
 
 export default async function Page({ params }: { params: { postId: string } }) {
   const post = await getPostById(params.postId);
@@ -18,7 +18,7 @@ export default async function Page({ params }: { params: { postId: string } }) {
         contents={post.content}
         createdAt={post.createdAt}
         title={post.title}
-        user={post.user}
+        user={post.posts_user_id_fkey}
         totalLike={count ? count : 0}
       />
       <CommentContainer postId={params.postId} />
