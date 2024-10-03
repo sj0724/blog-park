@@ -2,6 +2,7 @@
 
 import { createLike } from '@/app/action/like';
 import { Heart } from 'lucide-react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 export default function LikeButton({
@@ -11,9 +12,11 @@ export default function LikeButton({
   postId: string;
   personalStatus: boolean;
 }) {
-  const isLike = async () => {
+  const [isLike, setIsLike] = useState(personalStatus);
+  const handleLike = async () => {
     const result = await createLike({ postId });
     if (result.success) {
+      setIsLike(!isLike);
       toast.message(result.message);
     } else {
       toast.message(result.message);
@@ -22,20 +25,20 @@ export default function LikeButton({
 
   return (
     <div className='shadow-md border rounded-full p-2'>
-      {personalStatus ? (
+      {isLike ? (
         <Heart
           size={30}
           fill='red'
           stroke='red'
           className='cursor-pointer'
-          onClick={isLike}
+          onClick={handleLike}
         />
       ) : (
         <Heart
           size={30}
           fill='white'
           className='cursor-pointer'
-          onClick={isLike}
+          onClick={handleLike}
         />
       )}
     </div>

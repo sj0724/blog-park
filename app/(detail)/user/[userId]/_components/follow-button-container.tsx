@@ -14,8 +14,10 @@ export default function FollowButtonContainer({
 }) {
   const [isFollow, setIsFollow] = useState(followStatus);
   const handleFollow = async () => {
-    setIsFollow(!isFollow);
     const result = await toggleFollow(userId);
+    if (result.success) {
+      setIsFollow(!isFollow);
+    }
     toast.message(result.message);
   };
 

@@ -1,3 +1,4 @@
+import Pagination from '@/components/pagination';
 import Footer from './_components/footer';
 import PostContainer from './_components/post-container';
 import { getPostList } from './data/post';
@@ -16,12 +17,15 @@ export default async function Home({
 
   return (
     <div className='flex flex-col max-w-screen items-center py-12'>
-      <PostContainer
-        count={count!}
-        list={postList}
-        page={currentPage}
-        title='전체 리스트'
-      />
+      <PostContainer list={postList} title='전체 리스트' />
+      <div className='py-4 flex justify-center'>
+        <Pagination
+          total={count!}
+          currentPage={currentPage}
+          route='/'
+          limit={6}
+        />
+      </div>
       <Footer />
     </div>
   );

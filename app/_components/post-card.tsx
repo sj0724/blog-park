@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { SupabaseUser } from '@/type';
 import formatDateRange from '@/utils/formatData';
-import { User } from '@prisma/client';
 import Link from 'next/link';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
   title?: string;
   summation?: string;
   createdAt?: string;
-  owner?: User;
+  owner?: SupabaseUser;
 }
 
 export default function PostCard({
