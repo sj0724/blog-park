@@ -18,7 +18,7 @@ export default async function PostContainer({ list, title }: Props) {
               title={post.title}
               summation={post.summation}
               createdAt={post.createdAt}
-              owner={post.fk_user}
+              owner={post.user}
             />
           </li>
         ))}

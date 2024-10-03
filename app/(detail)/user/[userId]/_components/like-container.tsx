@@ -16,10 +16,10 @@ export default async function LikeContainer() {
           likeList.map((post) => (
             <li key={post.id}>
               <PostCard
-                id={post.posts?.id}
-                title={post.posts?.title}
-                createdAt={post.posts?.createdAt}
-                summation={post.posts?.summation}
+                id={post.posts[0].id}
+                title={post.posts[0].title}
+                createdAt={post.posts[0].createdAt}
+                summation={post.posts[0].summation}
               />
             </li>
           ))

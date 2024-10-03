@@ -87,38 +87,26 @@ export type Database = {
           type?: string;
           user_id?: string;
         };
-        Relationships: [
-          {
-            foreignKeyName: 'accounts_user_id_fkey';
-            columns: ['user_id'];
-            isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'fk_account_user';
-            columns: ['user_id'];
-            isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
-          }
-        ];
+        Relationships: [];
       };
       alarms: {
         Row: {
           content: string;
+          createdAt: string | null;
           id: string;
           isRead: boolean;
           user_id: string;
         };
         Insert: {
           content: string;
-          id: string;
+          createdAt?: string | null;
+          id?: string;
           isRead?: boolean;
           user_id: string;
         };
         Update: {
           content?: string;
+          createdAt?: string | null;
           id?: string;
           isRead?: boolean;
           user_id?: string;
@@ -130,20 +118,13 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: 'users';
             referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'fk_alarm_user';
-            columns: ['user_id'];
-            isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
           }
         ];
       };
       comments: {
         Row: {
           content: string;
-          createdat: string | null;
+          createdAt: string | null;
           id: string;
           post_id: string;
           user_id: string;
@@ -151,14 +132,14 @@ export type Database = {
         };
         Insert: {
           content: string;
-          createdat?: string | null;
-          id: string;
+          createdAt?: string | null;
+          id?: string;
           post_id: string;
           user_id: string;
         };
         Update: {
           content?: string;
-          createdat?: string | null;
+          createdAt?: string | null;
           id?: string;
           post_id?: string;
           user_id?: string;
@@ -173,20 +154,6 @@ export type Database = {
           },
           {
             foreignKeyName: 'comments_user_id_fkey';
-            columns: ['user_id'];
-            isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'fk_comment_post';
-            columns: ['post_id'];
-            isOneToOne: false;
-            referencedRelation: 'posts';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'fk_comment_user';
             columns: ['user_id'];
             isOneToOne: false;
             referencedRelation: 'users';
@@ -239,7 +206,7 @@ export type Database = {
         };
         Insert: {
           createdAt?: string | null;
-          id: string;
+          id?: string;
           post_id: string;
           user_id: string;
         };
@@ -250,20 +217,6 @@ export type Database = {
           user_id?: string;
         };
         Relationships: [
-          {
-            foreignKeyName: 'fk_like_post';
-            columns: ['post_id'];
-            isOneToOne: false;
-            referencedRelation: 'posts';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'fk_like_user';
-            columns: ['user_id'];
-            isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
-          },
           {
             foreignKeyName: 'likes_post_id_fkey';
             columns: ['post_id'];
@@ -290,12 +243,12 @@ export type Database = {
           title: string;
           updatedAt: string;
           user_id: string;
-          fk_user: SupabaseUser;
+          user: SupabaseUser;
         };
         Insert: {
           content: string;
           createdAt?: string;
-          id: string;
+          id?: string;
           isPublished?: boolean;
           summation: string;
           title: string;
@@ -313,13 +266,6 @@ export type Database = {
           user_id?: string;
         };
         Relationships: [
-          {
-            foreignKeyName: 'fk_user';
-            columns: ['user_id'];
-            isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
-          },
           {
             foreignKeyName: 'posts_user_id_fkey';
             columns: ['user_id'];
@@ -348,61 +294,31 @@ export type Database = {
           session_token?: string;
           user_id?: string;
         };
-        Relationships: [
-          {
-            foreignKeyName: 'fk_session_user';
-            columns: ['user_id'];
-            isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'sessions_user_id_fkey';
-            columns: ['user_id'];
-            isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
-          }
-        ];
+        Relationships: [];
       };
       temporary_posts: {
         Row: {
           content: string;
-          expiresAt: string;
+          createdAt: string;
           id: string;
           title: string;
           user_id: string;
         };
         Insert: {
           content: string;
-          expiresAt: string;
-          id: string;
+          createdAt?: string;
+          id?: string;
           title: string;
           user_id: string;
         };
         Update: {
           content?: string;
-          expiresAt?: string;
+          createdAt?: string;
           id?: string;
           title?: string;
           user_id?: string;
         };
-        Relationships: [
-          {
-            foreignKeyName: 'fk_temporary_post_user';
-            columns: ['user_id'];
-            isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'temporary_posts_user_id_fkey';
-            columns: ['user_id'];
-            isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
-          }
-        ];
+        Relationships: [];
       };
       users: {
         Row: {
@@ -418,7 +334,7 @@ export type Database = {
         Insert: {
           createdAt?: string;
           email?: string | null;
-          id: string;
+          id?: string;
           image?: string | null;
           introduction?: string | null;
           name?: string | null;

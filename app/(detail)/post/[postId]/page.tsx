@@ -18,7 +18,7 @@ export default async function Page({ params }: { params: { postId: string } }) {
         contents={post.content}
         createdAt={post.createdAt}
         title={post.title}
-        user={post.fk_user}
+        user={post.user}
         totalLike={count ? count : 0}
       />
       <CommentContainer postId={params.postId} />
