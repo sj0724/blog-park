@@ -1,4 +1,4 @@
-import { User } from '@prisma/client';
+import { SupabaseUser } from '@/type';
 
 export type Json =
   | string
@@ -147,7 +147,7 @@ export type Database = {
           id: string;
           post_id: string;
           user_id: string;
-          user: User;
+          user: SupabaseUser;
         };
         Insert: {
           content: string;
@@ -290,7 +290,7 @@ export type Database = {
           title: string;
           updatedAt: string;
           user_id: string;
-          fk_user: User;
+          fk_user: SupabaseUser;
         };
         Insert: {
           content: string;

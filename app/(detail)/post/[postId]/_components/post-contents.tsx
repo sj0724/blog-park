@@ -1,15 +1,15 @@
 import { getSessionUserData } from '@/app/data/user';
 import formatDateRange from '@/utils/formatData';
-import { User } from '@prisma/client';
 import { DotFilledIcon } from '@radix-ui/react-icons';
 import PostButtonContainer from './post-button-container';
 import Link from 'next/link';
 import { Heart } from 'lucide-react';
+import { SupabaseUser } from '@/type';
 
 interface Props {
   title: string;
   contents: string;
-  user: User;
+  user: SupabaseUser;
   createdAt: string;
   postId: string;
   totalLike: number;
