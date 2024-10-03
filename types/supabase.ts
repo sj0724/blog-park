@@ -128,7 +128,7 @@ export type Database = {
           id: string;
           post_id: string;
           user_id: string;
-          user: SupabaseUser;
+          comments_user_id_fkey: SupabaseUser;
         };
         Insert: {
           content: string;
@@ -243,7 +243,7 @@ export type Database = {
           title: string;
           updatedAt: string;
           user_id: string;
-          user: SupabaseUser;
+          posts_user_id_fkey: SupabaseUser;
         };
         Insert: {
           content: string;
@@ -252,7 +252,7 @@ export type Database = {
           isPublished?: boolean;
           summation: string;
           title: string;
-          updatedAt: string;
+          updatedAt?: string;
           user_id: string;
         };
         Update: {
@@ -339,7 +339,7 @@ export type Database = {
           introduction?: string | null;
           name?: string | null;
           password: string;
-          updatedAt: string;
+          updatedAt?: string;
         };
         Update: {
           createdAt?: string;
