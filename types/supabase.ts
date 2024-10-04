@@ -128,7 +128,7 @@ export type Database = {
           id: string;
           post_id: string;
           user_id: string;
-          comments_user_id_fkey: SupabaseUser;
+          user: SupabaseUser;
         };
         Insert: {
           content: string;

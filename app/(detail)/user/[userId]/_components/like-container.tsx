@@ -14,7 +14,7 @@ export default async function LikeContainer() {
           </div>
         </ul>
       ) : (
-        <ul className='grid grid-cols-2'>
+        <ul className='grid grid-cols-3 w-full gap-4'>
           {likeList.map((post) => (
             <li key={post.id}>
               <PostCard
