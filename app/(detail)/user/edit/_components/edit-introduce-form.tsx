@@ -1,6 +1,6 @@
 'use client';
 
-import { editEmail } from '@/app/action/user';
+import { editIntroduce } from '@/app/action/user';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -43,7 +43,7 @@ export default function EditIntroductionForm({
   });
 
   const onSubmit = async (values: EditIntroductionSchemaType) => {
-    const result = await editEmail(values.introduction);
+    const result = await editIntroduce(values.introduction);
     if (result.success) {
       toast.message(result.message);
       router.refresh();
