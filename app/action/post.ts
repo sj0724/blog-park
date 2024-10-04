@@ -1,6 +1,5 @@
 'use server';
 
-import db from '@/lib/db';
 import { ActionType } from '@/type';
 import { getSessionUserData } from '../data/user';
 import { supabase } from '@/utils/supabase';
@@ -22,18 +21,19 @@ export const creatPost = async ({
   const session = await getSessionUserData();
   if (!session) throw new Error('인증이 필요합니다.');
   try {
-    const post = await db.post.create({
-      data: {
+    const result = await supabase.from('posts').insert([
+      {
         title,
         content,
-        userId: session.id,
+        user_id: session.id,
         summation,
         isPublished,
       },
-    });
-    if (!post)
+    ]);
+
+    if (result.error)
       return {
-        success: true,
+        success: false,
         message: '포스팅에 실패했습니다.',
       };
     revalidatePath(`/user/${session?.id}`);
@@ -48,15 +48,6 @@ export const creatPost = async ({
       message: '포스팅중 에러가 발생했습니다.',
     };
   }
-};
-
-export const getPostById = async (postId: string) => {
-  const { data: post } = await supabase
-    .from('posts')
-    .select(`*, fk_user(*)`)
-    .eq('id', postId)
-    .single();
-  return post;
 };
 
 export const deletePost = async (postId: string): Promise<ActionType<null>> => {

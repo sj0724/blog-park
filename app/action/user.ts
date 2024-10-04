@@ -1,10 +1,9 @@
 'use server';
 
-import db from '@/lib/db';
 import { hashPassword } from '@/lib/utils';
 import { RegisterSchemaType } from '../(auth)/sign-up/_components/register-form';
 import { LoginSchema, RegisterSchema } from '@/schema';
-import { ActionType, User } from '@/type';
+import { ActionType } from '@/type';
 import { signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
 import { LoginSchemaType } from '../(auth)/sign-in/_components/login-form';
@@ -13,7 +12,7 @@ import { getSessionUserData } from '../data/user';
 
 export const register = async (
   form: RegisterSchemaType
-): Promise<ActionType<User>> => {
+): Promise<ActionType<null>> => {
   try {
     const validate = RegisterSchema.safeParse(form);
     if (!validate.success)
@@ -21,31 +20,39 @@ export const register = async (
 
     const { email, password, name } = validate.data;
 
-    const checkExistingUser = await db.user.findUnique({
-      where: {
-        email,
-      },
-    });
+    const { data: checkExistingUser } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', email)
+      .single();
+
     if (checkExistingUser)
       return { success: false, message: '이미 사용중인 이메일입니다.' };
 
     const hashedPassword = hashPassword(password);
 
-    const createUser = await db.user.create({
-      data: {
+    const result = await supabase.from('users').insert([
+      {
+        introduction: '',
+        image: '',
         email,
         password: hashedPassword,
         name,
       },
-    });
+    ]);
+
+    if (result.error) {
+      return {
+        success: false,
+        message: '회원가입에 실패했습니다.',
+      };
+    }
 
     return {
       success: true,
       message: '회원가입에 성공하였습니다.',
-      data: createUser,
     };
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (error) {
+  } catch {
     return { success: false, message: '회원가입 중에 에러가 발생하였습니다.' };
   }
 };

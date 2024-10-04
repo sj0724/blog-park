@@ -3,17 +3,22 @@
 import { createComment } from '@/app/action/comment';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import { toast } from 'sonner';
 
 export default function CommentForm({ postId }: { postId: string }) {
   const [content, setContent] = useState('');
+  const router = useRouter();
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const formatContent = content.replace(/\n/g, '<br>');
     const result = await createComment({ postId, content: formatContent });
-    if (result.success) toast.message(result.message);
+    if (result.success) {
+      router.refresh();
+    }
+    toast.message(result.message);
   };
 
   return (

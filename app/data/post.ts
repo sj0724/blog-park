@@ -12,7 +12,7 @@ export const getPostList = async ({
 }) => {
   const query = supabase
     .from('posts')
-    .select(`*, fk_user(*)`, { count: 'exact' })
+    .select(`*, posts_user_id_fkey(*)`, { count: 'exact' })
     .order('createdAt', { ascending: false })
     .range((page - 1) * limit, page * limit - 1);
 
@@ -30,10 +30,19 @@ export const getMyPost = async (page = 1, limit = 5) => {
   if (!currentUser) throw Error('인증이 필요합니다.');
   const postList = await supabase
     .from('posts')
-    .select(`*, fk_user(*)`, { count: 'exact' })
+    .select(`*, posts_user_id_fkey(*)`, { count: 'exact' })
     .eq('user_id', currentUser.id)
     .order('createdAt', { ascending: false })
     .range((page - 1) * limit, page * limit - 1);
 
   return postList;
+};
+
+export const getPostById = async (postId: string) => {
+  const { data: post } = await supabase
+    .from('posts')
+    .select(`*, posts_user_id_fkey(*)`)
+    .eq('id', postId)
+    .single();
+  return post;
 };

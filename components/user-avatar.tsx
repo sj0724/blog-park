@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 type Size = 'sm' | 'md' | 'lg';
 
 interface Props {
-  image: string | null;
+  image?: string | null;
   size: Size;
 }
 
