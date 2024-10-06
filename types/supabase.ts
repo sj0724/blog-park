@@ -96,6 +96,8 @@ export type Database = {
           id: string;
           isRead: boolean;
           user_id: string;
+          owner_id: string;
+          user: SupabaseUser;
         };
         Insert: {
           content: string;
@@ -115,6 +117,13 @@ export type Database = {
           {
             foreignKeyName: 'alarms_user_id_fkey';
             columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'alarms_owner_id_fkey';
+            columns: ['owner_id'];
             isOneToOne: false;
             referencedRelation: 'users';
             referencedColumns: ['id'];
