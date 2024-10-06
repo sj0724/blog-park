@@ -2,7 +2,6 @@ import PostContainer from '@/app/_components/post-container';
 import { getPostList } from '@/app/data/post';
 import Profile from './_components/profile';
 import { Separator } from '@/components/ui/separator';
-import Footer from '@/app/_components/footer';
 import ProfileUserMenu from './_components/profile-user-menu';
 import FollowContainer from './_components/follow-container';
 import LikeContainer from './_components/like-container';
@@ -51,7 +50,6 @@ export default async function Page({
           {menu === 'like' && <LikeContainer />}
         </div>
       </div>
-      <Footer />
     </>
   );
 }

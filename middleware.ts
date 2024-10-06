@@ -7,6 +7,7 @@ const authRoutes = ['/sign-in', '/sign-up'];
 const createRoute = '/post/create';
 
 const editProfileRoute = '/user/edit';
+const alarmRoute = '/alarm';
 
 export default auth(async (req) => {
   const { nextUrl } = req;
@@ -16,6 +17,10 @@ export default auth(async (req) => {
 
   if (isApiAuthRoute) {
     return;
+  }
+
+  if (nextUrl.pathname === alarmRoute && !isLoggedIn) {
+    return NextResponse.redirect(new URL('/sign-in', nextUrl));
   }
 
   if (nextUrl.pathname === editProfileRoute && !isLoggedIn) {
