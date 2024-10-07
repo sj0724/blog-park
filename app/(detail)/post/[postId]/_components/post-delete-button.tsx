@@ -14,11 +14,13 @@ import { Button } from '@/components/ui/button';
 
 interface Props {
   isDelete: () => void;
+  open: boolean;
+  setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function DeleteButton({ isDelete }: Props) {
+export default function DeleteButton({ isDelete, open, setModalOpen }: Props) {
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setModalOpen}>
       <AlertDialogTrigger asChild>
         <Button className='bg-red-500 hover:bg-red-400'>삭제</Button>
       </AlertDialogTrigger>
