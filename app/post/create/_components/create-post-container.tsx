@@ -82,7 +82,7 @@ export default function CreatePostContainer() {
             />
           </div>
           <div className='flex flex-col w-1/2 gap-1'>
-            <div className='flex flex-col min-h-20 justify-center px-3 py-1'>
+            <div className='flex flex-col px-3 py-8'>
               <p className='text-5xl font-semibold'>{title}</p>
             </div>
             <Separator />

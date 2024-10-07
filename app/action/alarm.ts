@@ -1,5 +1,6 @@
 import { ActionType } from '@/type';
 import { supabase } from '@/utils/supabase';
+import { revalidatePath } from 'next/cache';
 
 export const createAlarm = async ({
   content,
@@ -47,6 +48,7 @@ export const toggleAlarm = async (
     const status = await supabase.from('alarms').select('*').eq('id', alarmId);
     if (status.data && status.data[0].isRead) {
       await supabase.from('alarms').update({ isRead: false }).eq('id', alarmId);
+      revalidatePath('/alarm');
 
       return {
         success: true,
@@ -54,6 +56,7 @@ export const toggleAlarm = async (
       };
     } else {
       await supabase.from('alarms').update({ isRead: true }).eq('id', alarmId);
+      revalidatePath('/alarm');
 
       return {
         success: true,
