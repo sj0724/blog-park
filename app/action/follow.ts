@@ -43,7 +43,8 @@ export const toggleFollow = async (
     await createAlarm({
       userId: followingId,
       ownerId: session.id,
-      content: '회원님을 팔로우합니다.',
+      content: '팔로우합니다.',
+      routePath: `/user/${session.id}`,
     });
 
     return {

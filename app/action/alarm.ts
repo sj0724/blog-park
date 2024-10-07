@@ -5,10 +5,12 @@ export const createAlarm = async ({
   content,
   userId,
   ownerId,
+  routePath,
 }: {
   content: string;
   userId: string;
   ownerId: string;
+  routePath: string;
 }): Promise<ActionType<null>> => {
   try {
     const result = await supabase.from('alarms').insert([
@@ -16,6 +18,7 @@ export const createAlarm = async ({
         content,
         user_id: userId, // 알람을 생성할 유저 id
         owner_id: ownerId, // 알람을 생성한 유저 id
+        routePath,
       },
     ]);
 

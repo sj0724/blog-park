@@ -48,7 +48,8 @@ export const createLike = async ({
     await createAlarm({
       userId: createrId,
       ownerId: session.id,
-      content: '게시물에 좋아요를 누르셨습니다.',
+      content: '포스트를 좋아합니다.',
+      routePath: `/post/${postId}`,
     });
 
     if (result.error) {

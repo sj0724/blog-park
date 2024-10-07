@@ -43,7 +43,8 @@ export const createComment = async ({
     await createAlarm({
       userId: createrId,
       ownerId: session.id,
-      content: '회원님 게시물에 댓글을 남겼습니다.',
+      content: '게시물에 댓글을 남겼습니다.',
+      routePath: `/post/${postId}`,
     });
 
     return {
