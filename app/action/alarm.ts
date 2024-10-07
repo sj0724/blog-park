@@ -64,3 +64,28 @@ export const toggleAlarm = async (
     };
   }
 };
+
+export const deleteAlarm = async (
+  alarmId: string
+): Promise<ActionType<null>> => {
+  try {
+    const { error } = await supabase.from('alarms').delete().eq('id', alarmId);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return {
+      success: true,
+      message: '알림을 삭제 했습니다.',
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : '알림 삭제 중 오류가 발생했습니다.',
+    };
+  }
+};

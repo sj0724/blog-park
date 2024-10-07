@@ -8,7 +8,7 @@ export default async function Page() {
   const data = await getMyAlarmList(user.id);
   return (
     <div className='flex flex-col items-center justify-center px-4 py-20 gap-10 relative'>
-      <ul>
+      <ul className='flex flex-col gap-2'>
         {data.alarms.map((item) => (
           <li key={item.id}>
             <AlarmCard
