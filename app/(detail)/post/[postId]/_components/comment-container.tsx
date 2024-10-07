@@ -43,7 +43,7 @@ export default function CommentContainer({
     loadList();
 
     const channel = supabase
-      .channel('*')
+      .channel('comment')
       .on(
         'postgres_changes',
         {

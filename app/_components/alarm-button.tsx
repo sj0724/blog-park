@@ -10,9 +10,11 @@ export default function AlarmButton() {
   const [alarmCount, setAlarmCount] = useState(0);
 
   const settingCount = async () => {
-    const { count } = await getMyalarmCount();
-    if (count) {
-      setAlarmCount(count);
+    const result = await getMyalarmCount();
+    if (result) {
+      setAlarmCount(result);
+    } else {
+      setAlarmCount(0); // count가 0일때 조건 처리
     }
   };
 
@@ -20,7 +22,7 @@ export default function AlarmButton() {
     settingCount();
 
     const channel = supabase
-      .channel('*')
+      .channel('alarm')
       .on(
         'postgres_changes',
         {

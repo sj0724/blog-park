@@ -31,7 +31,5 @@ export const getMyalarmCount = async () => {
     throw new Error(`Error fetching comments: ${error.message}`);
   }
 
-  return {
-    count: count,
-  };
+  return count;
 };
