@@ -23,6 +23,7 @@ export default async function Page({ params }: { params: { postId: string } }) {
       />
       <CommentContainer postId={params.postId} />
       <FloatingContainer
+        createrId={post.user_id}
         postId={params.postId}
         personalStatus={personalStatus}
       />

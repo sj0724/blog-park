@@ -8,13 +8,15 @@ import { toast } from 'sonner';
 export default function LikeButton({
   postId,
   personalStatus,
+  createrId,
 }: {
   postId: string;
   personalStatus: boolean;
+  createrId: string;
 }) {
   const [isLike, setIsLike] = useState(personalStatus);
   const handleLike = async () => {
-    const result = await createLike({ postId });
+    const result = await createLike({ postId, createrId });
     if (result.success) {
       setIsLike(!isLike);
       toast.message(result.message);

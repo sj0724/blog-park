@@ -41,7 +41,7 @@ export default function AlarmCard({
 
   return (
     <div
-      className={`border rounded-lg flex items-center gap-2 py-3 px-5 hover:shadow-lg hover:-translate-y-1 transition-transform ${
+      className={`border rounded-lg flex items-center gap-2 py-3 px-5 shadow-lg hover:-translate-y-1 transition-transform ${
         readAlarm && 'bg-gray-200'
       }`}
     >
