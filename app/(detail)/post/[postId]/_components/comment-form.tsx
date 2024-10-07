@@ -7,18 +7,28 @@ import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import { toast } from 'sonner';
 
-export default function CommentForm({ postId }: { postId: string }) {
+export default function CommentForm({
+  postId,
+  createrId,
+}: {
+  postId: string;
+  createrId: string;
+}) {
   const [content, setContent] = useState('');
   const router = useRouter();
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const formatContent = content.replace(/\n/g, '<br>');
-    const result = await createComment({ postId, content: formatContent });
+    const result = await createComment({
+      postId,
+      content: formatContent,
+      createrId,
+    });
     if (result.success) {
       router.refresh();
+      toast.message(result.message);
     }
-    toast.message(result.message);
   };
 
   return (

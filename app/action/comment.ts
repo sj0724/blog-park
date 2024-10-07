@@ -4,15 +4,18 @@ import { ActionType } from '@/type';
 import { getSessionUserData } from '../data/user';
 import { revalidatePath } from 'next/cache';
 import { supabase } from '@/utils/supabase';
+import { createAlarm } from './alarm';
 
 interface CommentProps {
   content: string;
   postId: string;
+  createrId: string;
 }
 
 export const createComment = async ({
   content,
   postId,
+  createrId,
 }: CommentProps): Promise<ActionType<null>> => {
   const session = await getSessionUserData();
   if (!session)
@@ -36,7 +39,14 @@ export const createComment = async ({
         message: '댓글 생성 실패',
       };
     }
-    revalidatePath(`/post/${postId}`);
+
+    await createAlarm({
+      userId: createrId,
+      ownerId: session.id,
+      content: '게시물에 댓글을 남겼습니다.',
+      routePath: `/post/${postId}`,
+    });
+
     return {
       success: true,
       message: '댓글이 성공적으로 생성되었습니다.',

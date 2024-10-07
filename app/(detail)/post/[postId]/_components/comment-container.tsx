@@ -9,7 +9,13 @@ import { useEffect, useState } from 'react';
 import { Comment } from '@/type';
 import CommentPagination from './comment-pagination';
 
-export default function CommentContainer({ postId }: { postId: string }) {
+export default function CommentContainer({
+  postId,
+  createrId,
+}: {
+  postId: string;
+  createrId: string;
+}) {
   const [page, setPage] = useState(1);
   const [userId, setUserId] = useState('');
   const [commentList, setCommentList] = useState<Comment[]>([]);
@@ -38,7 +44,7 @@ export default function CommentContainer({ postId }: { postId: string }) {
   return (
     <div className='w-full max-w-[800px] gap-2 flex flex-col'>
       <p className='text-xl'>{totalCount}개의 댓글</p>
-      <CommentForm postId={postId} />
+      <CommentForm postId={postId} createrId={createrId} />
       <ul className='flex flex-col gap-3'>
         {commentList.map((comment) => (
           <li key={comment.id}>
