@@ -4,11 +4,14 @@ import { ActionType } from '@/type';
 import { getSessionUserData } from '../data/user';
 import { revalidatePath } from 'next/cache';
 import { supabase } from '@/utils/supabase';
+import { createAlarm } from './alarm';
 
 export const createLike = async ({
   postId,
+  createrId,
 }: {
   postId: string;
+  createrId: string;
 }): Promise<ActionType<null>> => {
   const session = await getSessionUserData();
   if (!session)
@@ -41,6 +44,13 @@ export const createLike = async ({
           post_id: postId, // 좋아요를 달릴 포스트 ID
         },
       ]);
+
+    await createAlarm({
+      userId: createrId,
+      ownerId: session.id,
+      content: '포스트를 좋아합니다.',
+      routePath: `/post/${postId}`,
+    });
 
     if (result.error) {
       return {

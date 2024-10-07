@@ -4,6 +4,7 @@ import { ActionType } from '@/type';
 import { getSessionUserData } from '../data/user';
 import { supabase } from '@/utils/supabase';
 import { revalidatePath } from 'next/cache';
+import { createAlarm } from './alarm';
 
 export const toggleFollow = async (
   followingId: string
@@ -38,6 +39,13 @@ export const toggleFollow = async (
         success: false,
         message: '팔로우에 실패했습니다.',
       };
+
+    await createAlarm({
+      userId: followingId,
+      ownerId: session.id,
+      content: '팔로우합니다.',
+      routePath: `/user/${session.id}`,
+    });
 
     return {
       success: true,

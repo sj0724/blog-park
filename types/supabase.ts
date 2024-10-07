@@ -97,6 +97,7 @@ export type Database = {
           isRead: boolean;
           user_id: string;
           owner_id: string;
+          routePath: string;
           user: SupabaseUser;
         };
         Insert: {
