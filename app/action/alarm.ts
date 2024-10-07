@@ -36,3 +36,31 @@ export const createAlarm = async ({
     };
   }
 };
+
+export const toggleAlarm = async (
+  alarmId: string
+): Promise<ActionType<null>> => {
+  try {
+    const status = await supabase.from('alarms').select('*').eq('id', alarmId);
+    if (status.data && status.data[0].isRead) {
+      await supabase.from('alarms').update({ isRead: false }).eq('id', alarmId);
+
+      return {
+        success: true,
+        message: '알림을 읽지 않음처리 했습니다.',
+      };
+    } else {
+      await supabase.from('alarms').update({ isRead: true }).eq('id', alarmId);
+
+      return {
+        success: true,
+        message: '알림을 읽음 처리 했습니다.',
+      };
+    }
+  } catch {
+    return {
+      success: false,
+      message: '알림 읽음 처리중 오류가 발생했습니다.',
+    };
+  }
+};
