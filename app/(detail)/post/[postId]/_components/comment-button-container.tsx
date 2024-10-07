@@ -5,6 +5,7 @@ import DeleteButton from './post-delete-button';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import { useState } from 'react';
 
 interface Props {
   commentId: string;
@@ -17,9 +18,11 @@ export default function CommentButtonContainer({
   toggleEdit,
   isEdit,
 }: Props) {
+  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const isDeleteCommnet = async () => {
     const result = await deleteComment(commentId);
+    setIsOpen(!isOpen);
     if (result.success) {
       toast.message(result.message);
       router.refresh();
@@ -33,7 +36,11 @@ export default function CommentButtonContainer({
           <Button onClick={toggleEdit} type='button'>
             수정
           </Button>
-          <DeleteButton isDelete={isDeleteCommnet} />
+          <DeleteButton
+            isDelete={isDeleteCommnet}
+            open={isOpen}
+            setModalOpen={setIsOpen}
+          />
         </>
       )}
     </div>

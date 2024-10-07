@@ -36,7 +36,8 @@ export default function AlarmCard({
     const result = await toggleAlarm(id);
     toast.message(result.message);
   };
-  const isDelete = async () => {
+  const isDelete = async (e: MouseEvent) => {
+    e.preventDefault();
     const result = await deleteAlarm(id);
     toast.message(result.message);
     router.refresh();

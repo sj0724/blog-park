@@ -8,6 +8,7 @@ import { getSessionUserData } from '@/app/data/user';
 import { useEffect, useState } from 'react';
 import { Comment } from '@/type';
 import CommentPagination from './comment-pagination';
+import { supabase } from '@/utils/supabase';
 
 export default function CommentContainer({
   postId,
@@ -25,20 +26,40 @@ export default function CommentContainer({
     setPage(page);
   };
 
+  const loadList = async () => {
+    const result = await getCommentList({ page, limit: 5, postId });
+    if (result) {
+      setCommentList(result.comments);
+      setTotalCount(result.totalCount);
+    }
+  };
+
   useEffect(() => {
     const loadUser = async () => {
       const result = await getSessionUserData();
       if (result) setUserId(result.id);
     };
-    const loadList = async () => {
-      const result = await getCommentList({ page, limit: 5, postId });
-      if (result) {
-        setCommentList(result.comments);
-        setTotalCount(result.totalCount);
-      }
-    };
     loadUser();
     loadList();
+
+    const channel = supabase
+      .channel('comment')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'comments',
+        },
+        () => {
+          loadList();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [page, postId]);
 
   return (

@@ -5,7 +5,7 @@ export const getLikeById = async (postId: string) => {
   const result = await supabase
     .from('likes')
     .select(
-      `*,users: fk_like_user (
+      `*,users: likes_user_id_fkey (
         id,
         name,
         email

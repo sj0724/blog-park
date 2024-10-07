@@ -26,6 +26,7 @@ export default function CommentForm({
       createrId,
     });
     if (result.success) {
+      setContent('');
       router.refresh();
       toast.message(result.message);
     }
@@ -37,6 +38,7 @@ export default function CommentForm({
         onChange={(e) => setContent(e.target.value)}
         className='w-full h-28 text-lg'
         placeholder='댓글을 작성해주세요.'
+        value={content}
       />
       <Button type='submit' className='w-20 h-10'>
         등록
