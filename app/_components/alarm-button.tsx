@@ -26,29 +26,7 @@ export default function AlarmButton() {
       .on(
         'postgres_changes',
         {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'alarms',
-        },
-        () => {
-          settingCount();
-        }
-      )
-      .on(
-        'postgres_changes',
-        {
-          event: 'DELETE',
-          schema: 'public',
-          table: 'alarms',
-        },
-        () => {
-          settingCount();
-        }
-      )
-      .on(
-        'postgres_changes',
-        {
-          event: 'UPDATE',
+          event: '*',
           schema: 'public',
           table: 'alarms',
         },
