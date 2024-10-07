@@ -1,7 +1,7 @@
 'use client';
 
 import { Textarea } from '@/components/ui/textarea';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, DragEvent, useState } from 'react';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import rehypeStringify from 'rehype-stringify';
@@ -12,6 +12,8 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import { supabase, supabaseUrl } from '@/utils/supabase';
+import { toast } from 'sonner';
 
 export default function CreatePostContainer() {
   const [markdown, setMarkdown] = useState('');
@@ -33,6 +35,32 @@ export default function CreatePostContainer() {
     setHtmlContent(String(processedHtml));
   };
 
+  const dropImage = async (e: DragEvent) => {
+    e.preventDefault(); // textarea 기본 동작 방지
+    const file = e.dataTransfer.files;
+
+    if (file[0].type.startsWith('image/')) {
+      //이미지 파일 형식 1개만 받음
+      try {
+        const existingFileName = `images/${file[0].name}`;
+        await supabase.storage.from('Blog-Park').remove([existingFileName]); //같은 이름의 파일 있을 경우 삭제
+
+        const { data, error } = await supabase.storage
+          .from('Blog-Park')
+          .upload(existingFileName, file[0]);
+
+        if (error) throw error;
+
+        const imageUrl = `${supabaseUrl}/storage/v1/object/public/${data.fullPath}`;
+        setMarkdown(markdown + `![Image](${imageUrl})\n`); //이미지 url 현재 textarea 후방에 설정
+      } catch (error) {
+        console.error('Error uploading image:', error);
+      }
+    } else {
+      toast.error('이미지만 드래그 앤 드롭할 수 있습니다.');
+    }
+  };
+
   return (
     <div className='flex px-4 py-7 w-screen'>
       <form className='relative w-full'>
@@ -50,6 +78,7 @@ export default function CreatePostContainer() {
               value={markdown}
               onChange={handleMarkdownChange}
               placeholder='작성할 내용을 입력해주세요. 우측에서 미리보기로 확인할 수 있습니다.'
+              onDrop={dropImage}
             />
           </div>
           <div className='flex flex-col w-1/2 gap-1'>
