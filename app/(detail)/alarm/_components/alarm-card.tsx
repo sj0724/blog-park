@@ -3,6 +3,7 @@
 import { toggleAlarm } from '@/app/action/alarm';
 import { UserAvatar } from '@/components/user-avatar';
 import { SupabaseUser } from '@/type';
+import calculateDate from '@/utils/calculateData';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -27,6 +28,7 @@ export default function AlarmCard({
     setReadAlarm(!readAlarm);
     toast.message(result.message);
   };
+  const calculateData = calculateDate(createdAt ? createdAt : '');
 
   return (
     <div
@@ -42,7 +44,7 @@ export default function AlarmCard({
       <div>
         <p>{content}</p>
       </div>
-      <p>{createdAt}</p>
+      <p>{`${calculateData.time}${calculateData.result}전`}</p>
     </div>
   );
 }
