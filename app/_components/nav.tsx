@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getSessionUserData } from '../data/user';
 import NavMenu from './nav-menu';
+import { Bell } from 'lucide-react';
 
 export default async function Nav() {
   const session = await getSessionUserData();
@@ -12,7 +13,10 @@ export default async function Nav() {
           <h1 className='text-5xl font-bold font-sans'>Blog Park</h1>
         </Link>
       </div>
-      <div className='flex text-xl font-bold gap-2 justify-between'>
+      <div className='flex items-center text-xl font-bold gap-6 justify-between'>
+        <Link href={'/alarm'}>
+          <Bell size={25} />
+        </Link>
         <NavMenu userId={session?.id} />
       </div>
     </section>
