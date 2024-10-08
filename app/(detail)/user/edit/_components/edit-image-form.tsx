@@ -8,7 +8,7 @@ import { supabase, supabaseUrl } from '@/utils/supabase';
 import { PlusIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { toast } from 'sonner';
 
 export default function EditImageForm({ image }: { image: string }) {
