@@ -40,9 +40,15 @@ export const authConfig = {
     }),
   ],
   callbacks: {
-    jwt({ token, user }) {
+    jwt({ token, user, trigger, session }) {
       if (user) {
         if (user.id) token.id = user.id;
+      }
+      if (trigger === 'update') {
+        token.name = session.user.name;
+        token.id = session.user.id;
+        token.email = session.user.email;
+        token.picture = session.user.image;
       }
       return token;
     },
