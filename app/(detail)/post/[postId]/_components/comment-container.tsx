@@ -5,7 +5,7 @@ import CommentForm from './comment-form';
 import CommentCard from './comment-card';
 import { Separator } from '@/components/ui/separator';
 import { getSessionUserData } from '@/app/data/user';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Comment } from '@/type';
 import CommentPagination from './comment-pagination';
 import { supabase } from '@/utils/supabase';
@@ -26,13 +26,13 @@ export default function CommentContainer({
     setPage(page);
   };
 
-  const loadList = async () => {
+  const loadList = useCallback(async () => {
     const result = await getCommentList({ page, limit: 5, postId });
     if (result) {
       setCommentList(result.comments);
       setTotalCount(result.totalCount);
     }
-  };
+  }, [page, postId]);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -60,7 +60,7 @@ export default function CommentContainer({
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [page, postId]);
+  }, [loadList, page, postId]);
 
   return (
     <div className='w-full max-w-[800px] gap-2 flex flex-col'>
