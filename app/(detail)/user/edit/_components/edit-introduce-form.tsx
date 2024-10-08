@@ -13,7 +13,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -34,7 +33,6 @@ export default function EditIntroductionForm({
 }: {
   introduction: string;
 }) {
-  const { data: session, update } = useSession();
   const router = useRouter();
   const form = useForm<EditIntroductionSchemaType>({
     resolver: zodResolver(EditIntroductionSchema),
@@ -47,10 +45,6 @@ export default function EditIntroductionForm({
   const onSubmit = async (values: EditIntroductionSchemaType) => {
     const result = await editIntroduce(values.introduction);
     if (result.success) {
-      update({
-        ...session,
-        user: { ...session?.user, introduction: values.introduction },
-      });
       toast.message(result.message);
       router.refresh();
     }

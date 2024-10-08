@@ -15,7 +15,7 @@ export default async function Page() {
       <div className='flex flex-col'>
         <EditImageForm image={session.image ? session.image : ''} />
         <EditNameForm name={session.name} />
-        <EditEmailorm email={user.email ? user.email : ''} />
+        <EditEmailorm email={session.email ? session.email : ''} />
         <EditIntroductionForm
           introduction={user.introduction ? user.introduction : ''}
         />
