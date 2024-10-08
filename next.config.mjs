@@ -6,15 +6,21 @@ const nextConfig = {
   // Configure `pageExtensions`` to include MDX files
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   // Optionally, add any other Next.js config below
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**', // 모든 호스트를 허용
+      },
+    ],
+  },
 };
 
 const withMDX = createMDX({
-  // Add markdown plugins here, as desired
   options: {
     remarkPlugins: [remarkGfm],
     rehypePlugins: [],
   },
 });
 
-// Wrap MDX and Next.js config with each other
 export default withMDX(nextConfig);

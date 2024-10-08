@@ -5,6 +5,7 @@ import PostButtonContainer from './post-button-container';
 import Link from 'next/link';
 import { Heart } from 'lucide-react';
 import { SupabaseUser } from '@/type';
+import MarkdownComponent from '@/components/Markdown';
 
 interface Props {
   title: string;
@@ -47,7 +48,7 @@ export default async function PostContents({
           )}
         </div>
       </div>
-      <div dangerouslySetInnerHTML={{ __html: contents }} className='prose' />
+      <MarkdownComponent markdownText={contents} />
     </div>
   );
 }
