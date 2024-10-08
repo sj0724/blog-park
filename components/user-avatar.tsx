@@ -1,4 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import Spinner from './spinner';
+import { CircleUser } from 'lucide-react';
 
 type Size = 'sm' | 'md' | 'lg';
 
@@ -17,7 +19,9 @@ export function UserAvatar({ image, size }: Props) {
   return (
     <Avatar className={avatarSize[size]}>
       <AvatarImage src={image ? image : ''} alt='프로필이미지' />
-      <AvatarFallback>CN</AvatarFallback>
+      <AvatarFallback>
+        {image ? <Spinner /> : <CircleUser size={30} />}
+      </AvatarFallback>
     </Avatar>
   );
 }
