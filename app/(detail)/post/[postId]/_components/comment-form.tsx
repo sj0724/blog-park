@@ -3,19 +3,20 @@
 import { createComment } from '@/app/action/comment';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { useRouter } from 'next/navigation';
+import { Comment } from '@/type';
 import { FormEvent, useState } from 'react';
 import { toast } from 'sonner';
 
 export default function CommentForm({
   postId,
   createrId,
+  updateList,
 }: {
   postId: string;
   createrId: string;
+  updateList: (comment: Comment) => void;
 }) {
   const [content, setContent] = useState('');
-  const router = useRouter();
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -25,10 +26,10 @@ export default function CommentForm({
       content: formatContent,
       createrId,
     });
-    if (result.success) {
+    if (result.success && result.data) {
       setContent('');
-      router.refresh();
       toast.message(result.message);
+      updateList(result.data);
     }
   };
 

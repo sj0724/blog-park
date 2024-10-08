@@ -8,7 +8,6 @@ import { getSessionUserData } from '@/app/data/user';
 import { useCallback, useEffect, useState } from 'react';
 import { Comment } from '@/type';
 import CommentPagination from './comment-pagination';
-import { supabase } from '@/utils/supabase';
 
 export default function CommentContainer({
   postId,
@@ -20,17 +19,31 @@ export default function CommentContainer({
   const [page, setPage] = useState(1);
   const [userId, setUserId] = useState('');
   const [commentList, setCommentList] = useState<Comment[]>([]);
-  const [totalCount, setTotalCount] = useState<number | null>(0);
+  const [totalCount, setTotalCount] = useState(0);
 
   const handlePagination = (page: number) => {
     setPage(page);
+  };
+
+  const updateList = (comment: Comment) => {
+    if (page === 1) {
+      if (commentList.length === 5) {
+        const popList = commentList.slice(0, -1);
+        setCommentList([comment, ...popList]);
+      } else {
+        setCommentList([comment, ...commentList]);
+      }
+      setTotalCount((prev) => prev + 1);
+    } else {
+      setPage(1);
+    }
   };
 
   const loadList = useCallback(async () => {
     const result = await getCommentList({ page, limit: 5, postId });
     if (result) {
       setCommentList(result.comments);
-      setTotalCount(result.totalCount);
+      setTotalCount(result.totalCount ? result.totalCount : 0);
     }
   }, [page, postId]);
 
@@ -41,31 +54,16 @@ export default function CommentContainer({
     };
     loadUser();
     loadList();
-
-    const channel = supabase
-      .channel('comment')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'comments',
-        },
-        () => {
-          loadList();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [loadList, page, postId]);
+  }, [loadList, postId, page]);
 
   return (
     <div className='w-full max-w-[800px] gap-2 flex flex-col'>
       <p className='text-xl'>{totalCount}개의 댓글</p>
-      <CommentForm postId={postId} createrId={createrId} />
+      <CommentForm
+        postId={postId}
+        createrId={createrId}
+        updateList={updateList}
+      />
       <ul className='flex flex-col gap-3'>
         {commentList.map((comment) => (
           <li key={comment.id}>
