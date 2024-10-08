@@ -13,6 +13,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -29,6 +30,7 @@ const EditNameSchema = z.object({
 export type EditNameSchemaType = z.infer<typeof EditNameSchema>;
 
 export default function EditNameForm({ name }: { name: string }) {
+  const { data: session, update } = useSession();
   const router = useRouter();
   const form = useForm<EditNameSchemaType>({
     resolver: zodResolver(EditNameSchema),
@@ -41,6 +43,10 @@ export default function EditNameForm({ name }: { name: string }) {
   const onSubmit = async (values: EditNameSchemaType) => {
     const result = await editName(values.name);
     if (result.success) {
+      update({
+        ...session,
+        user: { ...session?.user, name: values.name },
+      });
       toast.message(result.message);
       router.refresh();
     }

@@ -6,11 +6,13 @@ import { Label } from '@/components/ui/label';
 import { UserAvatar } from '@/components/user-avatar';
 import { supabase, supabaseUrl } from '@/utils/supabase';
 import { PlusIcon } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 export default function EditImageForm({ image }: { image: string }) {
+  const { data: session, update } = useSession();
   const [userImage, setUserImage] = useState(image);
   const router = useRouter();
 
@@ -60,6 +62,10 @@ export default function EditImageForm({ image }: { image: string }) {
   const onSubmit = async () => {
     const result = await editImage(userImage);
     toast.message(result.message);
+    update({
+      ...session,
+      user: { ...session?.user, image: userImage },
+    });
     router.refresh();
   };
 

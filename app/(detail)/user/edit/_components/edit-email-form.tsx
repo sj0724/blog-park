@@ -13,6 +13,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -26,6 +27,7 @@ const EditEmailSchema = z.object({
 export type EditEmailSchemaType = z.infer<typeof EditEmailSchema>;
 
 export default function EditEmailForm({ email }: { email: string }) {
+  const { data: session, update } = useSession();
   const router = useRouter();
   const form = useForm<EditEmailSchemaType>({
     resolver: zodResolver(EditEmailSchema),
@@ -38,6 +40,10 @@ export default function EditEmailForm({ email }: { email: string }) {
   const onSubmit = async (values: EditEmailSchemaType) => {
     const result = await editEmail(values.email);
     if (result.success) {
+      update({
+        ...session,
+        user: { ...session?.user, email: values.email },
+      });
       toast.message(result.message);
       router.refresh();
     }
