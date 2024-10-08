@@ -15,14 +15,14 @@ export default function MarkdownComponent({
         img: (props) => (
           <Image
             src={props.src ? props.src : ''}
-            alt={props.alt ? props.alt : ''}
+            alt='포스트 이미지'
             width={1200}
             height={200}
           />
         ),
       }}
     >
-      {markdownText.replace(/\n/g, '\n\n')}
+      {markdownText}
     </ReactMarkdown>
   );
 }
