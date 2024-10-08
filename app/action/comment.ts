@@ -1,6 +1,6 @@
 'use server';
 
-import { ActionType } from '@/type';
+import { ActionType, Comment } from '@/type';
 import { getSessionUserData } from '../data/user';
 import { revalidatePath } from 'next/cache';
 import { supabase } from '@/utils/supabase';
@@ -16,7 +16,7 @@ export const createComment = async ({
   content,
   postId,
   createrId,
-}: CommentProps): Promise<ActionType<null>> => {
+}: CommentProps): Promise<ActionType<Comment | null>> => {
   const session = await getSessionUserData();
   if (!session)
     return {
@@ -25,13 +25,17 @@ export const createComment = async ({
     };
 
   try {
-    const result = await supabase.from('comments').insert([
-      {
-        content,
-        user_id: session.id,
-        post_id: postId,
-      },
-    ]);
+    const result = await supabase
+      .from('comments')
+      .insert([
+        {
+          content,
+          user_id: session.id,
+          post_id: postId,
+        },
+      ])
+      .select('*, user:comments_user_id_fkey(*)')
+      .single();
 
     if (result.error) {
       return {
@@ -50,6 +54,7 @@ export const createComment = async ({
     return {
       success: true,
       message: '댓글이 성공적으로 생성되었습니다.',
+      data: result.data,
     };
   } catch (error) {
     console.error('댓글 생성 중 에러:', error);

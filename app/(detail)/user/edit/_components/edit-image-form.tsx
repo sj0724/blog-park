@@ -6,13 +6,11 @@ import { Label } from '@/components/ui/label';
 import { UserAvatar } from '@/components/user-avatar';
 import { supabase, supabaseUrl } from '@/utils/supabase';
 import { PlusIcon } from 'lucide-react';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
 import { toast } from 'sonner';
 
 export default function EditImageForm({ image }: { image: string }) {
-  const { data: session, update } = useSession();
   const [userImage, setUserImage] = useState(image);
   const router = useRouter();
 
@@ -62,10 +60,6 @@ export default function EditImageForm({ image }: { image: string }) {
   const onSubmit = async () => {
     const result = await editImage(userImage);
     toast.message(result.message);
-    update({
-      ...session,
-      user: { ...session?.user, image: userImage },
-    });
     router.refresh();
   };
 
@@ -73,7 +67,7 @@ export default function EditImageForm({ image }: { image: string }) {
     <div className='flex flex-col items-center gap-4'>
       <div className='relative'>
         <UserAvatar image={userImage} size='lg' />
-        <Label className='absolute bottom-3 -right-2 rounded-full bg-blue-500'>
+        <Label className='absolute bottom-3 -right-2 rounded-full bg-blue-500 cursor-pointer z-10'>
           <PlusIcon size={40} color='white' />
           <input type='file' className='hidden' onChange={isEdit} />
         </Label>
