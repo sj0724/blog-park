@@ -1,3 +1,4 @@
+import MarkdownComponent from '@/components/Markdown';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { SupabaseUser } from '@/type';
 import formatDateRange from '@/utils/formatData';
@@ -33,10 +34,9 @@ export default function PostCard({
         </CardHeader>
         <CardContent className='flex flex-col h-full'>
           <div className='flex flex-col justify-center h-full'>
-            <div
-              dangerouslySetInnerHTML={{ __html: summation }}
-              className='text-sm text-gray-600'
-            ></div>
+            <div className='text-sm text-gray-600'>
+              <MarkdownComponent markdownText={summation} />
+            </div>
           </div>
           <div className='flex justify-between items-center h-5'>
             <p className='text-sm font-semibold'>{formatDate}</p>
