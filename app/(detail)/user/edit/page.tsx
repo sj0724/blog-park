@@ -13,9 +13,9 @@ export default async function Page() {
     <div className='flex flex-col justify-center gap-4 w-[400px] h-[calc(100vh-80px)]'>
       <h1 className='text-2xl font-bold'>내 정보 수정</h1>
       <div className='flex flex-col'>
-        <EditImageForm image={session.image ? session.image : ''} />
-        <EditNameForm name={session.name} />
-        <EditEmailorm email={session.email ? session.email : ''} />
+        <EditImageForm image={user.image ? user.image : ''} />
+        <EditNameForm name={user.name ? user.name : ''} />
+        <EditEmailorm email={user.email ? user.email : ''} />
         <EditIntroductionForm
           introduction={user.introduction ? user.introduction : ''}
         />
