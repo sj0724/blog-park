@@ -5,6 +5,7 @@ import { Comment } from '@/type';
 import CommentButtonContainer from './comment-button-container';
 import { useState } from 'react';
 import CommentEditForm from './comment-edit-form';
+import MarkdownComponent from '@/components/Markdown';
 
 interface Props {
   comment: Comment;
@@ -42,7 +43,7 @@ export default function CommentCard({ comment, userId, postId }: Props) {
           commentId={comment.id}
         />
       ) : (
-        <div dangerouslySetInnerHTML={{ __html: comment.content }}></div>
+        <MarkdownComponent markdownText={comment.content} />
       )}
     </div>
   );

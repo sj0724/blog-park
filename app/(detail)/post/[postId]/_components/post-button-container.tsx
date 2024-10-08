@@ -16,7 +16,7 @@ export default function PostButtonContainer({ postId }: { postId: string }) {
     if (result.success) {
       setIsOpen(!isOpen);
       toast.message(result.message);
-      router.replace('/post/list');
+      router.replace('/');
     }
   };
 

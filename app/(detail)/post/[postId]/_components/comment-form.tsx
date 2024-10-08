@@ -19,7 +19,7 @@ export default function CommentForm({
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const formatContent = content.replace(/\n/g, '<br>');
+    const formatContent = content.replace(/\n/g, '\n\n');
     const result = await createComment({
       postId,
       content: formatContent,
