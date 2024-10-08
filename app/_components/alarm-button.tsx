@@ -6,7 +6,7 @@ import { getMyalarmCount } from '../data/alarm';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/utils/supabase';
 
-export default function AlarmButton() {
+export default function AlarmButton({ userId }: { userId?: string }) {
   const [alarmCount, setAlarmCount] = useState(0);
 
   const settingCount = async () => {
@@ -19,7 +19,9 @@ export default function AlarmButton() {
   };
 
   useEffect(() => {
-    settingCount();
+    if (userId) {
+      settingCount();
+    }
 
     const channel = supabase
       .channel('alarm')
@@ -39,7 +41,7 @@ export default function AlarmButton() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [userId]);
 
   return (
     <Link href={'/alarm'}>
