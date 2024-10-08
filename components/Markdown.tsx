@@ -22,7 +22,7 @@ export default function MarkdownComponent({
         ),
       }}
     >
-      {markdownText}
+      {markdownText.replace(/\n/g, '\n\n')}
     </ReactMarkdown>
   );
 }
