@@ -16,7 +16,7 @@ export default async function Home({
   if (!postList) return <div>포스트 없음</div>;
 
   return (
-    <div className='flex flex-col max-w-screen items-center py-12'>
+    <div className='flex flex-col max-w-screen items-center py-12 px-5'>
       <PostContainer list={postList} title='전체 리스트' />
       <div className='py-4 flex justify-center'>
         <Pagination

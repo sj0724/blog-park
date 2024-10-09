@@ -12,7 +12,7 @@ export default async function Page({ params }: { params: { postId: string } }) {
   const personalStatus = await getMyLikeByPostId({ postId: params.postId });
 
   return (
-    <div className='flex flex-col items-center justify-center px-4 py-20 gap-10 relative'>
+    <div className='flex flex-col items-center justify-center px-5 py-20 gap-10 relative'>
       <PostContents
         postId={params.postId}
         contents={post.content}
@@ -20,9 +20,12 @@ export default async function Page({ params }: { params: { postId: string } }) {
         title={post.title}
         user={post.posts_user_id_fkey}
         totalLike={count ? count : 0}
+        createrId={post.user_id}
+        personalStatus={personalStatus}
       />
       <CommentContainer postId={params.postId} createrId={post.user_id} />
       <FloatingContainer
+        totalLike={count ? count : 0}
         createrId={post.user_id}
         postId={params.postId}
         personalStatus={personalStatus}

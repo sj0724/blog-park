@@ -4,7 +4,6 @@ import { deleteComment } from '@/app/action/comment';
 import DeleteButton from './post-delete-button';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 
 interface Props {
@@ -33,9 +32,9 @@ export default function CommentButtonContainer({
     <div className='flex gap-2'>
       {!isEdit && (
         <>
-          <Button onClick={toggleEdit} type='button'>
+          <div onClick={toggleEdit} className='text-gray-400 cursor-pointer'>
             수정
-          </Button>
+          </div>
           <DeleteButton
             isDelete={isDeleteCommnet}
             open={isOpen}

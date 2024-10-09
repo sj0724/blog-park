@@ -22,7 +22,7 @@ export default function DeleteButton({ isDelete, open, setModalOpen }: Props) {
   return (
     <AlertDialog open={open} onOpenChange={setModalOpen}>
       <AlertDialogTrigger asChild>
-        <Button className='bg-red-500 hover:bg-red-400'>삭제</Button>
+        <p className='h-fit cursor-pointer text-gray-400'>삭제</p>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

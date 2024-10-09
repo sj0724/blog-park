@@ -46,26 +46,30 @@ export default function AlarmCard({
   return (
     <Link href={link}>
       <div
-        className={`border rounded-lg flex items-center gap-1 py-3 px-5 shadow-lg hover:-translate-y-1 transition-transform w-[600px] ${
+        className={`border rounded-lg flex flex-col py-3 px-5 shadow-lg hover:-translate-y-1 transition-transform w-full ${
           readAlarm && 'bg-gray-200'
         }`}
       >
-        <div className='flex items-center gap-2 text-sm'>
-          <UserAvatar image={user.image} size='sm' />
-          <div className='flex items-center'>
-            <p className='font-semibold text-nowrap'>{user.name}</p>
-            <p className='text-nowrap'>님이</p>
+        <div className='flex gap-1'>
+          <div className='flex items-center gap-2 text-sm'>
+            <UserAvatar image={user.image} size='sm' />
+            <div className='flex items-center'>
+              <p className='font-semibold text-nowrap'>{user.name}</p>
+              <p className='text-nowrap'>님이</p>
+            </div>
+          </div>
+          <div className='flex items-center gap-1 text-sm w-full'>
+            <p className='text-nowrap'>{content}</p>
+            <p className='text-nowrap text-xs text-gray-400'>{`${calculateData.time}${calculateData.result}전`}</p>
           </div>
         </div>
-        <div className='flex items-center gap-1 w-full text-sm'>
-          <p>{content}</p>
-          <p className='text-nowrap text-xs text-gray-400'>{`${calculateData.time}${calculateData.result}전`}</p>
-        </div>
-        <div className='flex items-center gap-2'>
-          <div onClick={handleRead} className='cursor-pointer'>
-            {readAlarm ? <CircleCheckBig size={20} /> : <Circle size={20} />}
+        <div className='flex justify-end w-full'>
+          <div className='flex items-center gap-2'>
+            <div onClick={handleRead} className='cursor-pointer'>
+              {readAlarm ? <CircleCheckBig size={20} /> : <Circle size={20} />}
+            </div>
+            <X size={20} onClick={isDelete} className='cursor-pointer' />
           </div>
-          <X size={20} onClick={isDelete} className='cursor-pointer' />
         </div>
       </div>
     </Link>

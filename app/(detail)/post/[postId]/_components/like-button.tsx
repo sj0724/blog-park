@@ -9,10 +9,12 @@ export default function LikeButton({
   postId,
   personalStatus,
   createrId,
+  size,
 }: {
   postId: string;
   personalStatus: boolean;
   createrId: string;
+  size: number;
 }) {
   const [isLike, setIsLike] = useState(personalStatus);
   const handleLike = async () => {
@@ -26,10 +28,10 @@ export default function LikeButton({
   };
 
   return (
-    <div className='shadow-md border rounded-full p-2'>
+    <>
       {isLike ? (
         <Heart
-          size={30}
+          size={size}
           fill='red'
           stroke='red'
           className='cursor-pointer'
@@ -37,12 +39,12 @@ export default function LikeButton({
         />
       ) : (
         <Heart
-          size={30}
+          size={size}
           fill='white'
           className='cursor-pointer'
           onClick={handleLike}
         />
       )}
-    </div>
+    </>
   );
 }

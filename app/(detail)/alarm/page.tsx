@@ -6,7 +6,7 @@ export default async function Page() {
   const user = await getSessionUserData();
   const data = await getMyAlarmList(user!.id);
   return (
-    <div className='flex flex-col min-h-[calc(100vh-80px-112px)] pb-5'>
+    <div className='flex flex-col min-h-[calc(100vh-80px-112px)] pb-5 px-5 w-full max-w-[600px]'>
       <h1 className='text-2xl font-bold py-5'>알림 목록</h1>
       <div className='flex flex-col items-center justify-center gap-10 relative'>
         {data.alarms.length === 0 ? (
@@ -19,7 +19,7 @@ export default async function Page() {
             </div>
           </div>
         ) : (
-          <ul className='flex flex-col gap-3'>
+          <ul className='flex flex-col gap-3 w-full'>
             {data.alarms.map((item) => (
               <li key={item.id}>
                 <AlarmCard

@@ -37,15 +37,15 @@ const nonMemberMenu: { title: string; href: string }[] = [
 
 export default function NavMenu({ userId }: { userId?: string }) {
   return (
-    <NavigationMenu>
-      <NavigationMenuList className='flex gap-2'>
+    <NavigationMenu className='lg:text-lg text-base'>
+      <NavigationMenuList className='flex'>
         <NavigationMenuItem>
           <Link href='/post/create'>
-            <p className='text-lg'>작성하기</p>
+            <p className='text-nowrap'>작성하기</p>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className='text-lg font-bold'>
+          <NavigationMenuTrigger className='lg:text-lg text-base font-bold'>
             내 메뉴
           </NavigationMenuTrigger>
           <NavigationMenuContent>
