@@ -46,7 +46,7 @@ export default function CreatePostContainer() {
     <div className='flex px-4 py-7 w-screen'>
       <form className='relative w-full'>
         <div className='flex w-full gap-4 h-full'>
-          <div className='flex flex-col w-1/2 gap-2 h-full'>
+          <div className='flex flex-col w-full sm:w-1/2 gap-2 h-full'>
             <div className='min-h-20'>
               <Input
                 className='text-5xl font-semibold h-full'
@@ -62,7 +62,7 @@ export default function CreatePostContainer() {
               onDrop={dropImage}
             />
           </div>
-          <div className='flex flex-col w-1/2 gap-1'>
+          <div className='sm:flex hidden flex-col w-1/2 gap-1'>
             <div className='flex flex-col px-3 py-8'>
               <p className='text-5xl font-semibold'>{title}</p>
             </div>

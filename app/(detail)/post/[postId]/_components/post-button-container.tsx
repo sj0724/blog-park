@@ -5,7 +5,6 @@ import { deletePost } from '@/app/action/post';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import DeleteButton from './post-delete-button';
-import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 
 export default function PostButtonContainer({ postId }: { postId: string }) {
@@ -21,9 +20,9 @@ export default function PostButtonContainer({ postId }: { postId: string }) {
   };
 
   return (
-    <div className='flex gap-2'>
-      <Link href={`/post/edit/${postId}`}>
-        <Button type='button'>수정</Button>
+    <div className='flex gap-2 h-fit'>
+      <Link href={`/post/edit/${postId}`} className='h-fit'>
+        <p className='text-gray-400'>수정</p>
       </Link>
       <DeleteButton
         isDelete={isDeletePost}
