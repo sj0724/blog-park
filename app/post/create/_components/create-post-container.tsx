@@ -1,7 +1,7 @@
 'use client';
 
 import { Textarea } from '@/components/ui/textarea';
-import { DragEvent, useState } from 'react';
+import { DragEvent, useRef, useState } from 'react';
 import { CreatPostDialog } from './creat-post-dialog';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
@@ -10,11 +10,14 @@ import { useRouter } from 'next/navigation';
 import { supabase, supabaseUrl } from '@/utils/supabase';
 import { toast } from 'sonner';
 import MarkdownComponent from '@/components/Markdown';
+import ToolBar from './toolbar';
+import generateSafeFileName from '@/utils/encodingName';
 
 export default function CreatePostContainer() {
   const [markdown, setMarkdown] = useState('');
   const [title, setTitle] = useState('');
   const router = useRouter();
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const dropImage = async (e: DragEvent) => {
     e.preventDefault(); // textarea 기본 동작 방지
@@ -23,7 +26,7 @@ export default function CreatePostContainer() {
     if (file[0].type.startsWith('image/')) {
       //이미지 파일 형식 1개만 받음
       try {
-        const existingFileName = `images/${file[0].name}`;
+        const existingFileName = `images/${generateSafeFileName(file[0].name)}`;
         await supabase.storage.from('Blog-Park').remove([existingFileName]); //같은 이름의 파일 있을 경우 삭제
 
         const { data, error } = await supabase.storage
@@ -42,6 +45,30 @@ export default function CreatePostContainer() {
     }
   };
 
+  const addMarkDown = (newMarkdown: string) => {
+    const textarea = textareaRef.current;
+    if (textarea !== null) {
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+
+      // 기존 텍스트 가져오기
+      const currentValue = textarea.value;
+
+      // 새로운 텍스트 설정
+      textarea.value = `${currentValue.slice(
+        0,
+        start
+      )}${newMarkdown}${currentValue.slice(end)}`;
+
+      // 커서를 새로운 위치로 이동
+      textarea.selectionStart = textarea.selectionEnd =
+        start + newMarkdown.length;
+
+      // 텍스트 영역 포커스 유지
+      textarea.focus();
+    }
+  };
+
   return (
     <div className='flex px-4 py-7 w-screen'>
       <form className='relative w-full'>
@@ -49,22 +76,25 @@ export default function CreatePostContainer() {
           <div className='flex flex-col w-full sm:w-1/2 gap-2 h-full'>
             <div className='min-h-20'>
               <Input
-                className='text-5xl font-semibold h-full'
+                className='text-3xl lg:text-5xl font-semibold h-full'
                 placeholder='제목을 입력하세요.'
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
+            <ToolBar onClick={addMarkDown} />
             <Textarea
               className='w-full h-full text-lg'
               value={markdown}
               onChange={(e) => setMarkdown(e.target.value)}
               placeholder='작성할 내용을 입력해주세요. 우측에서 미리보기로 확인할 수 있습니다.'
               onDrop={dropImage}
+              onDragOver={(e) => e.preventDefault()}
+              ref={textareaRef}
             />
           </div>
           <div className='sm:flex hidden flex-col w-1/2 gap-1'>
             <div className='flex flex-col px-3 py-8'>
-              <p className='text-5xl font-semibold'>{title}</p>
+              <p className='text-5xl font-semibold break-words'>{title}</p>
             </div>
             <Separator />
             <div className='prose flex flex-col w-full h-full overflow-y-scroll px-3 py-2'>
