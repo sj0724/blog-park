@@ -39,44 +39,47 @@ export const authConfig = {
     }),
   ],
   callbacks: {
-    signIn: async ({ user }) => {
-      try {
-        const supabaseUser = await supabase // supabase에서 email같은 유저 찾기
-          .from('users')
-          .select('*')
-          .eq('email', user.email!)
-          .single();
-
-        if (!supabaseUser.data) {
-          const hashRandomPassword = hashPassword(
-            String(Math.floor(10000000 + Math.random() * 90000000)) // password 8자리 랜덤 생성
-          );
-          const { data: newUser } = await supabase
+    signIn: async ({ user, account }) => {
+      if (account?.provider === 'github') {
+        try {
+          const supabaseUser = await supabase // supabase에서 email같은 유저 찾기
             .from('users')
-            .insert([
-              // OAuth로 로그인한 계정 supabase 데이터 생성
-              {
-                name: user.name,
-                image: user.image,
-                email: user.email,
-                introduction: '',
-                password: hashRandomPassword,
-              },
-            ])
             .select('*')
+            .eq('email', user.email!)
             .single();
 
-          user.id = newUser!.id; // 생성한 유저 id값 세션 id로 지정
+          if (!supabaseUser.data) {
+            const hashRandomPassword = hashPassword(
+              String(Math.floor(10000000 + Math.random() * 90000000)) // password 8자리 랜덤 생성
+            );
+            const { data: newUser } = await supabase
+              .from('users')
+              .insert([
+                // OAuth로 로그인한 계정 supabase 데이터 생성
+                {
+                  name: user.name,
+                  image: user.image,
+                  email: user.email,
+                  introduction: '',
+                  password: hashRandomPassword,
+                },
+              ])
+              .select('*')
+              .single();
+
+            user.id = newUser!.id; // 생성한 유저 id값 세션 id로 지정
+            user.Oauth = true;
+            return true;
+          }
+          user.id = supabaseUser.data.id; // OAuth로 로그인한 유저 id값 db id로 변경
           user.Oauth = true;
           return true;
+        } catch {
+          console.log('로그인 도중 에러가 발생했습니다. ');
+          return false;
         }
-        user.id = supabaseUser.data.id; // OAuth로 로그인한 유저 id값 db id로 변경
-        user.Oauth = true;
-        return true;
-      } catch {
-        console.log('로그인 도중 에러가 발생했습니다. ');
-        return false;
       }
+      return true;
     },
     jwt({ token, user }) {
       if (user) {
@@ -88,6 +91,7 @@ export const authConfig = {
     session({ session, token }) {
       session.user.id = token.id;
       session.user.Oauth = token.Oauth;
+      console.log(session);
       return session;
     },
   },
