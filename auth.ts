@@ -30,7 +30,8 @@ export const authConfig = {
           const passwordsMatch = verifyPassword(password, user.password);
 
           if (!passwordsMatch) return null;
-          return user;
+
+          return { ...user, Oauth: false };
         } catch {
           return null;
         }
@@ -66,10 +67,11 @@ export const authConfig = {
             .single();
 
           user.id = newUser!.id; // 생성한 유저 id값 세션 id로 지정
-
+          user.Oauth = true;
           return true;
         }
         user.id = supabaseUser.data.id; // OAuth로 로그인한 유저 id값 db id로 변경
+        user.Oauth = true;
         return true;
       } catch {
         console.log('로그인 도중 에러가 발생했습니다. ');
@@ -78,12 +80,14 @@ export const authConfig = {
     },
     jwt({ token, user }) {
       if (user) {
-        if (user.id) token.id = user.id;
+        token.id = user.id!;
+        token.Oauth = user.Oauth;
       }
       return token;
     },
     session({ session, token }) {
       session.user.id = token.id;
+      session.user.Oauth = token.Oauth;
       return session;
     },
   },
