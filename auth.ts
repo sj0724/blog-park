@@ -91,7 +91,6 @@ export const authConfig = {
     session({ session, token }) {
       session.user.id = token.id;
       session.user.Oauth = token.Oauth;
-      console.log(session);
       return session;
     },
   },
