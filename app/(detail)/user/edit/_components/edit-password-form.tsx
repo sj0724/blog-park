@@ -23,7 +23,7 @@ import { z } from 'zod';
 
 export type EditPasswordSchemaType = z.infer<typeof EditPasswordSchema>;
 
-export default function EditPasswordForm() {
+export default function EditPasswordForm({ Oauth }: { Oauth: boolean }) {
   const [isEdit, setIsEdit] = useState(false);
   const router = useRouter();
   const form = useForm<EditPasswordSchemaType>({
@@ -99,7 +99,7 @@ export default function EditPasswordForm() {
           <p>비밀번호</p>
           <div className='flex gap-3'>
             <Input disabled value='********' className='w-full' />
-            <Button type='button' onClick={toggleIsEdit}>
+            <Button type='button' onClick={toggleIsEdit} disabled={Oauth}>
               수정
             </Button>
           </div>

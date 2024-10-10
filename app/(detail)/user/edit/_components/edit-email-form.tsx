@@ -25,7 +25,13 @@ const EditEmailSchema = z.object({
 
 export type EditEmailSchemaType = z.infer<typeof EditEmailSchema>;
 
-export default function EditEmailForm({ email }: { email: string }) {
+export default function EditEmailForm({
+  email,
+  Oauth,
+}: {
+  email: string;
+  Oauth: boolean;
+}) {
   const router = useRouter();
   const form = useForm<EditEmailSchemaType>({
     resolver: zodResolver(EditEmailSchema),
@@ -57,6 +63,7 @@ export default function EditEmailForm({ email }: { email: string }) {
               <FormLabel className='text-base'>이메일</FormLabel>
               <FormControl>
                 <Input
+                  disabled={Oauth}
                   type='text'
                   placeholder='이메일을 입력해 주세요.'
                   className={cn(

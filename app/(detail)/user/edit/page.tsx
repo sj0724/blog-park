@@ -15,11 +15,14 @@ export default async function Page() {
       <div className='flex flex-col'>
         <EditImageForm image={user.image ? user.image : ''} />
         <EditNameForm name={user.name ? user.name : ''} />
-        <EditEmailorm email={user.email ? user.email : ''} />
+        <EditEmailorm
+          email={user.email ? user.email : ''}
+          Oauth={session.Oauth}
+        />
         <EditIntroductionForm
           introduction={user.introduction ? user.introduction : ''}
         />
-        <EditPasswordForm />
+        <EditPasswordForm Oauth={session.Oauth} />
       </div>
     </div>
   );
