@@ -17,8 +17,9 @@ export default function MarkdownComponent({
           <Image
             src={props.src ? props.src : ''}
             alt={props.alt ? props.alt : '포스트 이미지'}
-            width={1200}
-            height={200}
+            height={500}
+            width={200}
+            layout='responsive'
           />
         ),
         a: (props) => (
