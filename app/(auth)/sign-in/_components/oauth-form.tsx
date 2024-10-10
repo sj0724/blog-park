@@ -10,7 +10,7 @@ export default function OAuthForm() {
         await signIn('github');
       }}
     >
-      <Button type='submit'>
+      <Button type='submit' className='w-full'>
         <GitHubLogoIcon width={30} height={30} />
       </Button>
     </form>
