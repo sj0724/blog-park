@@ -1,12 +1,14 @@
 /* eslint-disable no-param-reassign */
 import NextAuth, { NextAuthConfig } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
-import { verifyPassword } from './lib/utils';
+import { hashPassword, verifyPassword } from './lib/utils';
 import { LoginSchema } from './schema';
 import { supabase } from './utils/supabase';
+import GitHub from 'next-auth/providers/github';
 
 export const authConfig = {
   providers: [
+    GitHub, // 깃허브 provider추가
     Credentials({
       credentials: {
         email: {},
@@ -36,6 +38,44 @@ export const authConfig = {
     }),
   ],
   callbacks: {
+    signIn: async ({ user }) => {
+      try {
+        const supabaseUser = await supabase // supabase에서 email같은 유저 찾기
+          .from('users')
+          .select('*')
+          .eq('email', user.email!)
+          .single();
+
+        if (!supabaseUser.data) {
+          const hashRandomPassword = hashPassword(
+            String(Math.floor(10000000 + Math.random() * 90000000)) // password 8자리 랜덤 생성
+          );
+          const { data: newUser } = await supabase
+            .from('users')
+            .insert([
+              // OAuth로 로그인한 계정 supabase 데이터 생성
+              {
+                name: user.name,
+                image: user.image,
+                email: user.email,
+                introduction: '',
+                password: hashRandomPassword,
+              },
+            ])
+            .select('*')
+            .single();
+
+          user.id = newUser!.id; // 생성한 유저 id값 세션 id로 지정
+
+          return true;
+        }
+        user.id = supabaseUser.data.id; // OAuth로 로그인한 유저 id값 db id로 변경
+        return true;
+      } catch {
+        console.log('로그인 도중 에러가 발생했습니다. ');
+        return false;
+      }
+    },
     jwt({ token, user }) {
       if (user) {
         if (user.id) token.id = user.id;
@@ -47,14 +87,12 @@ export const authConfig = {
       return session;
     },
   },
+  pages: {
+    signIn: '/sign-in',
+  },
 } satisfies NextAuthConfig;
 
-export const {
-  handlers: { GET, POST },
-  signIn,
-  signOut,
-  auth,
-} = NextAuth({
+export const { handlers, signIn, signOut, auth } = NextAuth({
   session: { strategy: 'jwt' },
   ...authConfig,
   trustHost: true,
