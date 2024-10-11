@@ -33,7 +33,7 @@ export const authConfig = {
 
           if (!passwordsMatch) return null;
 
-          return { ...user, Oauth: false };
+          return user;
         } catch {
           return null;
         }
