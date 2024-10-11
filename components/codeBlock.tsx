@@ -1,7 +1,7 @@
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { materialOceanic } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
-interface TProps {
+interface Props {
   language: string;
   value: string;
 }
@@ -14,7 +14,7 @@ const customStyle = {
   },
 };
 
-export default function CodeBlock({ language, value }: TProps) {
+export default function CodeBlock({ language, value }: Props) {
   return (
     <SyntaxHighlighter language={language} style={customStyle}>
       {value}
