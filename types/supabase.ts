@@ -340,6 +340,7 @@ export type Database = {
           name: string | null;
           password: string;
           updatedAt: string;
+          oauth_account: boolean;
         };
         Insert: {
           createdAt?: string;
@@ -350,6 +351,7 @@ export type Database = {
           name?: string | null;
           password: string;
           updatedAt?: string;
+          oauth_account?: boolean;
         };
         Update: {
           createdAt?: string;
@@ -360,6 +362,7 @@ export type Database = {
           name?: string | null;
           password?: string;
           updatedAt?: string;
+          oauth_account?: boolean;
         };
         Relationships: [];
       };

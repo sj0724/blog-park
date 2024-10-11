@@ -258,3 +258,7 @@ export const editImage = async (image: string): Promise<ActionType<null>> => {
     return { success: false, message: '수정 중에 에러가 발생하였습니다.' };
   }
 };
+
+export const loginByOAuth = async (platform: string) => {
+  await signIn(platform);
+};
