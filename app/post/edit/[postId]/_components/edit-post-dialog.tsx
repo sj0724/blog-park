@@ -76,7 +76,7 @@ export function EditPostDialog({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader className='pb-5'>
-              <DialogTitle>포스팅하기</DialogTitle>
+              <DialogTitle>수정하기</DialogTitle>
               <DialogDescription aria-hidden />
             </DialogHeader>
             <FormField
@@ -117,7 +117,7 @@ export function EditPostDialog({
               type='submit'
               disabled={!form.formState.isValid || !title || !postContent}
             >
-              제출
+              수정
             </Button>
           </form>
         </Form>

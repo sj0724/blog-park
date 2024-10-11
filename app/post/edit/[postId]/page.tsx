@@ -1,5 +1,5 @@
 import { supabase } from '@/utils/supabase';
-import EditPostContainer from './_components/edit-post-container';
+import PostEditor from '@/components/post-editor';
 
 export default async function Page({ params }: { params: { postId: string } }) {
   const { data: post } = await supabase
@@ -12,7 +12,7 @@ export default async function Page({ params }: { params: { postId: string } }) {
 
   return (
     <div className='flex max-w-screen justify-center max-h-[calc(100vh-80px-80px)] h-screen'>
-      <EditPostContainer
+      <PostEditor
         title={post.title}
         content={post.content}
         summation={post.summation}

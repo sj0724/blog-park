@@ -2,7 +2,6 @@
 
 import { Textarea } from '@/components/ui/textarea';
 import { DragEvent, useRef, useState } from 'react';
-import { CreatPostDialog } from './creat-post-dialog';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
@@ -10,12 +9,26 @@ import { useRouter } from 'next/navigation';
 import { supabase, supabaseUrl } from '@/utils/supabase';
 import { toast } from 'sonner';
 import MarkdownComponent from '@/components/Markdown';
-import ToolBar from './toolbar';
 import generateSafeFileName from '@/utils/encodingName';
+import ToolBar from '@/app/post/create/_components/toolbar';
+import { CreatPostDialog } from '@/app/post/create/_components/creat-post-dialog';
+import { EditPostDialog } from '@/app/post/edit/[postId]/_components/edit-post-dialog';
 
-export default function CreatePostContainer() {
-  const [markdown, setMarkdown] = useState('');
-  const [title, setTitle] = useState('');
+interface Props {
+  content?: string;
+  title?: string;
+  postId?: string;
+  summation?: string;
+}
+
+export default function PostEditor({
+  content,
+  title,
+  postId,
+  summation,
+}: Props) {
+  const [markdown, setMarkdown] = useState(content ? content : '');
+  const [postTitle, setPostTitle] = useState(title ? title : '');
   const router = useRouter();
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -76,9 +89,10 @@ export default function CreatePostContainer() {
           <div className='flex flex-col w-full sm:w-1/2 gap-2 h-full'>
             <div className='min-h-20'>
               <Input
+                value={postTitle}
                 className='text-3xl lg:text-5xl font-semibold h-full'
                 placeholder='제목을 입력하세요.'
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={(e) => setPostTitle(e.target.value)}
               />
             </div>
             <ToolBar onClick={addMarkDown} />
@@ -94,7 +108,7 @@ export default function CreatePostContainer() {
           </div>
           <div className='sm:flex hidden flex-col w-1/2 gap-1'>
             <div className='flex flex-col px-3 py-8'>
-              <p className='text-5xl font-semibold break-words'>{title}</p>
+              <p className='text-5xl font-semibold break-words'>{postTitle}</p>
             </div>
             <Separator />
             <div className='prose flex flex-col w-full h-full overflow-y-scroll px-3 py-2'>
@@ -111,7 +125,16 @@ export default function CreatePostContainer() {
             >
               취소
             </Button>
-            <CreatPostDialog postContent={markdown} title={title} />
+            {postId ? (
+              <EditPostDialog
+                postContent={markdown}
+                title={postTitle}
+                postId={postId}
+                summation={summation ? summation : ''}
+              />
+            ) : (
+              <CreatPostDialog postContent={markdown} title={postTitle} />
+            )}
           </div>
         </div>
       </form>
