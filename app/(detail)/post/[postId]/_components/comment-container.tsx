@@ -58,7 +58,7 @@ export default function CommentContainer({
 
   return (
     <div className='w-full max-w-[800px] gap-2 flex flex-col'>
-      <p className='text-xl'>{totalCount}개의 댓글</p>
+      <p className='text-xl font-semibold'>{totalCount}개의 댓글</p>
       <CommentForm
         postId={postId}
         createrId={createrId}
