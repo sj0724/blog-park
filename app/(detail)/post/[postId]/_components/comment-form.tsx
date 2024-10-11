@@ -31,6 +31,10 @@ export default function CommentForm({
       toast.message(result.message);
       updateList(result.data);
     }
+    if (!result.success) {
+      setContent('');
+      toast.error(result.message);
+    }
   };
 
   return (
