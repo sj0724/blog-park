@@ -37,7 +37,7 @@ body {
     @apply bg-gray-200 rounded px-1 text-sm; /* 코드 스타일 */
   }
   .prose pre {
-    @apply bg-gray-100 p-4 rounded my-8 overflow-x-scroll min-h-fit; /* 코드 블록 스타일 */
+    @apply bg-gray-100 p-4 rounded-lg my-8; /* 코드 블록 스타일 */
   }
   .prose hr {
     @apply border-t border-gray-300 my-4; /* 수평선 스타일 */
@@ -49,7 +49,7 @@ body {
     @apply text-blue-500; /* 기본 너비 제한 제거 */
   }
   .prose img {
-    @apply my-7; /* 기본 너비 제한 제거 */
+    @apply my-7 rounded-lg; /* 기본 너비 제한 제거 */
   }
 }
 @layer utilities {

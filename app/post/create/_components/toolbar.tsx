@@ -11,7 +11,7 @@ import {
   Heading2,
   Heading3,
   Heading4,
-  Image,
+  ImageIcon,
   Italic,
   Link,
   Minus,
@@ -105,7 +105,7 @@ export default function ToolBar({
         </div>
         <div>
           <Label className='cursor-pointer'>
-            <Image size={30} color='gray' />
+            <ImageIcon size={30} color='gray' />
             <input type='file' className='hidden' onChange={isEdit} />
           </Label>
         </div>

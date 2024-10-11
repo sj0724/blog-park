@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import CodeBlock from './codeBlock';
 
 export default function MarkdownComponent({
   markdownText,
@@ -13,6 +14,21 @@ export default function MarkdownComponent({
       className='prose'
       remarkPlugins={[remarkGfm]}
       components={{
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        code({ inline, className, children, ...props }: any) {
+          const match = /language-(\w+)/.exec(className || '');
+          return !inline && match ? (
+            <CodeBlock
+              value={String(children).replace(/\n$/, '')}
+              language={match[1]}
+              {...props}
+            />
+          ) : (
+            <code className={className} {...props}>
+              {children}
+            </code>
+          );
+        },
         img: (props) => (
           <Image
             src={props.src ? props.src : ''}
