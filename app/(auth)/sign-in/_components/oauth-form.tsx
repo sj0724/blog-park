@@ -1,18 +1,26 @@
-import { signIn } from '@/auth';
+'use client';
+
+import { loginByOAuth } from '@/app/action/user';
 import { Button } from '@/components/ui/button';
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
 
 export default function OAuthForm() {
   return (
-    <form
-      action={async () => {
-        'use server';
-        await signIn('github');
-      }}
-    >
-      <Button type='submit' className='w-full'>
+    <div className='flex flex-col gap-3'>
+      <Button
+        type='button'
+        className='w-full'
+        onClick={() => loginByOAuth('github')}
+      >
         <GitHubLogoIcon width={30} height={30} />
       </Button>
-    </form>
+      <Button
+        type='button'
+        className='w-full'
+        onClick={() => loginByOAuth('google')}
+      >
+        google
+      </Button>
+    </div>
   );
 }
