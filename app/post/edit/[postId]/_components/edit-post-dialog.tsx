@@ -19,11 +19,13 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { PostSchema } from '@/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -43,6 +45,7 @@ export function EditPostDialog({
   postId,
   summation,
 }: Props) {
+  const [isPublic, setIsPublic] = useState(true);
   const router = useRouter();
   const form = useForm<PostSchemaType>({
     resolver: zodResolver(PostSchema),
@@ -51,6 +54,10 @@ export function EditPostDialog({
     },
     mode: 'all',
   });
+
+  const toggleSwitch = () => {
+    setIsPublic(!isPublic);
+  };
 
   const onSubmit = async (values: PostSchemaType) => {
     const formatSummation = values.summation.replace(/\n/g, '<br>');
@@ -74,7 +81,10 @@ export function EditPostDialog({
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className='flex flex-col gap-3'
+          >
             <DialogHeader className='pb-5'>
               <DialogTitle>수정하기</DialogTitle>
               <DialogDescription aria-hidden />
@@ -113,6 +123,10 @@ export function EditPostDialog({
                 </div>
               )}
             />
+            <div className='flex gap-3'>
+              <p className='text-base font-bold'>공개 여부</p>
+              <Switch onClick={toggleSwitch} checked={isPublic} />
+            </div>
             <Button
               type='submit'
               disabled={!form.formState.isValid || !title || !postContent}
