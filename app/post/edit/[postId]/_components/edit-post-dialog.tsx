@@ -37,6 +37,7 @@ interface Props {
   title: string;
   postId: string;
   summation: string;
+  isPublished: boolean;
 }
 
 export function EditPostDialog({
@@ -44,8 +45,9 @@ export function EditPostDialog({
   title,
   postId,
   summation,
+  isPublished,
 }: Props) {
-  const [isPublic, setIsPublic] = useState(true);
+  const [isPublish, setIsPublish] = useState(isPublished);
   const router = useRouter();
   const form = useForm<PostSchemaType>({
     resolver: zodResolver(PostSchema),
@@ -56,7 +58,7 @@ export function EditPostDialog({
   });
 
   const toggleSwitch = () => {
-    setIsPublic(!isPublic);
+    setIsPublish(!isPublish);
   };
 
   const onSubmit = async (values: PostSchemaType) => {
@@ -66,7 +68,7 @@ export function EditPostDialog({
       title: title,
       content: postContent,
       summation: formatSummation,
-      isPublished: true,
+      isPublished: isPublish,
     });
     toast.message(result.message);
     if (result.success) router.replace(`/post/${postId}`);
@@ -125,7 +127,7 @@ export function EditPostDialog({
             />
             <div className='flex gap-3'>
               <p className='text-base font-bold'>공개 여부</p>
-              <Switch onClick={toggleSwitch} checked={isPublic} />
+              <Switch onClick={toggleSwitch} checked={isPublish} />
             </div>
             <Button
               type='submit'

@@ -17,6 +17,7 @@ export default async function Page({ params }: { params: { postId: string } }) {
         content={post.content}
         summation={post.summation}
         postId={params.postId}
+        isPublished={post.isPublished}
       />
     </div>
   );
