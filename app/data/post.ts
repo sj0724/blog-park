@@ -10,30 +10,24 @@ export const getPostList = async ({
   page: number;
   limit: number;
 }) => {
-  const query = supabase
-    .from('posts')
-    .select(`*, posts_user_id_fkey(*)`, { count: 'exact' })
-    .order('createdAt', { ascending: false })
-    .range((page - 1) * limit, page * limit - 1);
-
-  if (userId) {
-    query.eq('user_id', userId);
+  const session = await getSessionUserData();
+  let query;
+  if (session && session.id === userId) {
+    query = supabase
+      .from('posts')
+      .select(`*, posts_user_id_fkey(*)`, { count: 'exact' })
+      .order('createdAt', { ascending: false })
+      .range((page - 1) * limit, page * limit - 1);
+  } else {
+    query = supabase
+      .from('posts')
+      .select(`*, posts_user_id_fkey(*)`, { count: 'exact' })
+      .order('createdAt', { ascending: false })
+      .range((page - 1) * limit, page * limit - 1)
+      .eq('isPublished', true);
   }
 
   const postList = await query;
-
-  return postList;
-};
-
-export const getMyPost = async (page = 1, limit = 5) => {
-  const currentUser = await getSessionUserData();
-  if (!currentUser) throw Error('인증이 필요합니다.');
-  const postList = await supabase
-    .from('posts')
-    .select(`*, posts_user_id_fkey(*)`, { count: 'exact' })
-    .eq('user_id', currentUser.id)
-    .order('createdAt', { ascending: false })
-    .range((page - 1) * limit, page * limit - 1);
 
   return postList;
 };
