@@ -19,6 +19,7 @@ interface Props {
   title?: string;
   postId?: string;
   summation?: string;
+  isPublished?: boolean;
 }
 
 export default function PostEditor({
@@ -26,6 +27,7 @@ export default function PostEditor({
   title,
   postId,
   summation,
+  isPublished = true,
 }: Props) {
   const [markdown, setMarkdown] = useState(content ? content : '');
   const [postTitle, setPostTitle] = useState(title ? title : '');
@@ -131,6 +133,7 @@ export default function PostEditor({
                 title={postTitle}
                 postId={postId}
                 summation={summation ? summation : ''}
+                isPublished={isPublished}
               />
             ) : (
               <CreatPostDialog postContent={markdown} title={postTitle} />
