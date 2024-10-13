@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { supabase, supabaseUrl } from '@/utils/supabase';
 import { toast } from 'sonner';
-import MarkdownComponent from '@/components/Markdown';
+import MarkdownComponent from '@/components/markdown';
 import generateSafeFileName from '@/utils/encodingName';
 import ToolBar from '@/app/post/create/_components/toolbar';
 import { CreatPostDialog } from '@/app/post/create/_components/creat-post-dialog';

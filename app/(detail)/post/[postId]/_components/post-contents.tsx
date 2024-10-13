@@ -4,7 +4,7 @@ import { DotFilledIcon } from '@radix-ui/react-icons';
 import PostButtonContainer from './post-button-container';
 import Link from 'next/link';
 import { SupabaseUser } from '@/type';
-import MarkdownComponent from '@/components/Markdown';
+import MarkdownComponent from '@/components/markdown';
 import LikeButton from './\blike-button';
 
 interface Props {

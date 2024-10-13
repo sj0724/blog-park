@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from 'next/image';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
@@ -14,7 +15,6 @@ export default function MarkdownComponent({
       className='prose'
       remarkPlugins={[remarkGfm]}
       components={{
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         code({ inline, className, children, ...props }: any) {
           const match = /language-(\w+)/.exec(className || '');
           return !inline && match ? (

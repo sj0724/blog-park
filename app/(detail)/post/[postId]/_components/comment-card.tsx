@@ -5,7 +5,7 @@ import { Comment } from '@/type';
 import CommentButtonContainer from './comment-button-container';
 import { useState } from 'react';
 import CommentEditForm from './comment-edit-form';
-import MarkdownComponent from '@/components/Markdown';
+import MarkdownComponent from '@/components/markdown';
 
 interface Props {
   comment: Comment;

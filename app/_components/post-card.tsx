@@ -1,4 +1,4 @@
-import MarkdownComponent from '@/components/Markdown';
+import MarkdownComponent from '@/components/markdown';
 import TagBadge from '@/components/tag-badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { SupabaseUser } from '@/type';
