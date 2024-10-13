@@ -1,4 +1,4 @@
-import LikeButton from './\blike-button';
+import LikeButton from './like-button';
 import ShareLinkButton from './share-link-button';
 
 export default function FloatingContainer({
