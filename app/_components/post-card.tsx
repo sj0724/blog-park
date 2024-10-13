@@ -12,8 +12,8 @@ interface Props {
   summation?: string;
   createdAt?: string;
   owner?: SupabaseUser;
-  tags: string[] | null;
-  isPublished: boolean;
+  tags?: string[] | null;
+  isPublished?: boolean;
 }
 
 export default function PostCard({

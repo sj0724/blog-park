@@ -22,6 +22,8 @@ export default async function LikeContainer() {
                 title={post.posts?.title}
                 createdAt={post.posts?.createdAt}
                 summation={post.posts?.summation}
+                tags={post.posts?.tag}
+                isPublished={post.posts?.isPublished}
               />
             </li>
           ))}
