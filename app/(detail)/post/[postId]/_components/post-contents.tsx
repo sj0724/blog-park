@@ -4,8 +4,8 @@ import { DotFilledIcon } from '@radix-ui/react-icons';
 import PostButtonContainer from './post-button-container';
 import Link from 'next/link';
 import { SupabaseUser } from '@/type';
-import MarkdownComponent from '@/components/Markdown';
-import LikeButton from './\blike-button';
+import LikeButton from './like-button';
+import MarkdownEditor from '@/components/markdown-editor';
 
 interface Props {
   title: string;
@@ -61,7 +61,7 @@ export default async function PostContents({
           </div>
         </div>
       </div>
-      <MarkdownComponent markdownText={contents} />
+      <MarkdownEditor markdownText={contents} />
     </div>
   );
 }

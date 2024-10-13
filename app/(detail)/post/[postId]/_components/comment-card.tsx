@@ -5,7 +5,7 @@ import { Comment } from '@/type';
 import CommentButtonContainer from './comment-button-container';
 import { useState } from 'react';
 import CommentEditForm from './comment-edit-form';
-import MarkdownComponent from '@/components/Markdown';
+import MarkdownEditor from '@/components/markdown-editor';
 
 interface Props {
   comment: Comment;
@@ -43,7 +43,7 @@ export default function CommentCard({ comment, userId, postId }: Props) {
           commentId={comment.id}
         />
       ) : (
-        <MarkdownComponent markdownText={comment.content} />
+        <MarkdownEditor markdownText={comment.content} />
       )}
     </div>
   );
