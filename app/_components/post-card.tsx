@@ -1,4 +1,4 @@
-import MarkdownComponent from '@/components/markdown';
+import MarkdownEditor from '@/components/markdown-editor';
 import TagBadge from '@/components/tag-badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { SupabaseUser } from '@/type';
@@ -42,7 +42,7 @@ export default function PostCard({
         <CardContent className='flex flex-col h-full'>
           <div className='flex flex-col justify-center h-full'>
             <div className='text-sm text-gray-600'>
-              <MarkdownComponent markdownText={summation} />
+              <MarkdownEditor markdownText={summation} />
             </div>
           </div>
           <div className='flex flex-col gap-2'>

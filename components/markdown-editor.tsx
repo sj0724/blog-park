@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import CodeBlock from './codeBlock';
 
-export default function MarkdownComponent({
+export default function MarkdownEditor({
   markdownText,
 }: {
   markdownText: string;

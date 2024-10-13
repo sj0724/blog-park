@@ -8,11 +8,11 @@ import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { supabase, supabaseUrl } from '@/utils/supabase';
 import { toast } from 'sonner';
-import MarkdownComponent from '@/components/markdown';
 import generateSafeFileName from '@/utils/encodingName';
 import ToolBar from '@/app/post/create/_components/toolbar';
 import { CreatPostDialog } from '@/app/post/create/_components/creat-post-dialog';
 import { EditPostDialog } from '@/app/post/edit/[postId]/_components/edit-post-dialog';
+import MarkdownEditor from './markdown-editor';
 
 interface Props {
   content?: string;
@@ -114,7 +114,7 @@ export default function PostEditor({
             </div>
             <Separator />
             <div className='prose flex flex-col w-full h-full overflow-y-scroll px-3 py-2'>
-              <MarkdownComponent markdownText={markdown} />
+              <MarkdownEditor markdownText={markdown} />
             </div>
           </div>
         </div>
