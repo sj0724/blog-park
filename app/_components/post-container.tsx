@@ -26,6 +26,8 @@ export default async function PostContainer({ list, title }: Props) {
                 summation={post.summation}
                 createdAt={post.createdAt}
                 owner={post.posts_user_id_fkey}
+                tags={post.tag}
+                isPublished={post.isPublished}
               />
             </li>
           ))}

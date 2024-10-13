@@ -29,6 +29,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import TagInput from './tag-input';
 
 export type PostSchemaType = z.infer<typeof PostSchema>;
 
@@ -39,6 +40,7 @@ interface Props {
 
 export function CreatPostDialog({ postContent, title }: Props) {
   const [isPublic, setIsPublic] = useState(true);
+  const [tagList, setTagList] = useState<string[]>([]);
   const router = useRouter();
   const form = useForm<PostSchemaType>({
     resolver: zodResolver(PostSchema),
@@ -52,6 +54,18 @@ export function CreatPostDialog({ postContent, title }: Props) {
     setIsPublic(!isPublic);
   };
 
+  const editTag = (tag: string) => {
+    if (tagList.length === 3) {
+      return;
+    }
+    setTagList([...tagList, tag]);
+  };
+
+  const deleteTag = (tag: string) => {
+    const deleteList = tagList.filter((item) => item !== tag);
+    setTagList(deleteList);
+  };
+
   const onSubmit = async (values: PostSchemaType) => {
     const formatSummation = values.summation.replace(/\n/g, '<br>');
     const result = await creatPost({
@@ -59,6 +73,7 @@ export function CreatPostDialog({ postContent, title }: Props) {
       content: postContent,
       summation: formatSummation,
       isPublished: isPublic,
+      tagList,
     });
     toast.message(result.message);
     if (result.success) router.replace('/');
@@ -119,6 +134,7 @@ export function CreatPostDialog({ postContent, title }: Props) {
               <p className='text-base font-bold'>공개 여부</p>
               <Switch onClick={toggleSwitch} checked={isPublic} />
             </div>
+            <TagInput tags={tagList} editTag={editTag} deleteTag={deleteTag} />
             <Button
               type='submit'
               disabled={!form.formState.isValid || !title || !postContent}

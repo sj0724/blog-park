@@ -10,6 +10,7 @@ interface ContentProps {
   title: string;
   summation: string;
   isPublished: boolean;
+  tagList: string[];
 }
 
 export const creatPost = async ({
@@ -17,6 +18,7 @@ export const creatPost = async ({
   title,
   summation,
   isPublished = false,
+  tagList,
 }: ContentProps): Promise<ActionType<null>> => {
   const session = await getSessionUserData();
   if (!session) throw new Error('인증이 필요합니다.');
@@ -28,6 +30,7 @@ export const creatPost = async ({
         user_id: session.id,
         summation,
         isPublished,
+        tag: tagList,
       },
     ]);
 

@@ -254,6 +254,7 @@ export type Database = {
           updatedAt: string;
           user_id: string;
           posts_user_id_fkey: SupabaseUser;
+          tag: string[];
         };
         Insert: {
           content: string;
@@ -264,6 +265,7 @@ export type Database = {
           title: string;
           updatedAt?: string;
           user_id: string;
+          tag: string[];
         };
         Update: {
           content?: string;
@@ -274,6 +276,7 @@ export type Database = {
           title?: string;
           updatedAt?: string;
           user_id?: string;
+          tag?: string[];
         };
         Relationships: [
           {
