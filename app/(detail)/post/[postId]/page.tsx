@@ -14,13 +14,8 @@ export default async function Page({ params }: { params: { postId: string } }) {
   return (
     <div className='flex flex-col items-center justify-center px-5 py-20 gap-10 relative w-full'>
       <PostContents
-        postId={params.postId}
-        contents={post.content}
-        createdAt={post.createdAt}
-        title={post.title}
-        user={post.posts_user_id_fkey}
+        post={post}
         totalLike={count ? count : 0}
-        createrId={post.user_id}
         personalStatus={personalStatus}
       />
       <CommentContainer postId={params.postId} createrId={post.user_id} />

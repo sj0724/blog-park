@@ -3,46 +3,39 @@ import formatDateRange from '@/utils/formatData';
 import { DotFilledIcon } from '@radix-ui/react-icons';
 import PostButtonContainer from './post-button-container';
 import Link from 'next/link';
-import { SupabaseUser } from '@/type';
+import { Post } from '@/type';
 import LikeButton from './like-button';
 import MarkdownEditor from '@/components/markdown-editor';
+import TagBadge from '@/components/tag-badge';
 
 interface Props {
-  title: string;
-  contents: string;
-  user: SupabaseUser;
-  createdAt: string;
-  postId: string;
   totalLike: number;
-  createrId: string;
   personalStatus: boolean;
+  post: Post;
 }
 
 export default async function PostContents({
-  contents,
-  title,
-  user,
-  createdAt,
-  postId,
   totalLike,
-  createrId,
   personalStatus,
+  post,
 }: Props) {
   const currentUser = await getSessionUserData();
-  const formatData = formatDateRange({ dateString: createdAt });
+  const formatData = formatDateRange({ dateString: post.createdAt });
   return (
     <div className='lg:w-[800px] max-w-[800px] flex flex-col gap-12 w-full'>
       <div className='flex flex-col gap-2'>
-        <h1 className='text-6xl font-extrabold'>{title}</h1>
+        <h1 className='text-6xl font-extrabold'>{post.title}</h1>
         <div className='flex justify-end'>
-          {currentUser?.id === user.id && (
-            <PostButtonContainer postId={postId} />
+          {currentUser?.id === post.posts_user_id_fkey.id && (
+            <PostButtonContainer postId={post.id} />
           )}
         </div>
-        <div className='flex'>
+        <div className='flex flex-col gap-2'>
           <div className='flex gap-2 items-center text-center'>
-            <Link href={`/user/${user.id}`}>
-              <p className='font-semibold text-lg'>{user.name}</p>
+            <Link href={`/user/${post.posts_user_id_fkey.id}`}>
+              <p className='font-semibold text-lg'>
+                {post.posts_user_id_fkey.name}
+              </p>
             </Link>
             <DotFilledIcon width={10} height={10} />
             <p className='text-gray-600'>{formatData}</p>
@@ -50,18 +43,22 @@ export default async function PostContents({
               <DotFilledIcon width={10} height={10} />
               <div className='flex gap-2 items-center'>
                 <LikeButton
-                  postId={postId}
+                  postId={post.id}
                   personalStatus={personalStatus}
-                  createrId={createrId}
+                  createrId={post.user_id}
                   size={20}
                 />
                 <p>{totalLike}</p>
               </div>
             </div>
           </div>
+          <div className='flex gap-2'>
+            {post.tag &&
+              post.tag.map((item) => <TagBadge key={item} tag={item} />)}
+          </div>
         </div>
       </div>
-      <MarkdownEditor markdownText={contents} />
+      <MarkdownEditor markdownText={post.content} />
     </div>
   );
 }
