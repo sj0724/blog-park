@@ -3,8 +3,23 @@ import CommentContainer from './_components/comment-container';
 import FloatingContainer from './_components/floating-container';
 import { getLikeById, getMyLikeByPostId } from '@/app/data/like';
 import { getPostById } from '@/app/data/post';
+import { Metadata, ResolvingMetadata } from 'next';
 
-export default async function Page({ params }: { params: { postId: string } }) {
+interface Props {
+  params: { postId: string };
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const post = await getPostById(params.postId);
+
+  return {
+    title: post?.title,
+    description: post?.summation,
+    openGraph: { images: '/logo-image.png' },
+  };
+}
+
+export default async function Page({ params }: Props) {
   const post = await getPostById(params.postId);
 
   if (!post) return <div>없는 포스트</div>;
