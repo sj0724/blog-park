@@ -2,6 +2,13 @@ import Pagination from '@/components/pagination';
 import Footer from './_components/footer';
 import PostContainer from './_components/post-container';
 import { getPostList } from './data/post';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Blog Park',
+  description: '블로그를 자유롭게 작성해보세요!',
+  openGraph: { images: '/logo-image.png' },
+};
 
 export default async function Home({
   searchParams: { page },
