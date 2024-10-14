@@ -12,7 +12,7 @@ export default async function Page({ params }: { params: { postId: string } }) {
   const personalStatus = await getMyLikeByPostId({ postId: params.postId });
 
   return (
-    <div className='flex flex-col items-center justify-center px-5 py-20 gap-10 relative'>
+    <div className='flex flex-col items-center justify-center px-5 py-20 gap-10 relative w-full'>
       <PostContents
         postId={params.postId}
         contents={post.content}
