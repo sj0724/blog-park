@@ -39,6 +39,12 @@ export default function CommentContainer({
     }
   };
 
+  const deleteList = (commentId: string) => {
+    const filterList = commentList.filter((item) => item.id !== commentId);
+    setCommentList(filterList);
+    setTotalCount((prev) => prev - 1);
+  };
+
   const loadList = useCallback(async () => {
     const result = await getCommentList({ page, limit: 5, postId });
     if (result) {
@@ -67,7 +73,12 @@ export default function CommentContainer({
       <ul className='flex flex-col gap-3'>
         {commentList.map((comment) => (
           <li key={comment.id}>
-            <CommentCard comment={comment} userId={userId} postId={postId} />
+            <CommentCard
+              comment={comment}
+              userId={userId}
+              postId={postId}
+              deleteList={deleteList}
+            />
             <Separator className='mt-3' />
           </li>
         ))}
