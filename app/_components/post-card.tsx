@@ -34,9 +34,11 @@ export default function PostCard({
     <Link href={`/post/${id}`} className='w-fit'>
       <Card className='w-[350px] h-[350px] hover:shadow-lg hover:-translate-y-1 transition-transform flex flex-col'>
         <CardHeader className='pb-0 h-[120px]'>
-          <CardTitle className='flex text-4xl font-extrabold break-words'>
+          <CardTitle className='flex text-4xl font-extrabold break-words gap-2'>
             {title}
-            <div>{!isPublished && <Lock size={25} />}</div>
+            <div className='pt-1 h-fit'>
+              {!isPublished && <Lock size={25} />}
+            </div>
           </CardTitle>
         </CardHeader>
         <CardContent className='flex flex-col h-full'>

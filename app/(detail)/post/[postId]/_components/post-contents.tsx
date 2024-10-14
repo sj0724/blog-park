@@ -31,7 +31,7 @@ export default async function PostContents({
   const currentUser = await getSessionUserData();
   const formatData = formatDateRange({ dateString: createdAt });
   return (
-    <div className='lg:w-[800px] max-w-[800px] flex flex-col gap-12'>
+    <div className='lg:w-[800px] max-w-[800px] flex flex-col gap-12 w-full'>
       <div className='flex flex-col gap-2'>
         <h1 className='text-6xl font-extrabold'>{title}</h1>
         <div className='flex justify-end'>

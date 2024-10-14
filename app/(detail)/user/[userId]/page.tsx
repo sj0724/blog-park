@@ -1,5 +1,5 @@
 import PostContainer from '@/app/_components/post-container';
-import { getPostList } from '@/app/data/post';
+import { getPostListByUserId } from '@/app/data/post';
 import Profile from './_components/profile';
 import { Separator } from '@/components/ui/separator';
 import ProfileUserMenu from './_components/profile-user-menu';
@@ -17,7 +17,7 @@ export default async function Page({
 }) {
   const session = await getSessionUserData();
   const currentPage = page ? Number(page) : 1;
-  const { data: postList, count } = await getPostList({
+  const { data: postList, count } = await getPostListByUserId({
     userId,
     page: currentPage,
     limit: 6,
