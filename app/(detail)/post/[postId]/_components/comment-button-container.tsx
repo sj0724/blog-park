@@ -3,28 +3,28 @@
 import { deleteComment } from '@/app/action/comment';
 import DeleteButton from './post-delete-button';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 interface Props {
   commentId: string;
   toggleEdit: () => void;
   isEdit: boolean;
+  deleteList: (commentId: string) => void;
 }
 
 export default function CommentButtonContainer({
   commentId,
   toggleEdit,
   isEdit,
+  deleteList,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
   const isDeleteCommnet = async () => {
     const result = await deleteComment(commentId);
     setIsOpen(!isOpen);
     if (result.success) {
       toast.message(result.message);
-      router.refresh();
+      deleteList(commentId);
     }
   };
 

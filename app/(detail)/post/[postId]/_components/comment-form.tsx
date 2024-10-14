@@ -7,15 +7,13 @@ import { Comment } from '@/type';
 import { FormEvent, useState } from 'react';
 import { toast } from 'sonner';
 
-export default function CommentForm({
-  postId,
-  createrId,
-  updateList,
-}: {
+interface Props {
   postId: string;
   createrId: string;
   updateList: (comment: Comment) => void;
-}) {
+}
+
+export default function CommentForm({ postId, createrId, updateList }: Props) {
   const [content, setContent] = useState('');
 
   const onSubmit = async (e: FormEvent) => {

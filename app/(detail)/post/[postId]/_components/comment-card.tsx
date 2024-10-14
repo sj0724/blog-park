@@ -12,9 +12,15 @@ interface Props {
   comment: Comment;
   userId?: string;
   postId: string;
+  deleteList: (commentId: string) => void;
 }
 
-export default function CommentCard({ comment, userId, postId }: Props) {
+export default function CommentCard({
+  comment,
+  userId,
+  postId,
+  deleteList,
+}: Props) {
   const [isEdit, setIsEdit] = useState(false);
 
   const toggleEdit = () => {
@@ -35,6 +41,7 @@ export default function CommentCard({ comment, userId, postId }: Props) {
             commentId={comment.id}
             toggleEdit={toggleEdit}
             isEdit={isEdit}
+            deleteList={deleteList}
           />
         )}
       </div>
