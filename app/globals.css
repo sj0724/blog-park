@@ -24,7 +24,7 @@ body {
     @apply mb-0; /* 문단 간격 조절 (기본 4에서 6으로 증가) */
   }
   .prose ul {
-    @apply list-disc pl-5 mb-4; /* 리스트 스타일 */
+    @apply list-disc pl-5; /* 리스트 스타일 */
   }
   .prose li {
     @apply mb-0; /* 리스트 항목 간격 */
