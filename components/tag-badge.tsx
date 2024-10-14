@@ -1,6 +1,6 @@
 export default function TagBadge({ tag }: { tag: string }) {
   return (
-    <div className='px-3 py-1 text-blue-500 bg-gray-100 rounded-full'>
+    <div className='px-3 py-1 text-blue-500 bg-gray-100 rounded-full w-fit'>
       {tag}
     </div>
   );
