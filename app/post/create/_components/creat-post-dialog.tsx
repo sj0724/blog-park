@@ -54,16 +54,8 @@ export function CreatPostDialog({ postContent, title }: Props) {
     setIsPublic(!isPublic);
   };
 
-  const editTag = (tag: string) => {
-    if (tagList.length === 3) {
-      return;
-    }
-    setTagList([...tagList, tag]);
-  };
-
-  const deleteTag = (tag: string) => {
-    const deleteList = tagList.filter((item) => item !== tag);
-    setTagList(deleteList);
+  const editTagList = (tagList: string[]) => {
+    setTagList(tagList);
   };
 
   const onSubmit = async (values: PostSchemaType) => {
@@ -102,9 +94,7 @@ export function CreatPostDialog({ postContent, title }: Props) {
               render={({ field: controllerField }) => (
                 <div className='flex flex-col gap-3'>
                   <FormItem>
-                    <FormLabel className='text-base font-bold'>
-                      포스팅 제목
-                    </FormLabel>
+                    <p className='text-base font-bold'>포스팅 제목</p>
                     <Input value={title} disabled />
                   </FormItem>
                   <FormItem className='relative'>
@@ -123,18 +113,19 @@ export function CreatPostDialog({ postContent, title }: Props) {
                         {...controllerField}
                       />
                     </FormControl>
-                    <div className='h-5'>
-                      <FormMessage className='text-xs' />
-                    </div>
+                    <FormMessage className='text-xs' />
                   </FormItem>
                 </div>
               )}
             />
+            <div className='flex flex-col gap-2'>
+              <p className='text-base font-bold'>태그</p>
+              <TagInput tags={tagList} editTagList={editTagList} />
+            </div>
             <div className='flex gap-3'>
               <p className='text-base font-bold'>공개 여부</p>
               <Switch onClick={toggleSwitch} checked={isPublic} />
             </div>
-            <TagInput tags={tagList} editTag={editTag} deleteTag={deleteTag} />
             <Button
               type='submit'
               disabled={!form.formState.isValid || !title || !postContent}
