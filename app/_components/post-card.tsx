@@ -32,18 +32,18 @@ export default function PostCard({
 
   return (
     <Link href={`/post/${id}`} className='w-fit'>
-      <Card className='w-[350px] h-[350px] hover:shadow-lg hover:-translate-y-1 transition-transform flex flex-col'>
-        <CardHeader className='pb-0 h-[120px]'>
-          <CardTitle className='flex text-4xl font-extrabold break-words gap-2'>
+      <Card className='w-[350px] hover:shadow-lg hover:-translate-y-1 transition-transform flex flex-col'>
+        <CardHeader className='h-[130px]'>
+          <CardTitle className='flex text-2xl font-extrabold gap-2'>
             {title}
-            <div className='pt-1 h-fit'>
+            <div className='h-fit pt-0.5'>
               {!isPublished && <Lock size={25} />}
             </div>
           </CardTitle>
         </CardHeader>
-        <CardContent className='flex flex-col h-full'>
+        <CardContent className='flex flex-col h-[220px]'>
           <div className='flex flex-col justify-center h-full'>
-            <div className='text-sm text-gray-600'>
+            <div className='text-xs text-gray-600'>
               <MarkdownEditor markdownText={summation} />
             </div>
           </div>

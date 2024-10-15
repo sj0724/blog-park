@@ -66,12 +66,11 @@ export function EditPostDialog({
   };
 
   const onSubmit = async (values: PostSchemaType) => {
-    const formatSummation = values.summation.replace(/\n/g, '<br>');
     const result = await editPost({
       postId,
       title: title,
       content: postContent,
-      summation: formatSummation,
+      summation: values.summation,
       isPublished: isPublish,
       tagList,
     });
