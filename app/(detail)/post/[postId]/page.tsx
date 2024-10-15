@@ -3,7 +3,7 @@ import CommentContainer from './_components/comment-container';
 import FloatingContainer from './_components/floating-container';
 import { getLikeById, getMyLikeByPostId } from '@/app/data/like';
 import { getPostById } from '@/app/data/post';
-import { Metadata, ResolvingMetadata } from 'next';
+import { Metadata } from 'next';
 
 interface Props {
   params: { postId: string };
@@ -37,8 +37,8 @@ export default async function Page({ params }: Props) {
       <FloatingContainer
         totalLike={count ? count : 0}
         createrId={post.user_id}
-        postId={params.postId}
         personalStatus={personalStatus}
+        post={post}
       />
     </div>
   );

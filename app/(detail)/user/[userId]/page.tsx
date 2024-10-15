@@ -7,7 +7,7 @@ import FollowContainer from './_components/follow-container';
 import LikeContainer from './_components/like-container';
 import { getSessionUserData, getUserById } from '@/app/data/user';
 import Pagination from '@/components/pagination';
-import { Metadata, ResolvingMetadata } from 'next';
+import { Metadata } from 'next';
 
 interface Props {
   searchParams: { page: string; menu: string };
@@ -15,7 +15,6 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const session = await getSessionUserData();
   const userData = await getUserById(params.userId);
 
   return {

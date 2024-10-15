@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 import './globals.css';
 import Nav from './_components/nav';
 import Toaster from '@/components/ui/sonner';
+import KakaoScript from '@/KakaoScript';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -33,6 +34,7 @@ export default function RootLayout({
         <Toaster />
         <Nav />
         <main className='mt-[80px] min-h-[calc(100vh-80px)]'>{children}</main>
+        <KakaoScript />
       </body>
     </html>
   );
