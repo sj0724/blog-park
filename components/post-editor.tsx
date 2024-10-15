@@ -13,24 +13,16 @@ import ToolBar from '@/app/post/create/_components/toolbar';
 import { CreatPostDialog } from '@/app/post/create/_components/creat-post-dialog';
 import { EditPostDialog } from '@/app/post/edit/[postId]/_components/edit-post-dialog';
 import MarkdownEditor from './markdown-editor';
+import { Post } from '@/type';
 
 interface Props {
-  content?: string;
-  title?: string;
   postId?: string;
-  summation?: string;
-  isPublished?: boolean;
+  post?: Post;
 }
 
-export default function PostEditor({
-  content,
-  title,
-  postId,
-  summation,
-  isPublished = true,
-}: Props) {
-  const [markdown, setMarkdown] = useState(content ? content : '');
-  const [postTitle, setPostTitle] = useState(title ? title : '');
+export default function PostEditor({ postId, post }: Props) {
+  const [markdown, setMarkdown] = useState(post ? post.content : '');
+  const [postTitle, setPostTitle] = useState(post ? post.title : '');
   const router = useRouter();
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -132,8 +124,9 @@ export default function PostEditor({
                 postContent={markdown}
                 title={postTitle}
                 postId={postId}
-                summation={summation ? summation : ''}
-                isPublished={isPublished}
+                postTagList={post ? post.tag : []}
+                summation={post ? post.summation : ''}
+                isPublished={post ? post.isPublished : true}
               />
             ) : (
               <CreatPostDialog postContent={markdown} title={postTitle} />

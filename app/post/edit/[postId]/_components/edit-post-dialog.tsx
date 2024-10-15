@@ -1,6 +1,7 @@
 'use client';
 
 import { editPost } from '@/app/action/post';
+import TagInput from '@/app/post/create/_components/tag-input';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -38,6 +39,7 @@ interface Props {
   postId: string;
   summation: string;
   isPublished: boolean;
+  postTagList: string[];
 }
 
 export function EditPostDialog({
@@ -46,8 +48,10 @@ export function EditPostDialog({
   postId,
   summation,
   isPublished,
+  postTagList,
 }: Props) {
   const [isPublish, setIsPublish] = useState(isPublished);
+  const [tagList, setTagList] = useState<string[]>(postTagList);
   const router = useRouter();
   const form = useForm<PostSchemaType>({
     resolver: zodResolver(PostSchema),
@@ -69,9 +73,14 @@ export function EditPostDialog({
       content: postContent,
       summation: formatSummation,
       isPublished: isPublish,
+      tagList,
     });
     toast.message(result.message);
     if (result.success) router.replace(`/post/${postId}`);
+  };
+
+  const editTagList = (tagList: string[]) => {
+    setTagList(tagList);
   };
 
   return (
@@ -118,13 +127,16 @@ export function EditPostDialog({
                         {...controllerField}
                       />
                     </FormControl>
-                    <div className='h-5'>
-                      <FormMessage className='text-xs' />
-                    </div>
+                    <FormMessage className='text-xs' />
                   </FormItem>
                 </div>
               )}
             />
+            <div className='flex flex-col gap-2'>
+              <p className='text-base font-bold'>태그</p>
+              <TagInput tags={tagList} editTagList={editTagList} />
+            </div>
+
             <div className='flex gap-3'>
               <p className='text-base font-bold'>공개 여부</p>
               <Switch onClick={toggleSwitch} checked={isPublish} />
