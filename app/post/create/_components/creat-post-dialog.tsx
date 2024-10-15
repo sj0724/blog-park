@@ -59,11 +59,10 @@ export function CreatPostDialog({ postContent, title }: Props) {
   };
 
   const onSubmit = async (values: PostSchemaType) => {
-    const formatSummation = values.summation.replace(/\n/g, '<br>');
     const result = await creatPost({
       title: title,
       content: postContent,
-      summation: formatSummation,
+      summation: values.summation,
       isPublished: isPublic,
       tagList,
     });

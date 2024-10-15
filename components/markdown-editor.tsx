@@ -30,12 +30,17 @@ export default function MarkdownEditor({
           );
         },
         img: (props) => (
-          <span className='block relative w-full h-0 pb-[60%]'>
+          <span className={`block`}>
             <Image
               src={props.src ? props.src : ''}
               alt={props.alt ? props.alt : '포스트 이미지'}
-              fill
-              style={{ objectFit: 'contain' }}
+              width={200}
+              height={500}
+              sizes='100vw'
+              style={{
+                width: '100%',
+                height: 'auto',
+              }}
             />
           </span>
         ),
