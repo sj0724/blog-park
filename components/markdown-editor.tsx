@@ -30,13 +30,14 @@ export default function MarkdownEditor({
           );
         },
         img: (props) => (
-          <Image
-            src={props.src ? props.src : ''}
-            alt={props.alt ? props.alt : '포스트 이미지'}
-            height={500}
-            width={200}
-            layout='responsive'
-          />
+          <span className='block relative w-full h-0 pb-[60%]'>
+            <Image
+              src={props.src ? props.src : ''}
+              alt={props.alt ? props.alt : '포스트 이미지'}
+              fill
+              style={{ objectFit: 'contain' }}
+            />
+          </span>
         ),
         a: (props) => (
           <Link href={props.href ? props.href : ''} target='_blank'>

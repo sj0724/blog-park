@@ -49,7 +49,10 @@ body {
     @apply text-blue-500; /* 기본 너비 제한 제거 */
   }
   .prose img {
-    @apply my-7 rounded-lg; /* 기본 너비 제한 제거 */
+    @apply rounded-lg; /* 기본 너비 제한 제거 */
+  }
+  .prose span {
+    @apply my-7;
   }
 }
 @layer utilities {
