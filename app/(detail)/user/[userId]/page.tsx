@@ -5,16 +5,29 @@ import { Separator } from '@/components/ui/separator';
 import ProfileUserMenu from './_components/profile-user-menu';
 import FollowContainer from './_components/follow-container';
 import LikeContainer from './_components/like-container';
-import { getSessionUserData } from '@/app/data/user';
+import { getSessionUserData, getUserById } from '@/app/data/user';
 import Pagination from '@/components/pagination';
+import { Metadata } from 'next';
+
+interface Props {
+  searchParams: { page: string; menu: string };
+  params: { userId: string };
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const userData = await getUserById(params.userId);
+
+  return {
+    title: `${userData.name}의 프로필`,
+    description: `${userData.introduction}`,
+    openGraph: { images: userData.image || '/logo-image.png' },
+  };
+}
 
 export default async function Page({
   searchParams: { page, menu = 'list' },
   params: { userId },
-}: {
-  searchParams: { page: string; menu: string };
-  params: { userId: string };
-}) {
+}: Props) {
   const session = await getSessionUserData();
   const currentPage = page ? Number(page) : 1;
   const { data: postList, count } = await getPostListByUserId({

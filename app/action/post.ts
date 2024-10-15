@@ -84,13 +84,15 @@ export const editPost = async ({
   content,
   title,
   summation,
-  isPublished = false,
+  isPublished = true,
+  tagList,
 }: {
   postId: string;
   content: string;
   title: string;
   summation: string;
   isPublished?: boolean;
+  tagList: string[];
 }): Promise<ActionType<null>> => {
   const session = await getSessionUserData();
   try {
@@ -101,6 +103,7 @@ export const editPost = async ({
         title,
         summation,
         isPublished,
+        tag: tagList,
       })
       .eq('id', postId); // postId에 해당하는 포스트 수정
 
