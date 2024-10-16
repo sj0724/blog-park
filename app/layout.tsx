@@ -4,6 +4,7 @@ import './globals.css';
 import Nav from './_components/nav';
 import Toaster from '@/components/ui/sonner';
 import KakaoScript from '@/KakaoScript';
+import QeuryProviders from '@/components/query-provider';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -31,10 +32,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Toaster />
-        <Nav />
-        <main className='mt-[80px] min-h-[calc(100vh-80px)]'>{children}</main>
-        <KakaoScript />
+        <QeuryProviders>
+          <Toaster />
+          <Nav />
+          <main className='mt-[80px] min-h-[calc(100vh-80px)]'>{children}</main>
+          <KakaoScript />
+        </QeuryProviders>
       </body>
     </html>
   );
