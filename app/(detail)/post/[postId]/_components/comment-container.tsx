@@ -1,25 +1,38 @@
 'use client';
 
-import { getCommentList } from '@/app/data/commnet';
 import CommentForm from './comment-form';
 import CommentCard from './comment-card';
 import { Separator } from '@/components/ui/separator';
-import { getSessionUserData } from '@/app/data/user';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Comment } from '@/type';
 import CommentPagination from './comment-pagination';
+import { supabaseUrlBuilder } from '@/utils/supabase-url-builder';
+import { supabaseAnonKey } from '@/utils/supabase';
 
 export default function CommentContainer({
   postId,
   createrId,
+  totalCount,
+  currentUser,
 }: {
   postId: string;
   createrId: string;
+  totalCount: number;
+  currentUser?: string;
 }) {
   const [page, setPage] = useState(1);
-  const [userId, setUserId] = useState('');
   const [commentList, setCommentList] = useState<Comment[]>([]);
-  const [totalCount, setTotalCount] = useState(0);
+  const [commentCount, setCommentCount] = useState(totalCount);
+
+  const url = supabaseUrlBuilder({
+    table: 'comments',
+    select: '*,user:comments_user_id_fkey(*)',
+    postId,
+    orderBy: 'createdAt',
+    limit: 5,
+    offset: (page - 1) * 5,
+    orderDirection: 'desc',
+  });
 
   const handlePagination = (page: number) => {
     setPage(page);
@@ -33,7 +46,7 @@ export default function CommentContainer({
       } else {
         setCommentList([comment, ...commentList]);
       }
-      setTotalCount((prev) => prev + 1);
+      setCommentCount((prev) => prev + 1);
     } else {
       setPage(1);
     }
@@ -42,29 +55,30 @@ export default function CommentContainer({
   const deleteList = (commentId: string) => {
     const filterList = commentList.filter((item) => item.id !== commentId);
     setCommentList(filterList);
-    setTotalCount((prev) => prev - 1);
+    setCommentCount((prev) => prev - 1);
   };
 
-  const loadList = useCallback(async () => {
-    const result = await getCommentList({ page, limit: 5, postId });
-    if (result) {
-      setCommentList(result.comments);
-      setTotalCount(result.totalCount ? result.totalCount : 0);
-    }
-  }, [page, postId]);
-
   useEffect(() => {
-    const loadUser = async () => {
-      const result = await getSessionUserData();
-      if (result) setUserId(result.id);
+    const loadList = async () => {
+      const res = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${supabaseAnonKey}`,
+          Apikey: supabaseAnonKey,
+        },
+        cache: 'force-cache',
+        next: { tags: [postId, String(page)] },
+      });
+      const data = await res.json();
+      if (data) {
+        setCommentList([...data]);
+      }
     };
-    loadUser();
     loadList();
-  }, [loadList, postId, page]);
+  }, [page, postId, url]);
 
   return (
     <div className='w-full max-w-[800px] gap-2 flex flex-col'>
-      <p className='text-xl font-semibold'>{totalCount}개의 댓글</p>
+      <p className='text-xl font-semibold'>{commentCount}개의 댓글</p>
       <CommentForm
         postId={postId}
         createrId={createrId}
@@ -75,7 +89,7 @@ export default function CommentContainer({
           <li key={comment.id}>
             <CommentCard
               comment={comment}
-              userId={userId}
+              userId={currentUser}
               postId={postId}
               deleteList={deleteList}
             />

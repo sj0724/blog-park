@@ -4,6 +4,8 @@ import FloatingContainer from './_components/floating-container';
 import { getLikeById, getMyLikeByPostId } from '@/app/data/like';
 import { getPostById } from '@/app/data/post';
 import { Metadata } from 'next';
+import { getCommentList } from '@/app/data/commnet';
+import { getSessionUserData } from '@/app/data/user';
 
 interface Props {
   params: { postId: string };
@@ -20,20 +22,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
+  const session = await getSessionUserData();
   const post = await getPostById(params.postId);
-
-  if (!post) return <div>없는 포스트</div>;
   const { count } = await getLikeById(params.postId);
   const personalStatus = await getMyLikeByPostId({ postId: params.postId });
+  const { totalCount } = await getCommentList({
+    postId: params.postId,
+    page: 1,
+    limit: 5,
+  });
+
+  if (!post) return <div>없는 포스트</div>;
 
   return (
     <div className='flex flex-col items-center justify-center px-5 py-20 gap-10 relative w-full'>
       <PostContents
-        post={post}
+        post={post!}
         totalLike={count ? count : 0}
         personalStatus={personalStatus}
       />
-      <CommentContainer postId={params.postId} createrId={post.user_id} />
+      <CommentContainer
+        postId={params.postId}
+        createrId={post.user_id}
+        totalCount={totalCount!}
+        currentUser={session?.id}
+      />
       <FloatingContainer
         totalLike={count ? count : 0}
         createrId={post.user_id}
