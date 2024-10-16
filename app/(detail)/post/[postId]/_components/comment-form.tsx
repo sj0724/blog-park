@@ -3,18 +3,19 @@
 import { createComment } from '@/app/action/comment';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Comment } from '@/type';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FormEvent, useState } from 'react';
 import { toast } from 'sonner';
 
 interface Props {
   postId: string;
   createrId: string;
-  updateList: (comment: Comment) => void;
+  updateList: () => void;
 }
 
 export default function CommentForm({ postId, createrId, updateList }: Props) {
   const [content, setContent] = useState('');
+  const queryClient = useQueryClient();
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -27,7 +28,7 @@ export default function CommentForm({ postId, createrId, updateList }: Props) {
     if (result.success && result.data) {
       setContent('');
       toast.message(result.message);
-      updateList(result.data);
+      updateList();
     }
     if (!result.success) {
       setContent('');
@@ -35,8 +36,15 @@ export default function CommentForm({ postId, createrId, updateList }: Props) {
     }
   };
 
+  const mutation = useMutation({
+    mutationFn: onSubmit,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`${postId}:comment`] });
+    },
+  });
+
   return (
-    <form onSubmit={onSubmit} className='flex flex-col items-end gap-4'>
+    <form onSubmit={mutation.mutate} className='flex flex-col items-end gap-4'>
       <Textarea
         onChange={(e) => setContent(e.target.value)}
         className='w-full h-28 text-lg'
