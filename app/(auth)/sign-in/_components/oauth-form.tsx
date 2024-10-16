@@ -4,6 +4,7 @@ import { loginByOAuth } from '@/app/action/user';
 import { Button } from '@/components/ui/button';
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import GoogleIcon from '@/public/google-icon.svg';
+import KakaoIcon from '@/public/kakao-icon.svg';
 import Image from 'next/image';
 
 export default function OAuthForm() {
@@ -22,6 +23,13 @@ export default function OAuthForm() {
         onClick={() => loginByOAuth('google')}
       >
         <Image src={GoogleIcon} alt='구글 아이콘' width={25} height={25} />
+      </Button>
+      <Button
+        type='button'
+        className='w-full'
+        onClick={() => loginByOAuth('kakao')}
+      >
+        <Image src={KakaoIcon} alt='카카오 아이콘' width={25} height={25} />
       </Button>
     </div>
   );

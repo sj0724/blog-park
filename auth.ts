@@ -6,11 +6,13 @@ import { LoginSchema } from './schema';
 import { supabase } from './utils/supabase';
 import GitHub from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
+import Kakao from 'next-auth/providers/kakao';
 
 export const authConfig = {
   providers: [
     Google,
-    GitHub, // 깃허브 provider추가
+    GitHub,
+    Kakao,
     Credentials({
       credentials: {
         email: {},
@@ -42,7 +44,7 @@ export const authConfig = {
   ],
   callbacks: {
     signIn: async ({ user, account }) => {
-      if (account?.provider === 'github' || 'google') {
+      if (account?.provider === 'github' || 'google' || 'kakao') {
         try {
           const supabaseUser = await supabase // supabase에서 email같은 유저 찾기
             .from('users')
