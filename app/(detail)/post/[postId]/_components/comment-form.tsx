@@ -16,35 +16,37 @@ interface Props {
 export default function CommentForm({ postId, createrId, updateList }: Props) {
   const [content, setContent] = useState('');
   const queryClient = useQueryClient();
-
-  const onSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    const formatContent = content.replace(/\n/g, '\n\n');
-    const result = await createComment({
-      postId,
-      content: formatContent,
-      createrId,
-    });
-    if (result.success && result.data) {
-      setContent('');
-      toast.message(result.message);
-      updateList();
-    }
-    if (!result.success) {
-      setContent('');
-      toast.error(result.message);
-    }
-  };
-
   const mutation = useMutation({
-    mutationFn: onSubmit,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`${postId}:comment`] });
+    mutationFn: async () => {
+      const formatContent = content.replace(/\n/g, '\n\n');
+      return await createComment({
+        postId,
+        content: formatContent,
+        createrId,
+      });
+    },
+    onSuccess: (result) => {
+      if (result.success) {
+        setContent(''); // 입력 필드 비우기
+        toast.success(result.message); // 성공 메시지 표시
+        queryClient.invalidateQueries({ queryKey: [`${postId}:comment`] }); // 댓글 목록 갱신
+        updateList();
+      } else {
+        toast.error(result.message); // 에러 메시지 표시
+      }
+    },
+    onError: () => {
+      toast.error('댓글 제출에 실패했습니다.'); // 일반적인 에러 메시지 표시
     },
   });
 
+  const handleForm = (e: FormEvent) => {
+    e.preventDefault();
+    mutation.mutate();
+  };
+
   return (
-    <form onSubmit={mutation.mutate} className='flex flex-col items-end gap-4'>
+    <form onSubmit={handleForm} className='flex flex-col items-end gap-4'>
       <Textarea
         onChange={(e) => setContent(e.target.value)}
         className='w-full h-28 text-lg'
