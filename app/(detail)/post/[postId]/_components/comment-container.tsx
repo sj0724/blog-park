@@ -60,6 +60,7 @@ export default function CommentContainer({
               comment={comment}
               userId={currentUser}
               postId={postId}
+              page={page}
             />
           </li>
         ))}
