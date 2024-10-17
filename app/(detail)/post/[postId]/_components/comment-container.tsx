@@ -40,11 +40,6 @@ export default function CommentContainer({
     setPage(1);
   };
 
-  const deleteList = (commentId: string) => {
-    const filterList = commentList.filter((item) => item.id !== commentId);
-    setCommentList(filterList);
-  };
-
   return (
     <div className='w-full max-w-[800px] gap-3 flex flex-col'>
       <div className='flex flex-col gap-2'>
@@ -63,7 +58,6 @@ export default function CommentContainer({
               comment={comment}
               userId={currentUser}
               postId={postId}
-              deleteList={deleteList}
             />
           </li>
         ))}
