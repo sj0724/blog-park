@@ -2,7 +2,6 @@ import { editComment } from '@/app/action/comment';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -21,7 +20,6 @@ export default function CommentEditForm({
   commentId,
   page,
 }: Props) {
-  const router = useRouter();
   const formatContent = content.replace(/<br\s*\/?>/gi, '\n');
   const [newContent, setNewContent] = useState(formatContent);
   const queryClient = useQueryClient();

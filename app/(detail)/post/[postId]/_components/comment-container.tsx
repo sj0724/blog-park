@@ -3,7 +3,6 @@
 import CommentForm from './comment-form';
 import CommentCard from './comment-card';
 import { useState } from 'react';
-import { Comment } from '@/type';
 import CommentPagination from './comment-pagination';
 import { useQuery } from '@tanstack/react-query';
 import { getCommentList } from '@/app/data/commnet';
