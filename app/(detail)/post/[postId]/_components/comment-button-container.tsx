@@ -5,6 +5,7 @@ import DeleteButton from './post-delete-button';
 import { toast } from 'sonner';
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   commentId: string;
@@ -20,6 +21,7 @@ export default function CommentButtonContainer({
   postId,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async () => {
@@ -30,6 +32,7 @@ export default function CommentButtonContainer({
       if (result.success) {
         toast.success(result.message); // 성공 메시지 표시
         queryClient.invalidateQueries({ queryKey: [`${postId}:comment`] }); // 댓글 목록 갱신
+        router.refresh();
       } else {
         toast.error(result.message); // 에러 메시지 표시
       }

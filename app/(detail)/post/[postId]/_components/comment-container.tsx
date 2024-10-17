@@ -8,6 +8,7 @@ import CommentPagination from './comment-pagination';
 import { useQuery } from '@tanstack/react-query';
 import { getCommentList } from '@/app/data/commnet';
 import CommentSkeleton from './comment-skeleton';
+import { useRouter } from 'next/navigation';
 
 export default function CommentContainer({
   postId,
@@ -21,7 +22,7 @@ export default function CommentContainer({
   currentUser?: string;
 }) {
   const [page, setPage] = useState(1);
-  const [commentList, setCommentList] = useState<Comment[]>([]);
+  const router = useRouter();
   const { data, isLoading } = useQuery({
     queryKey: [`${postId}:comment`, page],
     queryFn: () =>
@@ -38,6 +39,7 @@ export default function CommentContainer({
 
   const updateList = () => {
     setPage(1);
+    router.refresh();
   };
 
   return (
