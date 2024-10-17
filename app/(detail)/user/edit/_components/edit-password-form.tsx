@@ -85,13 +85,18 @@ export default function EditPasswordForm({ Oauth }: { Oauth: boolean }) {
                 />
               ))}
             </div>
-            <Button
-              type='submit'
-              className='mb-7'
-              disabled={!form.formState.isValid}
-            >
-              수정
-            </Button>
+            <div className='h-full flex flex-col justify-between items-center'>
+              <Button className='mt-8' type='button' onClick={toggleIsEdit}>
+                취소
+              </Button>
+              <Button
+                type='submit'
+                className='mb-7'
+                disabled={!form.formState.isValid}
+              >
+                수정
+              </Button>
+            </div>
           </form>
         </Form>
       ) : (

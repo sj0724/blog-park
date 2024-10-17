@@ -11,13 +11,15 @@ export default async function Page() {
   return (
     <div className='flex flex-col justify-center gap-4 w-full max-w-[400px] h-[calc(100vh-80px)] px-5'>
       <h1 className='text-2xl font-bold'>내 정보 수정</h1>
-      <div className='flex flex-col'>
+      <div className='flex flex-col gap-8'>
         <EditImageForm image={user.image ? user.image : ''} />
-        <EditNameForm name={user.name ? user.name : ''} />
-        <EditIntroductionForm
-          introduction={user.introduction ? user.introduction : ''}
-        />
-        <EditPasswordForm Oauth={user.oauth_account} />
+        <div className='flex flex-col'>
+          <EditNameForm name={user.name ? user.name : ''} />
+          <EditIntroductionForm
+            introduction={user.introduction ? user.introduction : ''}
+          />
+          <EditPasswordForm Oauth={user.oauth_account} />
+        </div>
       </div>
     </div>
   );
