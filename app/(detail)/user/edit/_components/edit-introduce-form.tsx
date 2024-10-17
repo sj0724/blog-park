@@ -61,7 +61,7 @@ export default function EditIntroductionForm({
           name='introduction'
           render={({ field }) => (
             <FormItem className='relative w-full'>
-              <FormLabel className='text-base'>자기 소개</FormLabel>
+              <FormLabel className='text-base font-bold'>자기 소개</FormLabel>
               <FormControl>
                 <Input
                   type='text'

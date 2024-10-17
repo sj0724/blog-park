@@ -53,7 +53,7 @@ export default function EditPasswordForm({ Oauth }: { Oauth: boolean }) {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='w-full flex gap-3 items-end'
+            className='w-full flex gap-3 items-center'
           >
             <div className='flex flex-col w-full'>
               {editPasswordFields.map((field) => (
@@ -63,7 +63,9 @@ export default function EditPasswordForm({ Oauth }: { Oauth: boolean }) {
                   name={field.name as keyof EditPasswordSchemaType}
                   render={({ field: controllerField }) => (
                     <FormItem className='relative w-full'>
-                      <FormLabel className='text-base'>{field.label}</FormLabel>
+                      <FormLabel className='text-base font-bold'>
+                        {field.label}
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type={field.label}
@@ -85,18 +87,23 @@ export default function EditPasswordForm({ Oauth }: { Oauth: boolean }) {
                 />
               ))}
             </div>
-            <Button
-              type='submit'
-              className='mb-7'
-              disabled={!form.formState.isValid}
-            >
-              수정
-            </Button>
+            <div className='h-full flex flex-col justify-between'>
+              <Button className='mb-6' type='button' onClick={toggleIsEdit}>
+                취소
+              </Button>
+              <Button
+                type='submit'
+                className='mt-9'
+                disabled={!form.formState.isValid}
+              >
+                수정
+              </Button>
+            </div>
           </form>
         </Form>
       ) : (
         <div className='flex flex-col gap-2 w-full'>
-          <p>비밀번호</p>
+          <p className='font-bold'>비밀번호</p>
           <div className='flex gap-3'>
             <Input disabled value='********' className='w-full' />
             <Button type='button' onClick={toggleIsEdit} disabled={Oauth}>

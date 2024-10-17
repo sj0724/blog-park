@@ -20,10 +20,15 @@ export const toggleFollow = async (
     const checkFollow = await supabase
       .from('follows')
       .select('*')
-      .eq('followerId', session.id);
+      .eq('followerId', session.id)
+      .eq('followingId', followingId);
 
     if (checkFollow.data && checkFollow.data[0]) {
-      await supabase.from('follows').delete().eq('followerId', session.id);
+      await supabase
+        .from('follows')
+        .delete()
+        .eq('followerId', session.id)
+        .eq('followingId', followingId);
       revalidatePath(`/user/${session.id}?menu=follow`);
       return {
         success: true,

@@ -10,7 +10,7 @@ export default async function FollowingUserCard({
   const userData = await getUserById(userId);
   return (
     <Link href={`/user/${userId}`}>
-      <div className='flex items-center gap-5 border rounded-lg shadow-lg w-full px-8 py-4 hover:-translate-y-1 transition-transform'>
+      <div className='bg-white flex items-center gap-5 rounded-lg shadow hover:shadow-lg w-full px-8 py-4 hover:-translate-y-1 transition-transform'>
         <UserAvatar image={userData.image} size='md' />
         <div className='w-full'>
           <p className='font-bold text-3xl text-center'>{userData.name}</p>

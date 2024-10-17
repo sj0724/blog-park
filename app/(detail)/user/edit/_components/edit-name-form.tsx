@@ -57,7 +57,7 @@ export default function EditNameForm({ name }: { name: string }) {
           name='name'
           render={({ field }) => (
             <FormItem className='relative w-full'>
-              <FormLabel className='text-base'>닉네임</FormLabel>
+              <FormLabel className='text-base font-bold'>닉네임</FormLabel>
               <FormControl>
                 <Input
                   type='text'
