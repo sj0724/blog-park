@@ -1,7 +1,7 @@
 import { editComment } from '@/app/action/comment';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { useRouter } from 'next/navigation';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -10,6 +10,7 @@ interface Props {
   toggleEdit: () => void;
   postId: string;
   commentId: string;
+  page: number;
 }
 
 export default function CommentEditForm({
@@ -17,22 +18,35 @@ export default function CommentEditForm({
   toggleEdit,
   postId,
   commentId,
+  page,
 }: Props) {
-  const router = useRouter();
   const formatContent = content.replace(/<br\s*\/?>/gi, '\n');
   const [newContent, setNewContent] = useState(formatContent);
-  const isEditComment = async () => {
-    const result = await editComment({
-      commentId,
-      content: newContent,
-      postId,
-    });
-    if (result.success) {
-      toast.message(result.message);
-      router.refresh();
-      toggleEdit();
-    }
-  };
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: async () => {
+      const formatNewContent = newContent.replace(/\n/g, '\n\n');
+      return await editComment({
+        commentId,
+        content: formatNewContent,
+        postId,
+      });
+    },
+    onSuccess: (result) => {
+      if (result.success) {
+        toast.success(result.message); // 성공 메시지 표시
+        queryClient.invalidateQueries({
+          queryKey: [`${postId}:comment`, page],
+        }); // 댓글 목록 갱신
+        toggleEdit();
+      } else {
+        toast.error(result.message); // 에러 메시지 표시
+      }
+    },
+    onError: () => {
+      toast.error('댓글 수정에 실패했습니다.'); // 일반적인 에러 메시지 표시
+    },
+  });
 
   return (
     <div className='flex flex-col items-end gap-4'>
@@ -50,7 +64,7 @@ export default function CommentEditForm({
         >
           취소
         </Button>
-        <Button onClick={isEditComment} type='button'>
+        <Button onClick={() => mutation.mutate()} type='button'>
           확인
         </Button>
       </div>

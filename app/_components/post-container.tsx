@@ -12,7 +12,7 @@ export default async function PostContainer({ list, title }: Props) {
       <h1 className='text-2xl font-bold'>{title}</h1>
       {!list || list.length === 0 ? (
         <ul className='flex flex-col items-center'>
-          <div className='flex items-center justify-center gap-5 border rounded-lg shadow-lg w-1/2 h-52 px-8 py-4 hover:-translate-y-1 transition-transform text-2xl font-semibold'>
+          <div className='bg-white flex items-center justify-center gap-5 rounded-lg shadow-lg w-full md:w-1/2 lg:w-1/2 h-52 px-8 py-4 hover:-translate-y-1 transition-transform text-2xl font-semibold'>
             작성한 포스트가 없습니다!
           </div>
         </ul>
