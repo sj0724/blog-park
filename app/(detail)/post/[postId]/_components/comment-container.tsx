@@ -8,6 +8,7 @@ import { Comment } from '@/type';
 import CommentPagination from './comment-pagination';
 import { useQuery } from '@tanstack/react-query';
 import { getCommentList } from '@/app/data/commnet';
+import CommentSkeleton from './comment-skeleton';
 
 export default function CommentContainer({
   postId,
@@ -22,7 +23,7 @@ export default function CommentContainer({
 }) {
   const [page, setPage] = useState(1);
   const [commentList, setCommentList] = useState<Comment[]>([]);
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: [`${postId}:comment`, page],
     queryFn: () =>
       getCommentList({
@@ -53,6 +54,7 @@ export default function CommentContainer({
         createrId={createrId}
         updateList={updateList}
       />
+      {isLoading && <CommentSkeleton />}
       <ul className='flex flex-col gap-3'>
         {data?.comments.map((comment) => (
           <li key={comment.id}>

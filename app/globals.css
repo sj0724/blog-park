@@ -21,7 +21,7 @@ body {
     @apply text-xl font-semibold my-5; /* H3 스타일 */
   }
   .prose p {
-    @apply mb-0; /* 문단 간격 조절 (기본 4에서 6으로 증가) */
+    @apply mb-0 text-base md:text-lg lg:text-lg; /* 문단 간격 조절 (기본 4에서 6으로 증가) */
   }
   .prose ul {
     @apply list-disc pl-5; /* 리스트 스타일 */

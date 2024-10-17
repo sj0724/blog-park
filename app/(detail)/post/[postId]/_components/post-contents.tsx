@@ -24,7 +24,9 @@ export default async function PostContents({
   return (
     <div className='lg:w-[800px] max-w-[800px] flex flex-col gap-12 w-full'>
       <div className='flex flex-col gap-2'>
-        <h1 className='text-6xl font-extrabold'>{post.title}</h1>
+        <h1 className='text-4xl md:text-6xl lg:text-6xl font-extrabold'>
+          {post.title}
+        </h1>
         <div className='flex justify-end'>
           {currentUser?.id === post.posts_user_id_fkey.id && (
             <PostButtonContainer postId={post.id} />
