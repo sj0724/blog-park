@@ -45,10 +45,13 @@ export default function AlarmButton({ userId }: { userId?: string }) {
 
   return (
     <Link href={'/alarm'}>
-      <div className='relative'>
+      <div className='relative hover:-translate-y-1 transition-transform'>
         <Bell size={25} />
         {alarmCount !== 0 && (
-          <div className='w-3 h-3 rounded-full bg-blue-600 absolute top-0 -right-0' />
+          <span className='absolute flex h-3 w-3 top-0 right-0'>
+            <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75'></span>
+            <span className='relative inline-flex rounded-full h-3 w-3 bg-blue-500'></span>
+          </span>
         )}
       </div>
     </Link>
