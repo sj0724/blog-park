@@ -1,10 +1,12 @@
 'use client';
 
 import { Post } from '@/type';
-import { MessageCircle, Paperclip, Share } from 'lucide-react';
+import { Paperclip, Share } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
+import KakaoIcon from '@/public/kakao-icon-black.svg';
+import Image from 'next/image';
 
 declare global {
   interface Window {
@@ -68,14 +70,16 @@ export default function ShareLinkButton({ post }: { post: Post }) {
   }, [isHover]);
 
   return (
-    <div
-      ref={containerRef}
-      onClick={() => setIsHover(!isHover)}
-      className='relative shadow-md border rounded-full p-2 cursor-pointer'
-    >
-      <Share size={30} />
+    <div className='relative'>
+      <div
+        ref={containerRef}
+        onClick={() => setIsHover(!isHover)}
+        className='shadow-md border rounded-full p-2 cursor-pointer hover:-translate-y-1 transition-transform'
+      >
+        <Share size={30} />
+      </div>
       {isHover && (
-        <div className='absolute flex gap-2 transform -translate-x-1/2 left-1/2 -bottom-14'>
+        <div className='absolute flex gap-2 transform -translate-x-1/2 left-1/2 -bottom-14 animate-fade-in'>
           <div
             className='shadow-md border rounded-full p-2 cursor-pointer'
             onClick={copyLink}
@@ -83,10 +87,10 @@ export default function ShareLinkButton({ post }: { post: Post }) {
             <Paperclip size={30} />
           </div>
           <div
-            className='shadow-md border rounded-full p-2 cursor-pointer'
+            className='shadow-md border rounded-full p-2 cursor-pointer w-12 h-12 flex justify-center items-center'
             onClick={shareKakao}
           >
-            <MessageCircle size={30} />
+            <Image src={KakaoIcon} alt='카카오 아이콘' width={25} height={25} />
           </div>
         </div>
       )}
