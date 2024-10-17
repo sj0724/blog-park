@@ -14,7 +14,7 @@ export default async function FollowContainer() {
           </div>
         </ul>
       ) : (
-        <ul className='grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1'>
+        <ul className='grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-3'>
           {followList.map((user) => (
             <li key={user.id}>
               <FollowingUserCard userId={user.followingId} />
