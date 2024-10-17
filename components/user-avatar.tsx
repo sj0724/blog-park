@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Spinner from './spinner';
 import { CircleUser } from 'lucide-react';
 
-type Size = 'sm' | 'md' | 'lg';
+type Size = 'xs' | 'sm' | 'md' | 'lg';
 
 interface Props {
   image?: string | null;
@@ -10,6 +10,7 @@ interface Props {
 }
 
 const avatarSize = {
+  xs: 'w-10 h-10',
   sm: 'w-14 h-14',
   md: 'w-20 h-20',
   lg: 'w-36 h-36',

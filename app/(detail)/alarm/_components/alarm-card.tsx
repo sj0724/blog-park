@@ -46,8 +46,8 @@ export default function AlarmCard({
   return (
     <Link href={link}>
       <div
-        className={`border rounded-lg flex flex-col py-3 px-5 shadow-lg hover:-translate-y-1 transition-transform w-full ${
-          readAlarm && 'bg-gray-200'
+        className={`bg-white rounded-lg flex flex-col py-3 px-5 shadow hover:shadow-lg hover:-translate-y-1 transition-transform w-full ${
+          readAlarm && 'bg-gray-300'
         }`}
       >
         <div className='flex gap-1'>

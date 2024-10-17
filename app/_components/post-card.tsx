@@ -32,7 +32,7 @@ export default function PostCard({
 
   return (
     <Link href={`/post/${id}`} className='w-fit'>
-      <Card className='w-[350px] hover:shadow-lg hover:-translate-y-1 transition-transform flex flex-col'>
+      <Card className='w-[350px] hover:shadow-lg hover:-translate-y-1 transition-transform flex flex-col border-none'>
         <CardHeader className='h-[130px]'>
           <CardTitle className='flex text-2xl font-extrabold gap-2'>
             {title}

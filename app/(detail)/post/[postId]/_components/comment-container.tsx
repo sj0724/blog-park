@@ -2,7 +2,6 @@
 
 import CommentForm from './comment-form';
 import CommentCard from './comment-card';
-import { Separator } from '@/components/ui/separator';
 import { useState } from 'react';
 import { Comment } from '@/type';
 import CommentPagination from './comment-pagination';
@@ -47,13 +46,15 @@ export default function CommentContainer({
   };
 
   return (
-    <div className='w-full max-w-[800px] gap-2 flex flex-col'>
-      <p className='text-xl font-semibold'>{data?.totalCount}개의 댓글</p>
-      <CommentForm
-        postId={postId}
-        createrId={createrId}
-        updateList={updateList}
-      />
+    <div className='w-full max-w-[800px] gap-3 flex flex-col'>
+      <div className='flex flex-col gap-2'>
+        <p className='text-xl font-semibold'>{data?.totalCount}개의 댓글</p>
+        <CommentForm
+          postId={postId}
+          createrId={createrId}
+          updateList={updateList}
+        />
+      </div>
       {isLoading && <CommentSkeleton />}
       <ul className='flex flex-col gap-3'>
         {data?.comments.map((comment) => (
@@ -64,7 +65,6 @@ export default function CommentContainer({
               postId={postId}
               deleteList={deleteList}
             />
-            <Separator className='mt-3' />
           </li>
         ))}
       </ul>
