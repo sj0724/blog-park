@@ -6,6 +6,7 @@ import { getPostById } from '@/app/data/post';
 import { Metadata } from 'next';
 import { getCommentList } from '@/app/data/commnet';
 import { getSessionUserData } from '@/app/data/user';
+import PostHeadingList from './_components/post-heading-list';
 
 interface Props {
   params: { postId: string };
@@ -53,6 +54,7 @@ export default async function Page({ params }: Props) {
         personalStatus={personalStatus}
         post={post}
       />
+      <PostHeadingList content={post.content} />
     </div>
   );
 }

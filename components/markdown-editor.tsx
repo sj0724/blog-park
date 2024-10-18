@@ -49,6 +49,21 @@ export default function MarkdownEditor({
             {props.children}
           </Link>
         ),
+        h1: (props) => (
+          <h1 id={String(props.children).replace(/#/g, '').trim()}>
+            {props.children}
+          </h1>
+        ),
+        h2: (props) => (
+          <h1 id={String(props.children).replace(/#/g, '').trim()}>
+            {props.children}
+          </h1>
+        ),
+        h3: (props) => (
+          <h1 id={String(props.children).replace(/#/g, '').trim()}>
+            {props.children}
+          </h1>
+        ),
       }}
     >
       {markdownText}
