@@ -5,6 +5,7 @@ import Nav from './_components/nav';
 import Toaster from '@/components/ui/sonner';
 import KakaoScript from '@/KakaoScript';
 import QeuryProviders from '@/components/query-provider';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-50`}
       >
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID as string} />
         <QeuryProviders>
           <Toaster />
           <Nav />
