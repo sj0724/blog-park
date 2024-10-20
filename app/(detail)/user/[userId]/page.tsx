@@ -8,6 +8,7 @@ import LikeContainer from './_components/like-container';
 import { getSessionUserData, getUserById } from '@/app/data/user';
 import Pagination from '@/components/pagination';
 import { Metadata } from 'next';
+import ActivityCalendar from './_components/activity-calendar';
 
 interface Props {
   searchParams: { page: string; menu: string };
@@ -40,7 +41,7 @@ export default async function Page({
   return (
     <>
       <div className='flex flex-col items-center max-w-[1100px] w-full justify-center py-12 px-5'>
-        <div className='w-full'>
+        <div className='w-full flex flex-col'>
           <Profile userId={userId} />
           {session?.id === userId && (
             <ProfileUserMenu menu={menu} userId={userId} />
@@ -61,6 +62,7 @@ export default async function Page({
           )}
           {menu === 'follow' && <FollowContainer />}
           {menu === 'like' && <LikeContainer />}
+          <ActivityCalendar />
         </div>
       </div>
     </>

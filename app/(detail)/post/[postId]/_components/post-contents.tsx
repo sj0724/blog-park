@@ -1,5 +1,5 @@
 import { getSessionUserData } from '@/app/data/user';
-import formatDateRange from '@/utils/formatData';
+import { formatDateRange } from '@/utils/formatData';
 import { DotFilledIcon } from '@radix-ui/react-icons';
 import PostButtonContainer from './post-button-container';
 import Link from 'next/link';

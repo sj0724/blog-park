@@ -2,7 +2,7 @@ import MarkdownEditor from '@/components/markdown-editor';
 import TagBadge from '@/components/tag-badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { SupabaseUser } from '@/type';
-import formatDateRange from '@/utils/formatData';
+import { formatDateRange } from '@/utils/formatData';
 import { Lock } from 'lucide-react';
 import Link from 'next/link';
 
