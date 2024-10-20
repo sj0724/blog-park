@@ -16,8 +16,10 @@ export default function CalendarSingleDay({ day, year }: Props) {
 
   return (
     <HoverCard>
-      <HoverCardTrigger className='w-4 h-4 border rounded-md cursor-pointer' />
-      <HoverCardContent>{formatDate}</HoverCardContent>
+      <HoverCardTrigger className='w-3 h-3 border rounded cursor-pointer' />
+      <HoverCardContent className='w-fit p-2'>
+        <p className='text-sm'>{formatDate}</p>
+      </HoverCardContent>
     </HoverCard>
   );
 }
