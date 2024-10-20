@@ -20,7 +20,7 @@ export default function ActivityCalendar() {
           <div key={index} className='p-2' />
         ))}
         {Array.from({ length: totalDay }, (_, index) => (
-          <CalendarSingleDay key={index} day={index + 1} />
+          <CalendarSingleDay key={index} day={index + 1} year={currentYear} />
         ))}
       </div>
     </div>

@@ -1,6 +1,10 @@
 import { formatInTimeZone } from 'date-fns-tz';
 
-export const formatDateRange = ({ dateString }: { dateString: string }) => {
+export const formatDateRange = ({
+  dateString,
+}: {
+  dateString: string | Date;
+}) => {
   const formattedDate = formatInTimeZone(
     dateString,
     'Asia/Seoul',
@@ -19,4 +23,10 @@ export const getDayInYear = (year: number) => {
   const secondeDay = Number(new Date(year + 1, 0, 1));
   const dayInYear = (secondeDay - firstDay) / (1000 * 60 * 60 * 24);
   return dayInYear;
+};
+
+export const getDateFromDay = (year: number, day: number) => {
+  const date = new Date(year, 0);
+  date.setDate(day);
+  return date;
 };
