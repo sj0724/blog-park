@@ -30,3 +30,8 @@ export const getDateFromDay = (year: number, day: number) => {
   date.setDate(day);
   return date;
 };
+
+export const formatDateTz = (date: Date | string) => {
+  const formattedDate = formatInTimeZone(date, 'Asia/Seoul', 'yyyy-MM-dd');
+  return formattedDate;
+};

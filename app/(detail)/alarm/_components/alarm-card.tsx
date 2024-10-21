@@ -16,7 +16,7 @@ interface Props {
   isRead: boolean;
   createdAt: string | null;
   user: SupabaseUser;
-  link: string;
+  link: string | null;
 }
 
 export default function AlarmCard({
@@ -44,7 +44,7 @@ export default function AlarmCard({
   };
 
   return (
-    <Link href={link}>
+    <Link href={link ? link : '/'}>
       <div
         className={`relative rounded-lg flex flex-col py-3 px-5 shadow hover:shadow-lg hover:-translate-y-1 transition-transform w-full ${
           readAlarm ? 'bg-gray-300' : 'bg-white'
