@@ -20,13 +20,13 @@ export const addLog = async ({ type }: Props) => {
       .select('*')
       .eq('user_id', session.id)
       .gte('updated_at', today);
-    if (data) {
+
+    if (data && data[0]) {
       if (type === 'post') {
         await supabase
           .from('activity_logs')
           .update({
             rate: data[0].rate! + 50,
-            updated_at: String(currentDay),
             post_count: data[0].post_count! + 1,
           })
           .eq('user_id', session.id)
@@ -37,7 +37,6 @@ export const addLog = async ({ type }: Props) => {
           .from('activity_logs')
           .update({
             rate: data[0].rate! + 40,
-            updated_at: String(currentDay),
             comment_count: data[0].comment_count! + 1,
           })
           .eq('user_id', session.id)
@@ -48,7 +47,6 @@ export const addLog = async ({ type }: Props) => {
           .from('activity_logs')
           .update({
             rate: data[0].rate! + 10,
-            updated_at: String(currentDay),
             like_count: data[0].like_count! + 1,
           })
           .eq('user_id', session.id)
