@@ -76,6 +76,8 @@ export default function PostEditor({ postId, post }: Props) {
     }
   };
 
+  if (!post) return <div>포스트 정보가 잘못되었습니다.</div>;
+
   return (
     <div className='flex px-4 py-7 w-screen'>
       <form className='relative w-full'>
@@ -124,7 +126,7 @@ export default function PostEditor({ postId, post }: Props) {
                 postContent={markdown}
                 title={postTitle}
                 postId={postId}
-                postTagList={post ? post.tag : []}
+                postTagList={post.tag ? post.tag : []}
                 summation={post ? post.summation : ''}
                 isPublished={post ? post.isPublished : true}
               />

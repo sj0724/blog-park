@@ -89,15 +89,56 @@ export type Database = {
         };
         Relationships: [];
       };
+      activity_logs: {
+        Row: {
+          comment_count: number | null;
+          created_at: string;
+          id: string;
+          like_count: number | null;
+          post_count: number | null;
+          rate: number | null;
+          updated_at: string | null;
+          user_id: string | null;
+        };
+        Insert: {
+          comment_count?: number | null;
+          created_at?: string;
+          id?: string;
+          like_count?: number | null;
+          post_count?: number | null;
+          rate?: number | null;
+          updated_at?: string | null;
+          user_id?: string | null;
+        };
+        Update: {
+          comment_count?: number | null;
+          created_at?: string;
+          id?: string;
+          like_count?: number | null;
+          post_count?: number | null;
+          rate?: number | null;
+          updated_at?: string | null;
+          user_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'activity_logs_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          }
+        ];
+      };
       alarms: {
         Row: {
           content: string;
           createdAt: string | null;
           id: string;
           isRead: boolean;
+          owner_id: string | null;
+          routePath: string | null;
           user_id: string;
-          owner_id: string;
-          routePath: string;
           user: SupabaseUser;
         };
         Insert: {
@@ -105,6 +146,8 @@ export type Database = {
           createdAt?: string | null;
           id?: string;
           isRead?: boolean;
+          owner_id?: string | null;
+          routePath?: string | null;
           user_id: string;
         };
         Update: {
@@ -112,19 +155,21 @@ export type Database = {
           createdAt?: string | null;
           id?: string;
           isRead?: boolean;
+          owner_id?: string | null;
+          routePath?: string | null;
           user_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: 'alarms_user_id_fkey';
-            columns: ['user_id'];
+            foreignKeyName: 'alarms_owner_id_fkey';
+            columns: ['owner_id'];
             isOneToOne: false;
             referencedRelation: 'users';
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'alarms_owner_id_fkey';
-            columns: ['owner_id'];
+            foreignKeyName: 'alarms_user_id_fkey';
+            columns: ['user_id'];
             isOneToOne: false;
             referencedRelation: 'users';
             referencedColumns: ['id'];
@@ -250,11 +295,11 @@ export type Database = {
           id: string;
           isPublished: boolean;
           summation: string;
+          tag: string[] | null;
           title: string;
           updatedAt: string;
           user_id: string;
           posts_user_id_fkey: SupabaseUser;
-          tag: string[];
         };
         Insert: {
           content: string;
@@ -262,10 +307,10 @@ export type Database = {
           id?: string;
           isPublished?: boolean;
           summation: string;
+          tag?: string[] | null;
           title: string;
           updatedAt?: string;
           user_id: string;
-          tag: string[];
         };
         Update: {
           content?: string;
@@ -273,10 +318,10 @@ export type Database = {
           id?: string;
           isPublished?: boolean;
           summation?: string;
+          tag?: string[] | null;
           title?: string;
           updatedAt?: string;
           user_id?: string;
-          tag?: string[];
         };
         Relationships: [
           {
@@ -341,9 +386,9 @@ export type Database = {
           image: string | null;
           introduction: string | null;
           name: string | null;
+          oauth_account: boolean | null;
           password: string;
           updatedAt: string;
-          oauth_account: boolean;
         };
         Insert: {
           createdAt?: string;
@@ -352,9 +397,9 @@ export type Database = {
           image?: string | null;
           introduction?: string | null;
           name?: string | null;
+          oauth_account?: boolean | null;
           password: string;
           updatedAt?: string;
-          oauth_account?: boolean;
         };
         Update: {
           createdAt?: string;
@@ -363,9 +408,9 @@ export type Database = {
           image?: string | null;
           introduction?: string | null;
           name?: string | null;
+          oauth_account?: boolean | null;
           password?: string;
           updatedAt?: string;
-          oauth_account?: boolean;
         };
         Relationships: [];
       };
@@ -491,4 +536,19 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions['schema']]['Enums'][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema['Enums']
   ? PublicSchema['Enums'][PublicEnumNameOrOptions]
+  : never;
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema['CompositeTypes']
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database;
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
+    : never = never
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema['CompositeTypes']
+  ? PublicSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
   : never;
