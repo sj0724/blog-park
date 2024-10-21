@@ -1,5 +1,12 @@
-import { getDayInYear, getFirstDay } from '@/utils/formatData';
+import {
+  formatDateTz,
+  getDateFromDay,
+  getDayInYear,
+  getFirstDay,
+} from '@/utils/formatData';
 import CalendarSingleDay from './calendar-single-day';
+import { getLogById } from '@/app/data/log';
+import { Log } from '@/type';
 
 const DAYS_KOREAN = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -18,10 +25,21 @@ const MONTHS_KOREAN = [
   '12월',
 ];
 
-export default function ActivityCalendar() {
+export default async function ActivityCalendar({ userId }: { userId: string }) {
   const currentYear = new Date().getFullYear();
   const firstDayIndex = getFirstDay(currentYear);
   const totalDay = getDayInYear(currentYear);
+  const log = await getLogById({ userId, year: currentYear });
+
+  // 전체 로그 배열을 날짜값을 키값으로 객체 생성
+  const logByDate: Record<string, Log[]> = log!.reduce((acc, entry) => {
+    const date = formatDateTz(entry.updated_at!);
+    acc[date] = acc[date] || [];
+    acc[date].push(entry);
+    return acc;
+  }, {} as Record<string, Log[]>);
+
+  console.log(logByDate);
 
   return (
     <div className='flex flex-col gap-4'>
@@ -49,13 +67,22 @@ export default function ActivityCalendar() {
             {Array.from({ length: firstDayIndex }).map((_, index) => (
               <div key={index} className='w-3 h-3' />
             ))}
-            {Array.from({ length: totalDay }, (_, index) => (
-              <CalendarSingleDay
-                key={index}
-                day={index + 1}
-                year={currentYear}
-              />
-            ))}
+            {Array.from({ length: totalDay }, (_, index) => {
+              // 위에서 만들어진 객체에서 같은 날짜에 있는 프로퍼티값을 props로 전달
+              const day = index + 1;
+              const dayByYear = getDateFromDay(currentYear, day); // 현재 연도에서 해당 일수의 날짜로 변환
+              const formatDate = formatDateTz(dayByYear); // 날짜를 시간 제외한 포멧으로 변경
+              const matchLog = logByDate[formatDate] || [];
+
+              return (
+                <CalendarSingleDay
+                  key={day}
+                  day={day}
+                  year={currentYear}
+                  log={matchLog}
+                />
+              );
+            })}
           </div>
         </div>
       </div>

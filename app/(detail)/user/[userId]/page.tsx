@@ -62,7 +62,7 @@ export default async function Page({
           )}
           {menu === 'follow' && <FollowContainer />}
           {menu === 'like' && <LikeContainer />}
-          <ActivityCalendar />
+          <ActivityCalendar userId={userId} />
         </div>
       </div>
     </>
