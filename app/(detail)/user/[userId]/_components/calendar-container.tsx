@@ -47,7 +47,7 @@ export default function CalendarContainer({
 
   return (
     <div
-      className='flex flex-col gap-3 border p-3 rounded-lg max-w-[800px] overflow-x-auto'
+      className='flex flex-col gap-3 border p-3 rounded-lg w-full overflow-x-auto'
       ref={containerRef}
     >
       <div className='ml-8 flex gap-12'>
