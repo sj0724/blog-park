@@ -5,6 +5,7 @@ import { getSessionUserData } from '../data/user';
 import { revalidatePath } from 'next/cache';
 import { supabase } from '@/utils/supabase';
 import { createAlarm } from './alarm';
+import { addLog } from './log';
 
 export const createLike = async ({
   postId,
@@ -45,6 +46,13 @@ export const createLike = async ({
         },
       ]);
 
+    if (result.error) {
+      return {
+        success: false,
+        message: '게시물에 좋아요를 남기는데 실패했습니다.',
+      };
+    }
+
     await createAlarm({
       userId: createrId,
       ownerId: session.id,
@@ -52,12 +60,7 @@ export const createLike = async ({
       routePath: `/post/${postId}`,
     });
 
-    if (result.error) {
-      return {
-        success: false,
-        message: '게시물에 좋아요를 남기는데 실패했습니다.',
-      };
-    }
+    await addLog({ type: 'like' });
 
     revalidatePath(`/post/${postId}`);
 
