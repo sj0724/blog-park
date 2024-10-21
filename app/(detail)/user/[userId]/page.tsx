@@ -43,6 +43,7 @@ export default async function Page({
       <div className='flex flex-col items-center max-w-[1100px] w-full justify-center py-12 px-5'>
         <div className='w-full flex flex-col'>
           <Profile userId={userId} />
+          <ActivityCalendar userId={userId} />
           {session?.id === userId && (
             <ProfileUserMenu menu={menu} userId={userId} />
           )}
@@ -62,7 +63,6 @@ export default async function Page({
           )}
           {menu === 'follow' && <FollowContainer />}
           {menu === 'like' && <LikeContainer />}
-          <ActivityCalendar userId={userId} />
         </div>
       </div>
     </>

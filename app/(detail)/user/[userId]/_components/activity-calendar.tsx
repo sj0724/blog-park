@@ -39,8 +39,6 @@ export default async function ActivityCalendar({ userId }: { userId: string }) {
     return acc;
   }, {} as Record<string, Log[]>);
 
-  console.log(logByDate);
-
   return (
     <div className='flex flex-col gap-4'>
       <p className='text-2xl font-semibold'>활동 내역</p>
