@@ -1,10 +1,8 @@
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from '@/components/ui/hover-card';
+'use client';
+
 import { Log } from '@/type';
 import { formatDateRange, getDateFromDay } from '@/utils/formatData';
+import { useState } from 'react';
 
 interface Props {
   day: number;
@@ -13,6 +11,7 @@ interface Props {
 }
 
 export default function CalendarSingleDay({ day, year, log }: Props) {
+  const [isHover, setIsHover] = useState(false);
   const transformDay = getDateFromDay(year, day);
   const formatDate = formatDateRange({ dateString: transformDay });
   const logColor = (rate: number) => {
@@ -29,20 +28,28 @@ export default function CalendarSingleDay({ day, year, log }: Props) {
   };
 
   return (
-    <HoverCard>
-      <HoverCardTrigger
+    <div
+      className='relative'
+      onMouseEnter={() => setIsHover(true)}
+      onMouseLeave={() => setIsHover(false)}
+    >
+      <div
         className={`w-3 h-3 border rounded cursor-pointer ${
           log[0] && logColor(log[0].rate!)
         }`}
       />
-      <HoverCardContent className='flex flex-col w-fit p-2 gap-1'>
-        <p className='text-sm font-semibold'>{formatDate}</p>
-        <div className='text-sm font-semibold text-gray-500'>
-          <p>포스트 : {log[0] ? log[0].post_count : 0}</p>
-          <p>댓글 : {log[0] ? log[0].comment_count : 0}</p>
-          <p>좋아요 : {log[0] ? log[0].like_count : 0}</p>
+      <div
+        className={`${
+          isHover ? 'flex scale-100' : 'scale-0'
+        } absolute top-0 origin-top-left z-10 bg-white shadow-md flex-col w-32 h-fit p-2 gap-1 rounded-md transition-transform duration-900 translate-x-4`}
+      >
+        <p className='text-sm font-semibold text-nowrap'>{formatDate}</p>
+        <div className='text-sm font-semibold text-gray-600'>
+          <p>포스트 : {log[0] ? log[0].post_count : 0}회</p>
+          <p>댓글 : {log[0] ? log[0].comment_count : 0}회</p>
+          <p>좋아요 : {log[0] ? log[0].like_count : 0}회</p>
         </div>
-      </HoverCardContent>
-    </HoverCard>
+      </div>
+    </div>
   );
 }
