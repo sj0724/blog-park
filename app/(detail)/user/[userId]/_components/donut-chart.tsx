@@ -70,7 +70,7 @@ export default function DonutChart({ post, commnet, like }: Props) {
               postHover && 'scale-125'
             } origin-center sclae-100 cursor-pointer transition-all duration-300 ease-in-out`}
             strokeLinecap='round'
-            onClick={() => {
+            onMouseOver={() => {
               setPostHover(!postHover);
               setCommentHover(false);
               setLikeHover(false);
@@ -89,7 +89,7 @@ export default function DonutChart({ post, commnet, like }: Props) {
               circumference - dasharray2 + 20
             }`}
             strokeDashoffset={offset - dasharray1 - 10}
-            onClick={() => {
+            onMouseOver={() => {
               setPostHover(false);
               setCommentHover(!commentHover);
               setLikeHover(false);
@@ -112,7 +112,7 @@ export default function DonutChart({ post, commnet, like }: Props) {
               circumference - dasharray3 + 20
             }`}
             strokeDashoffset={offset - (dasharray1 + dasharray2) - 10}
-            onClick={() => {
+            onMouseOver={() => {
               setPostHover(false);
               setCommentHover(false);
               setLikeHover(!likeHover);
