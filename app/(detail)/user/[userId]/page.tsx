@@ -9,7 +9,6 @@ import { getSessionUserData, getUserById } from '@/app/data/user';
 import Pagination from '@/components/pagination';
 import { Metadata } from 'next';
 import ActivityCalendar from './_components/activity-calendar';
-import SummaryConatiner from './_components/summary-container';
 
 interface Props {
   searchParams: { page: string; menu: string };
@@ -43,12 +42,11 @@ export default async function Page({
     <>
       <div className='flex flex-col items-center max-w-[1100px] w-full justify-center py-12 px-5'>
         <div className='w-full flex flex-col gap-5 items-center'>
-          <div className='flex flex-col gap-5'>
+          <div className='flex flex-col gap-5 w-full max-w-[800px]'>
             <Profile userId={userId} />
             <ActivityCalendar userId={userId} />
-            <SummaryConatiner userId={userId} />
           </div>
-          <div className='flex flex-col'>
+          <div className='flex flex-col w-full'>
             {session?.id === userId && (
               <ProfileUserMenu menu={menu} userId={userId} />
             )}

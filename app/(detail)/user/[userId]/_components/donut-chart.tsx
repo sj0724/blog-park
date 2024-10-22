@@ -45,90 +45,110 @@ export default function DonutChart({ post, commnet, like }: Props) {
     );
   }
 
+  const resetState = () => {
+    setPostHover(false);
+    setCommentHover(false);
+    setLikeHover(false);
+  };
+
   return (
-    <svg viewBox='0 0 300 300' width='250' height='250'>
-      {postRatio !== 0 && (
-        <circle
-          cx='150'
-          cy='150'
-          r={radius}
-          fill='none'
-          stroke='#3b82f6'
-          strokeWidth='20'
-          strokeDasharray={`${dasharray1 - 20} ${
-            circumference - dasharray1 + 20
-          }`}
-          strokeDashoffset={offset - 10}
-          onMouseEnter={() => setPostHover(!postHover)}
-          className='cursor-pointer'
-          strokeLinecap='round'
-        />
-      )}
-      {commentRatio !== 0 && (
-        <circle
-          cx='150'
-          cy='150'
-          r={radius}
-          fill='none'
-          stroke='#ef4444'
-          strokeWidth='20'
-          strokeDasharray={`${dasharray2 - 20} ${
-            circumference - dasharray2 + 20
-          }`}
-          strokeDashoffset={offset - dasharray1 - 10}
-          onMouseEnter={() => setCommentHover(!commentHover)}
-          className='cursor-pointer'
-          strokeLinecap='round'
-        />
-      )}
-      {likeRatio !== 0 && (
-        <circle
-          cx='150'
-          cy='150'
-          r={radius}
-          fill='none'
-          stroke='#10b981'
-          strokeWidth={likeHover ? 40 : 20}
-          strokeDasharray={`${dasharray3 - 20} ${
-            circumference - dasharray3 + 20
-          }`}
-          strokeDashoffset={offset - (dasharray1 + dasharray2) - 10}
-          onMouseEnter={() => setLikeHover(!likeHover)}
-          onMouseLeave={() => setLikeHover(!likeHover)}
-          className='cursor-pointer'
-          strokeLinecap='round'
-        />
-      )}
-      {postHover && ( // hover시 해당 부분을 상단으로 올리기 위한 코드
-        <circle
-          cx='150'
-          cy='150'
-          r={radius}
-          fill='none'
-          stroke='#3b82f6'
-          strokeWidth={postHover ? 40 : 20}
-          strokeDasharray={`${dasharray1} ${circumference - dasharray1}`}
-          strokeDashoffset={offset}
-          onMouseLeave={() => setPostHover(!postHover)}
-          className='cursor-pointer'
-          strokeLinecap='round'
-        />
-      )}
-      {commentHover && (
-        <circle
-          cx='150'
-          cy='150'
-          r={radius}
-          fill='none'
-          stroke='#ef4444'
-          strokeWidth={commentHover ? 40 : 20}
-          strokeDasharray={`${dasharray2} ${circumference - dasharray2}`}
-          strokeDashoffset={offset - dasharray1}
-          onMouseLeave={() => setCommentHover(!commentHover)}
-          className='cursor-pointer'
-          strokeLinecap='round'
-        />
-      )}
-    </svg>
+    <div onMouseLeave={resetState}>
+      <svg viewBox='0 0 300 300' width='250' height='250'>
+        {postRatio !== 0 && (
+          <circle
+            cx='150'
+            cy='150'
+            r={radius}
+            fill='none'
+            stroke='#3b82f6'
+            strokeWidth='20'
+            strokeDasharray={`${dasharray1 - 20} ${
+              circumference - dasharray1 + 20
+            }`}
+            strokeDashoffset={offset - 10}
+            className={`${
+              postHover && 'scale-125'
+            } origin-center sclae-100 cursor-pointer transition-all duration-300 ease-in-out`}
+            strokeLinecap='round'
+            onMouseOver={() => {
+              setPostHover(!postHover);
+              setCommentHover(false);
+              setLikeHover(false);
+            }}
+          />
+        )}
+        {commentRatio !== 0 && (
+          <circle
+            cx='150'
+            cy='150'
+            r={radius}
+            fill='none'
+            stroke='#ef4444'
+            strokeWidth='20'
+            strokeDasharray={`${dasharray2 - 20} ${
+              circumference - dasharray2 + 20
+            }`}
+            strokeDashoffset={offset - dasharray1 - 10}
+            onMouseOver={() => {
+              setPostHover(false);
+              setCommentHover(!commentHover);
+              setLikeHover(false);
+            }}
+            className={`${
+              commentHover && 'scale-125'
+            } origin-center sclae-100 cursor-pointer transition-all duration-300 ease-in-out`}
+            strokeLinecap='round'
+          />
+        )}
+        {likeRatio !== 0 && (
+          <circle
+            cx='150'
+            cy='150'
+            r={radius}
+            fill='none'
+            stroke='#10b981'
+            strokeWidth='20'
+            strokeDasharray={`${dasharray3 - 20} ${
+              circumference - dasharray3 + 20
+            }`}
+            strokeDashoffset={offset - (dasharray1 + dasharray2) - 10}
+            onMouseOver={() => {
+              setPostHover(false);
+              setCommentHover(false);
+              setLikeHover(!likeHover);
+            }}
+            className={`${
+              likeHover && 'scale-125'
+            } origin-center sclae-100 cursor-pointer transition-all duration-300 ease-in-out`}
+            strokeLinecap='round'
+          />
+        )}
+        {!postHover && !commentHover && !likeHover && (
+          <text
+            x='150'
+            y='155'
+            fontSize='20'
+            fontWeight={600}
+            fill='#4b5563'
+            textAnchor='middle'
+          >
+            전체 {total}회
+          </text>
+        )}
+        {(postHover || commentHover || likeHover) && (
+          <text
+            x='150'
+            y='155'
+            fontSize='20'
+            fontWeight={600}
+            textAnchor='middle'
+          >
+            {postHover && `포스트 ${post}회`}
+            {commentHover && `댓글 ${commnet}회`}
+            {likeHover && `좋아요 ${like}회`}
+          </text>
+        )}
+      </svg>
+    </div>
   );
 }
