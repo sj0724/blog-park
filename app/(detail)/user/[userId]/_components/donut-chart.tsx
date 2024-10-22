@@ -12,6 +12,7 @@ export default function DonutChart({ post, commnet, like }: Props) {
   const [postHover, setPostHover] = useState(false);
   const [commentHover, setCommentHover] = useState(false);
   const [likeHover, setLikeHover] = useState(false);
+  const squareSize = 300;
 
   const total = post + commnet + like;
   const radius = 90; // 원의 반지름
@@ -28,11 +29,29 @@ export default function DonutChart({ post, commnet, like }: Props) {
 
   const offset = circumference * 0.25; // 위치 조정을 위한 offset
 
+  const getTextPosition = (startRatio: number, endRatio: number) => {
+    const midRatio = (startRatio + endRatio) / 2; // 시작과 끝 사이의 중간 비율
+    const angle = 2 * Math.PI * midRatio + offset * 1.5; // 중간 각도 계산
+    const x = 150 + (radius + 30) * Math.cos(angle); // 텍스트 위치 계산 (원의 중심에서 약간 안쪽)
+    const y = 150 + (radius + 35) * Math.sin(angle);
+    if (y > 265 && y < 285) {
+      return { x, y: y + 10 };
+    }
+    return { x, y };
+  };
+
+  const postPosition = getTextPosition(0, postRatio); // 첫 번째 항목
+  const commentPosition = getTextPosition(postRatio, postRatio + commentRatio); // 두 번째 항목
+  const likePosition = getTextPosition(
+    postRatio + commentRatio,
+    postRatio + commentRatio + likeRatio
+  ); // 세 번째 항목
+
   return (
-    <svg viewBox='0 0 220 220' width='200' height='200'>
+    <svg viewBox='0 0 300 300' width='250' height='250'>
       <circle
-        cx='110'
-        cy='110'
+        cx='150'
+        cy='150'
         r={radius}
         fill='none'
         stroke='#3b82f6'
@@ -46,8 +65,8 @@ export default function DonutChart({ post, commnet, like }: Props) {
         strokeLinecap='round'
       />
       <circle
-        cx='110'
-        cy='110'
+        cx='150'
+        cy='150'
         r={radius}
         fill='none'
         stroke='#ef4444'
@@ -61,8 +80,8 @@ export default function DonutChart({ post, commnet, like }: Props) {
         strokeLinecap='round'
       />
       <circle
-        cx='110'
-        cy='110'
+        cx='150'
+        cy='150'
         r={radius}
         fill='none'
         stroke='#10b981'
@@ -78,8 +97,8 @@ export default function DonutChart({ post, commnet, like }: Props) {
       />
       {postHover && ( // hover시 해당 부분을 상단으로 올리기 위한 코드
         <circle
-          cx='110'
-          cy='110'
+          cx='150'
+          cy='150'
           r={radius}
           fill='none'
           stroke='#3b82f6'
@@ -93,8 +112,8 @@ export default function DonutChart({ post, commnet, like }: Props) {
       )}
       {commentHover && (
         <circle
-          cx='110'
-          cy='110'
+          cx='150'
+          cy='150'
           r={radius}
           fill='none'
           stroke='#ef4444'
@@ -106,6 +125,39 @@ export default function DonutChart({ post, commnet, like }: Props) {
           strokeLinecap='round'
         />
       )}
+      <text
+        x={postPosition.x}
+        y={postPosition.y}
+        fontFamily='Arial'
+        fontSize='30'
+        fontWeight='600'
+        fill='black'
+        textAnchor='middle'
+      >
+        {post}
+      </text>
+      <text
+        x={commentPosition.x}
+        y={commentPosition.y}
+        fontFamily='Arial'
+        fontSize='30'
+        fontWeight='600'
+        fill='black'
+        textAnchor='middle'
+      >
+        {commnet}
+      </text>
+      <text
+        x={likePosition.x}
+        y={likePosition.y}
+        fontFamily='Arial'
+        fontSize='30'
+        fontWeight='600'
+        fill='black'
+        textAnchor='middle'
+      >
+        {like}
+      </text>
     </svg>
   );
 }
