@@ -59,3 +59,16 @@ export const getPostById = async (postId: string) => {
     .single();
   return post;
 };
+
+export const getPostTotalCount = async ({ userId }: { userId: string }) => {
+  const { data, error, count } = await supabase
+    .from('posts')
+    .select('*', { count: 'exact' })
+    .eq('user_id', userId);
+
+  if (error) {
+    throw new Error(`Error fetching comments: ${error.message}`);
+  }
+
+  return count ? count : 0;
+};

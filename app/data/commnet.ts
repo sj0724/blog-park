@@ -25,3 +25,16 @@ export const getCommentList = async ({
     totalCount: count,
   };
 };
+
+export const getCommentTotalCount = async ({ userId }: { userId: string }) => {
+  const { data, error, count } = await supabase
+    .from('comments')
+    .select('*', { count: 'exact' })
+    .eq('user_id', userId);
+
+  if (error) {
+    throw new Error(`Error fetching comments: ${error.message}`);
+  }
+
+  return count ? count : 0;
+};
