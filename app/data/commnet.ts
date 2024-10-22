@@ -27,7 +27,7 @@ export const getCommentList = async ({
 };
 
 export const getCommentTotalCount = async ({ userId }: { userId: string }) => {
-  const { data, error, count } = await supabase
+  const { error, count } = await supabase
     .from('comments')
     .select('*', { count: 'exact' })
     .eq('user_id', userId);

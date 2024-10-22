@@ -43,7 +43,7 @@ export const getMyLikeList = async () => {
 };
 
 export const getLikeTotalCount = async ({ userId }: { userId: string }) => {
-  const { data, error, count } = await supabase
+  const { error, count } = await supabase
     .from('likes')
     .select('*', { count: 'exact' })
     .eq('user_id', userId);
