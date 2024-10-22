@@ -4,6 +4,7 @@ import { ActionType } from '@/type';
 import { getSessionUserData } from '../data/user';
 import { supabase } from '@/utils/supabase';
 import { revalidatePath } from 'next/cache';
+import { addLog } from './log';
 
 interface ContentProps {
   content: string;
@@ -34,13 +35,18 @@ export const creatPost = async ({
       },
     ]);
 
-    if (result.error)
+    if (result.error) {
       return {
         success: false,
         message: '포스팅에 실패했습니다.',
       };
+    }
+
+    await addLog({ type: 'post' });
+
     revalidatePath(`/user/${session?.id}`);
     revalidatePath('/post/list');
+
     return {
       success: true,
       message: '포스팅에 성공했습니다.',

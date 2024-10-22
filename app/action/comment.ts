@@ -5,6 +5,7 @@ import { getSessionUserData } from '../data/user';
 import { revalidatePath } from 'next/cache';
 import { supabase } from '@/utils/supabase';
 import { createAlarm } from './alarm';
+import { addLog } from './log';
 
 interface CommentProps {
   content: string;
@@ -50,6 +51,8 @@ export const createComment = async ({
       content: '게시물에 댓글을 남겼습니다.',
       routePath: `/post/${postId}`,
     });
+
+    await addLog({ type: 'comment' });
 
     return {
       success: true,
