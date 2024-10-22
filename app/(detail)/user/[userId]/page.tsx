@@ -46,7 +46,6 @@ export default async function Page({
           <div className='flex flex-col gap-5'>
             <Profile userId={userId} />
             <ActivityCalendar userId={userId} />
-            <SummaryConatiner userId={userId} />
           </div>
           <div className='flex flex-col'>
             {session?.id === userId && (
