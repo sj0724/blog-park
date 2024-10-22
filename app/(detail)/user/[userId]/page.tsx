@@ -9,6 +9,7 @@ import { getSessionUserData, getUserById } from '@/app/data/user';
 import Pagination from '@/components/pagination';
 import { Metadata } from 'next';
 import ActivityCalendar from './_components/activity-calendar';
+import DonutChart from './_components/donut-chart';
 
 interface Props {
   searchParams: { page: string; menu: string };
@@ -43,6 +44,7 @@ export default async function Page({
       <div className='flex flex-col items-center max-w-[1100px] w-full justify-center py-12 px-5'>
         <div className='w-full flex flex-col gap-5 items-center'>
           <div className='flex flex-col gap-3'>
+            <DonutChart post={9} commnet={4} like={4} />
             <Profile userId={userId} />
             <ActivityCalendar userId={userId} />
           </div>
