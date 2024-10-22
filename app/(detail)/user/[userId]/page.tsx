@@ -9,7 +9,6 @@ import { getSessionUserData, getUserById } from '@/app/data/user';
 import Pagination from '@/components/pagination';
 import { Metadata } from 'next';
 import ActivityCalendar from './_components/activity-calendar';
-import SummaryConatiner from './_components/summary-container';
 
 interface Props {
   searchParams: { page: string; menu: string };
