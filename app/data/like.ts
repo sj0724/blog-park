@@ -41,3 +41,16 @@ export const getMyLikeList = async () => {
 
   return likeList;
 };
+
+export const getLikeTotalCount = async ({ userId }: { userId: string }) => {
+  const { error, count } = await supabase
+    .from('likes')
+    .select('*', { count: 'exact' })
+    .eq('user_id', userId);
+
+  if (error) {
+    throw new Error(`Error fetching comments: ${error.message}`);
+  }
+
+  return count ? count : 0;
+};
