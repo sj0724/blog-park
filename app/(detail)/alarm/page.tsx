@@ -10,7 +10,7 @@ export default async function Page() {
       <h1 className='text-2xl font-bold py-5'>알림 목록</h1>
       <div className='flex flex-col items-center justify-center gap-10 relative'>
         {data.alarms.length === 0 ? (
-          <div className='flex items-center justify-center gap-5 border rounded-lg shadow-lg w-full h-28 px-8 py-4 hover:-translate-y-1 transition-transform text-2xl font-semibold'>
+          <div className='flex items-center justify-center gap-5 rounded-lg shadow-lg w-full h-28 px-8 py-4 hover:-translate-y-1 transition-transform text-xl font-semibold bg-white'>
             알람이 없습니다!
           </div>
         ) : (

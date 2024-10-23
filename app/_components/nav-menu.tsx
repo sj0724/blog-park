@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/navigation-menu';
 import ListItem from './nav-menu-item';
 import LogoutButton from './logout-button';
+import { NotebookPen } from 'lucide-react';
 
 const userMenu: { title: string; href: string }[] = [
   {
@@ -38,15 +39,17 @@ const nonMemberMenu: { title: string; href: string }[] = [
 export default function NavMenu({ userId }: { userId?: string }) {
   return (
     <NavigationMenu className='lg:text-lg text-base'>
-      <NavigationMenuList className='flex'>
+      <NavigationMenuList className='flex gap-1'>
         <NavigationMenuItem>
           <Link href='/post/create'>
-            <p className='text-nowrap'>작성하기</p>
+            <div className='relative hover:-translate-y-1 transition-transform'>
+              <NotebookPen size={25} />
+            </div>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger className='lg:text-lg text-base font-bold'>
-            내 메뉴
+            메뉴
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             {userId ? (

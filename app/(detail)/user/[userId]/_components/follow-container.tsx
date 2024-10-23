@@ -5,7 +5,7 @@ export default async function FollowContainer() {
   const followList = await getMyFollow();
 
   return (
-    <div className='flex flex-col gap-10'>
+    <div className='flex flex-col gap-10 max-w-[800px] w-full'>
       <h1 className='text-2xl font-bold'>팔로우 목록</h1>
       {!followList || followList.length === 0 ? (
         <ul className='flex flex-col items-center'>
