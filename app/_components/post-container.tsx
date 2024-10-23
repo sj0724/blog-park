@@ -8,7 +8,7 @@ interface Props {
 
 export default async function PostContainer({ list, title }: Props) {
   return (
-    <div className='flex flex-col gap-10'>
+    <div className='flex flex-col gap-10 max-w-[800px] w-full'>
       <h1 className='text-2xl font-bold'>{title}</h1>
       {!list || list.length === 0 ? (
         <ul className='flex flex-col items-center'>
@@ -17,9 +17,9 @@ export default async function PostContainer({ list, title }: Props) {
           </div>
         </ul>
       ) : (
-        <ul className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 items-center justify-center'>
+        <ul className='flex flex-col items-center justify-center gap-4'>
           {list.map((post) => (
-            <li key={post.id} className='flex justify-center'>
+            <li key={post.id} className='flex flex-col w-full'>
               <PostCard
                 id={post.id}
                 title={post.title}

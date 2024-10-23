@@ -11,7 +11,6 @@ export default function ProfileUserMenu({
   return (
     <div className='flex justify-between w-full px-10 py-5'>
       <ProfileMenuButton
-        text='내 포스트'
         href={`/user/${userId}?menu=list`}
         id='list'
         currentMenu={menu}
@@ -19,7 +18,6 @@ export default function ProfileUserMenu({
         <LayoutList size={30} />
       </ProfileMenuButton>
       <ProfileMenuButton
-        text='팔로우'
         href={`/user/${userId}?menu=follow`}
         id='follow'
         currentMenu={menu}
@@ -27,7 +25,6 @@ export default function ProfileUserMenu({
         <UserPlus size={30} />
       </ProfileMenuButton>
       <ProfileMenuButton
-        text='좋아요'
         href={`/user/${userId}?menu=like`}
         id='like'
         currentMenu={menu}

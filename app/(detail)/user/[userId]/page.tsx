@@ -40,7 +40,7 @@ export default async function Page({
 
   return (
     <>
-      <div className='flex flex-col items-center max-w-[1100px] w-full justify-center py-12 px-5'>
+      <div className='flex flex-col items-center max-w-[800px] w-full justify-center py-12 px-5'>
         <div className='w-full flex flex-col gap-5 items-center'>
           <div className='flex flex-col gap-5 w-full max-w-[800px]'>
             <Profile userId={userId} />
@@ -51,21 +51,23 @@ export default async function Page({
               <ProfileUserMenu menu={menu} userId={userId} />
             )}
             <Separator className={session?.id === userId ? 'my-5' : 'my-20'} />
-            {menu === 'list' && (
-              <div className='flex flex-col'>
-                <PostContainer list={postList} title='작성한 글' />
-                <div className='py-4 flex justify-center'>
-                  <Pagination
-                    total={count!}
-                    currentPage={currentPage}
-                    route={`/user/${userId}`}
-                    limit={6}
-                  />
-                </div>
-              </div>
-            )}
-            {menu === 'follow' && <FollowContainer />}
-            {menu === 'like' && <LikeContainer />}
+            <div className='flex flex-col items-center px-10'>
+              {menu === 'list' && (
+                <>
+                  <PostContainer list={postList} title='작성한 글' />
+                  <div className='py-4 flex justify-center'>
+                    <Pagination
+                      total={count!}
+                      currentPage={currentPage}
+                      route={`/user/${userId}`}
+                      limit={6}
+                    />
+                  </div>
+                </>
+              )}
+              {menu === 'follow' && <FollowContainer />}
+              {menu === 'like' && <LikeContainer />}
+            </div>
           </div>
         </div>
       </div>

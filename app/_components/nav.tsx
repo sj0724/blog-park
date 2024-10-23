@@ -15,7 +15,7 @@ export default async function Nav() {
           </h1>
         </Link>
       </div>
-      <div className='flex items-center text-xl font-bold lg:gap-6 gap-2 justify-between'>
+      <div className='flex items-center text-xl font-bold lg:gap-5 gap-4 justify-between'>
         <AlarmButton userId={session?.id} />
         <NavMenu userId={session?.id} />
       </div>

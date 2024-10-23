@@ -1,4 +1,3 @@
-import MarkdownEditor from '@/components/markdown-editor';
 import TagBadge from '@/components/tag-badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { SupabaseUser } from '@/type';
@@ -31,21 +30,19 @@ export default function PostCard({
   const formatDate = formatDateRange({ dateString: createdAt });
 
   return (
-    <Link href={`/post/${id}`} className='w-fit'>
-      <Card className='w-[350px] hover:shadow-lg hover:-translate-y-1 transition-transform flex flex-col border-none'>
-        <CardHeader className='h-[130px]'>
-          <CardTitle className='flex text-2xl font-extrabold gap-2'>
+    <Link href={`/post/${id}`}>
+      <Card className='w-full hover:shadow-lg hover:-translate-y-1 transition-transform flex flex-col border-none'>
+        <CardHeader className='h-[80px]'>
+          <CardTitle className='flex text-xl font-extrabold gap-2'>
             {title}
             <div className='h-fit pt-0.5'>
               {!isPublished && <Lock size={25} />}
             </div>
           </CardTitle>
         </CardHeader>
-        <CardContent className='flex flex-col h-[220px]'>
+        <CardContent className='flex flex-col h-[170px]'>
           <div className='flex flex-col justify-center h-full'>
-            <div className='text-xs text-gray-600'>
-              <MarkdownEditor markdownText={summation} />
-            </div>
+            <div className='text-base text-gray-600'>{summation}</div>
           </div>
           <div className='flex flex-col gap-2'>
             <div className='flex gap-2'>
