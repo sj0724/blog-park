@@ -294,8 +294,10 @@ export type Database = {
           createdAt: string;
           id: string;
           isPublished: boolean;
+          like_count: number | null;
           summation: string;
           tag: string[] | null;
+          thumbnail: string | null;
           title: string;
           updatedAt: string;
           user_id: string;
@@ -306,8 +308,10 @@ export type Database = {
           createdAt?: string;
           id?: string;
           isPublished?: boolean;
+          like_count?: number | null;
           summation: string;
           tag?: string[] | null;
+          thumbnail?: string | null;
           title: string;
           updatedAt?: string;
           user_id: string;
@@ -317,8 +321,10 @@ export type Database = {
           createdAt?: string;
           id?: string;
           isPublished?: boolean;
+          like_count?: number | null;
           summation?: string;
           tag?: string[] | null;
+          thumbnail?: string | null;
           title?: string;
           updatedAt?: string;
           user_id?: string;
