@@ -22,7 +22,7 @@ export default function FollowButtonContainer({
   };
 
   return (
-    <Button type='button' onClick={handleFollow} className='w-48'>
+    <Button type='button' onClick={handleFollow} className='w-full max-w-32'>
       {isFollow ? '팔로우중' : '팔로우'}
     </Button>
   );

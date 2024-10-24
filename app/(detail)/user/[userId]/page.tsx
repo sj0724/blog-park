@@ -42,19 +42,19 @@ export default async function Page({
     <>
       <div className='flex flex-col items-center max-w-[800px] w-full justify-center py-12 px-5'>
         <div className='w-full flex flex-col gap-5 items-center'>
-          <div className='flex flex-col gap-5 w-full max-w-[800px]'>
+          <div className='flex flex-col gap-2 w-full max-w-[800px] bg-white shadow-md rounded-lg px-5 py-5'>
             <Profile userId={userId} />
+            <Separator />
             <ActivityCalendar userId={userId} />
           </div>
           <div className='flex flex-col w-full'>
             {session?.id === userId && (
               <ProfileUserMenu menu={menu} userId={userId} />
             )}
-            <Separator className={session?.id === userId ? 'my-5' : 'my-20'} />
             <div className='flex flex-col items-center'>
               {menu === 'list' && (
                 <>
-                  <PostContainer list={postList} title='작성한 글' />
+                  <PostContainer list={postList} />
                   <div className='py-4 flex justify-center'>
                     <Pagination
                       total={count!}

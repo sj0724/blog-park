@@ -1,18 +1,19 @@
+import { Separator } from '@/components/ui/separator';
 import PostCard from './post-card';
 import { Post } from '@/type';
 
 interface Props {
   list: Post[];
-  title: string;
+  title?: string;
 }
 
 export default async function PostContainer({ list, title }: Props) {
   return (
-    <div className='flex flex-col gap-8 max-w-[700px] w-full'>
-      <h1 className='text-2xl font-bold'>{title}</h1>
+    <div className='flex flex-col gap-6 max-w-[800px] w-full'>
+      {title && <h1 className='text-xl font-bold'>{title}</h1>}
       {!list || list.length === 0 ? (
         <ul className='flex flex-col items-center'>
-          <div className='bg-white flex items-center justify-center gap-5 rounded-lg shadow-lg w-full md:w-1/2 lg:w-1/2 h-52 px-8 py-4 hover:-translate-y-1 transition-transform text-2xl font-semibold'>
+          <div className='bg-white flex items-center justify-center gap-5 rounded-lg shadow-lg w-full h-40 px-8 py-4 hover:-translate-y-1 transition-transform text-2xl font-semibold'>
             작성한 포스트가 없습니다!
           </div>
         </ul>
