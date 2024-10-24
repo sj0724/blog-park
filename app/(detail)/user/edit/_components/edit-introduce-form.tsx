@@ -69,7 +69,7 @@ export default function EditIntroductionForm({
                   className={cn(
                     form.getFieldState('introduction').error &&
                       'bg-red bg-opacity-10 border-red',
-                    'border border-gray-300'
+                    'shadow-md h-12 text-base'
                   )}
                   {...field}
                 />

@@ -65,7 +65,7 @@ export default function EditNameForm({ name }: { name: string }) {
                   className={cn(
                     form.getFieldState('name').error &&
                       'bg-red bg-opacity-10 border-red',
-                    'border border-gray-300'
+                    'shadow-md h-12 text-base'
                   )}
                   {...field}
                 />
