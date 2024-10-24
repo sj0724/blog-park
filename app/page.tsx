@@ -32,7 +32,7 @@ export default async function Home({
           <Image src={Logo} alt='로고이미지' height={60} />
         </div>
       </div>
-      <div className='flex justify-center max-w-screen py-12 px-5 gap-4'>
+      <div className='flex justify-center w-full max-w-screen py-12 px-5 gap-4'>
         <div className='w-full max-w-[800px]'>
           <PostContainer list={postList} title='전체 리스트' />
           <div className='py-4 flex justify-center'>
