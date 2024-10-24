@@ -1,4 +1,3 @@
-import { Separator } from '@/components/ui/separator';
 import PostCard from './post-card';
 import { Post } from '@/type';
 
