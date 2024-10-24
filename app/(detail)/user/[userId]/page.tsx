@@ -51,7 +51,7 @@ export default async function Page({
               <ProfileUserMenu menu={menu} userId={userId} />
             )}
             <Separator className={session?.id === userId ? 'my-5' : 'my-20'} />
-            <div className='flex flex-col items-center px-10'>
+            <div className='flex flex-col items-center'>
               {menu === 'list' && (
                 <>
                   <PostContainer list={postList} title='작성한 글' />
