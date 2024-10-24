@@ -8,7 +8,7 @@ interface Props {
 
 export default async function PostContainer({ list, title }: Props) {
   return (
-    <div className='flex flex-col gap-10 max-w-[800px] w-full'>
+    <div className='flex flex-col gap-8 max-w-[700px] w-full'>
       <h1 className='text-2xl font-bold'>{title}</h1>
       {!list || list.length === 0 ? (
         <ul className='flex flex-col items-center'>
