@@ -26,7 +26,7 @@ export default async function Home({
   if (!postList) return <div>포스트 없음</div>;
 
   return (
-    <div className='flex flex-col items-center justify-center w-fit'>
+    <div className='flex flex-col items-center justify-center w-full max-w-[1100px]'>
       <div className='mt-10 px-4 w-full'>
         <div className='flex justify-center bg-gray-700 shadow-lg rounded-lg py-9 w-full'>
           <Image src={Logo} alt='로고이미지' height={60} />
