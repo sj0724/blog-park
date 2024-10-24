@@ -37,7 +37,9 @@ export default function RootLayout({
         <QeuryProviders>
           <Toaster />
           <Nav />
-          <main className='mt-[80px] min-h-[calc(100vh-80px)]'>{children}</main>
+          <main className='flex justify-center mt-[80px] min-h-[calc(100vh-80px)]'>
+            {children}
+          </main>
           <KakaoScript />
         </QeuryProviders>
       </body>
