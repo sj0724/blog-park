@@ -19,7 +19,9 @@ export default async function Page() {
             <EditIntroductionForm
               introduction={user.introduction ? user.introduction : ''}
             />
-            <EditPasswordForm Oauth={user.oauth_account} />
+            <EditPasswordForm
+              Oauth={user.oauth_account ? user.oauth_account : false}
+            />
           </div>
         </div>
       </div>

@@ -9,9 +9,9 @@ export default function ListItem({ title, href }: Props) {
   return (
     <Link
       href={href}
-      className='block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground'
+      className='block p-3 leading-none no-underline outline-none hover:border-b-4 hover:border-b-blue-500 h-12'
     >
-      <div className='font-medium leading-none text-nowrap text-center text-base'>
+      <div className='font-semibold leading-none text-nowrap text-center text-lg'>
         {title}
       </div>
     </Link>

@@ -16,9 +16,9 @@ export default function LogoutButton() {
   return (
     <div
       onClick={signOut}
-      className='block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer'
+      className='block p-3 leading-none no-underline outline-none hover:border-b-4 hover:border-b-blue-500 h-12 cursor-pointer'
     >
-      <div className='font-medium leading-none text-nowrap text-center text-base'>
+      <div className='font-semibold leading-none text-nowrap text-center text-lg'>
         로그아웃
       </div>
     </div>

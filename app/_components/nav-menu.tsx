@@ -1,20 +1,12 @@
 'use client';
 
-import * as React from 'react';
-import Link from 'next/link';
-
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from '@/components/ui/navigation-menu';
+import { Menu } from 'lucide-react';
 import ListItem from './nav-menu-item';
 import LogoutButton from './logout-button';
-import { NotebookPen } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 const userMenu: { title: string; href: string }[] = [
+  { title: '포스트 작성하기', href: '/editor/create' },
   {
     title: '내 블로그',
     href: '/user',
@@ -37,23 +29,37 @@ const nonMemberMenu: { title: string; href: string }[] = [
 ];
 
 export default function NavMenu({ userId }: { userId?: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const pageClickEvent = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setIsOpen(!isOpen);
+      }
+    };
+
+    if (isOpen) {
+      window.addEventListener('click', pageClickEvent);
+    }
+
+    return () => {
+      window.removeEventListener('click', pageClickEvent);
+    };
+  }, [isOpen]);
+
   return (
-    <NavigationMenu className='lg:text-lg text-base'>
-      <NavigationMenuList className='flex gap-1'>
-        <NavigationMenuItem>
-          <Link href='/post/create'>
-            <div className='relative hover:-translate-y-1 transition-transform'>
-              <NotebookPen size={25} />
-            </div>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger className='lg:text-lg text-base font-bold'>
-            메뉴
-          </NavigationMenuTrigger>
-          <NavigationMenuContent>
+    <>
+      <div
+        ref={menuRef}
+        onClick={() => setIsOpen(!isOpen)}
+        className='cursor-pointer'
+      >
+        <Menu size={30} />
+        {isOpen && (
+          <div className='absolute flex justify-center top-20 right-0 left-0 h-fit bg-slate-200/80 backdrop-blur rounded-b-lg z-40'>
             {userId ? (
-              <ul className='flex flex-col w-fit gap-3 p-4'>
+              <ul className='flex flex-col w-full max-w-[300px] gap-3 p-4'>
                 {userMenu.map((menu) => (
                   <li key={menu.title}>
                     <ListItem
@@ -67,7 +73,7 @@ export default function NavMenu({ userId }: { userId?: string }) {
                 <LogoutButton />
               </ul>
             ) : (
-              <ul className='flex flex-col w-fit gap-3 p-4'>
+              <ul className='flex flex-col w-full max-w-[300px] gap-3 p-4'>
                 {nonMemberMenu.map((menu) => (
                   <li key={menu.title}>
                     <ListItem title={menu.title} href={menu.href} />
@@ -75,9 +81,9 @@ export default function NavMenu({ userId }: { userId?: string }) {
                 ))}
               </ul>
             )}
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
+          </div>
+        )}
+      </div>
+    </>
   );
 }

@@ -21,7 +21,7 @@ export default function PostButtonContainer({ postId }: { postId: string }) {
 
   return (
     <div className='flex gap-2 h-fit'>
-      <Link href={`/post/edit/${postId}`} className='h-fit'>
+      <Link href={`/editor/edit/${postId}`} className='h-fit'>
         <p className='text-gray-400'>수정</p>
       </Link>
       <DeleteButton

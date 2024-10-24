@@ -9,11 +9,11 @@ import { useRouter } from 'next/navigation';
 import { supabase, supabaseUrl } from '@/utils/supabase';
 import { toast } from 'sonner';
 import generateSafeFileName from '@/utils/encodingName';
-import ToolBar from '@/app/post/create/_components/toolbar';
-import { CreatPostDialog } from '@/app/post/create/_components/creat-post-dialog';
-import { EditPostDialog } from '@/app/post/edit/[postId]/_components/edit-post-dialog';
 import MarkdownEditor from './markdown-editor';
 import { Post } from '@/type';
+import ToolBar from '@/app/editor/create/_components/toolbar';
+import { EditPostDialog } from '@/app/editor/edit/[postId]/_components/edit-post-dialog';
+import { CreatPostDialog } from '@/app/editor/create/_components/creat-post-dialog';
 
 interface Props {
   postId?: string;
@@ -76,8 +76,6 @@ export default function PostEditor({ postId, post }: Props) {
     }
   };
 
-  if (!post) return <div>포스트 정보가 잘못되었습니다.</div>;
-
   return (
     <div className='flex px-4 py-7 w-screen'>
       <form className='relative w-full'>
@@ -126,7 +124,7 @@ export default function PostEditor({ postId, post }: Props) {
                 postContent={markdown}
                 title={postTitle}
                 postId={postId}
-                postTagList={post.tag ? post.tag : []}
+                postTagList={post ? post.tag! : []}
                 summation={post ? post.summation : ''}
                 isPublished={post ? post.isPublished : true}
               />
