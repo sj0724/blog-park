@@ -3,6 +3,7 @@ import Footer from './_components/footer';
 import PostContainer from './_components/post-container';
 import { getPostList } from './data/post';
 import { Metadata } from 'next';
+import MostFavoriteContainer from './_components/most-favorite-container';
 
 export const metadata: Metadata = {
   title: 'Blog Park',
@@ -23,17 +24,22 @@ export default async function Home({
   if (!postList) return <div>포스트 없음</div>;
 
   return (
-    <div className='flex flex-col max-w-screen items-center py-12 px-5'>
-      <PostContainer list={postList} title='전체 리스트' />
-      <div className='py-4 flex justify-center'>
-        <Pagination
-          total={count!}
-          currentPage={currentPage}
-          route='/'
-          limit={6}
-        />
+    <>
+      <div className='flex justify-center max-w-screen py-12 px-5 gap-4'>
+        <div className='w-full max-w-[800px]'>
+          <PostContainer list={postList} title='전체 리스트' />
+          <div className='py-4 flex justify-center'>
+            <Pagination
+              total={count!}
+              currentPage={currentPage}
+              route='/'
+              limit={6}
+            />
+          </div>
+        </div>
+        <MostFavoriteContainer />
       </div>
       <Footer />
-    </div>
+    </>
   );
 }

@@ -2,7 +2,7 @@ import TagBadge from '@/components/tag-badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { SupabaseUser } from '@/type';
 import { formatDateRange } from '@/utils/formatData';
-import { Lock } from 'lucide-react';
+import { Dot, Lock } from 'lucide-react';
 import Link from 'next/link';
 
 interface Props {
@@ -31,7 +31,7 @@ export default function PostCard({
 
   return (
     <Link href={`/post/${id}`}>
-      <Card className='w-full hover:shadow-lg hover:-translate-y-1 transition-transform flex flex-col border-none'>
+      <Card className='w-full hover:shadow-lg hover:-translate-y-1 transition-transform flex flex-col border-none hover:text-blue-500'>
         <CardHeader className='h-[80px]'>
           <CardTitle className='flex text-xl font-extrabold gap-2'>
             {title}
@@ -48,9 +48,10 @@ export default function PostCard({
             <div className='flex gap-2'>
               {tags && tags.map((item) => <TagBadge key={item} tag={item} />)}
             </div>
-            <div className='flex justify-between items-center h-5'>
-              <p className='text-sm font-semibold'>{formatDate}</p>
-              <p className='text-sm'>{owner?.name}</p>
+            <div className='flex items-center h-5 gap-1'>
+              <p className='text-sm text-gray-600'>{formatDate}</p>
+              <Dot size={10} />
+              <p className='text-sm text-gray-600'>{owner?.name}</p>
             </div>
           </div>
         </CardContent>

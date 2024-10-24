@@ -72,3 +72,19 @@ export const getPostTotalCount = async ({ userId }: { userId: string }) => {
 
   return count ? count : 0;
 };
+
+export const getMostLikePost = async () => {
+  const { data, error } = await supabase
+    .from('posts') // posts 테이블에서
+    .select('id, title, user_id')
+    .order('like_count', { ascending: true })
+    .order('createdAt', { ascending: false })
+    .limit(3); // 상위 3개 포스트 가져오기
+
+  if (error) {
+    console.error('Error fetching posts:', error);
+    return [];
+  }
+
+  return data;
+};
