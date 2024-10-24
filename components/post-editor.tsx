@@ -80,31 +80,31 @@ export default function PostEditor({ postId, post }: Props) {
     <div className='flex px-4 py-7 w-screen'>
       <form className='relative w-full'>
         <div className='flex w-full gap-4 h-full'>
-          <div className='flex flex-col w-full sm:w-1/2 gap-2 h-full'>
+          <div className='flex flex-col w-full lg:w-1/2 gap-2 h-full'>
             <div className='min-h-20'>
               <Input
                 value={postTitle}
-                className='text-3xl lg:text-5xl font-semibold h-full'
+                className='text-3xl lg:text-3xl font-semibold h-full border-none placeholder:text-gray-300 bg-slate-50 shadow-none focus:outline-none focus:ring-0'
                 placeholder='제목을 입력하세요.'
                 onChange={(e) => setPostTitle(e.target.value)}
               />
             </div>
             <ToolBar onClick={addMarkDown} />
             <Textarea
-              className='w-full h-full text-lg'
+              className='w-full h-full text-lg border-none bg-slate-50 shadow-none focus:outline-none focus:ring-0 placeholder:text-gray-300'
               value={markdown}
               onChange={(e) => setMarkdown(e.target.value)}
-              placeholder='작성할 내용을 입력해주세요. 우측에서 미리보기로 확인할 수 있습니다.'
+              placeholder='작성할 내용을 입력해주세요.'
               onDrop={dropImage}
               onDragOver={(e) => e.preventDefault()}
               ref={textareaRef}
             />
           </div>
-          <div className='sm:flex hidden flex-col w-1/2 gap-1'>
+          <Separator orientation='vertical' />
+          <div className='lg:flex hidden flex-col w-1/2 gap-1'>
             <div className='flex flex-col px-3 py-8'>
-              <p className='text-5xl font-semibold break-words'>{postTitle}</p>
+              <p className='text-3xl font-semibold break-words'>{postTitle}</p>
             </div>
-            <Separator />
             <div className='prose flex flex-col w-full h-full overflow-y-scroll px-3 py-2'>
               <MarkdownEditor markdownText={markdown} />
             </div>

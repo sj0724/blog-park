@@ -65,47 +65,47 @@ export default function ToolBar({
   };
 
   return (
-    <div className='flex w-full px-4 gap-4 h-[60px] overflow-x-scroll items-center'>
+    <div className='flex w-full px-4 gap-4 items-center'>
       <div className='flex gap-4 h-fit'>
         <div onClick={() => onClick('# ')} className='cursor-pointer'>
-          <Heading1 size={30} color='gray' />
+          <Heading1 size={25} color='gray' />
         </div>
         <div onClick={() => onClick('## ')} className='cursor-pointer'>
-          <Heading2 size={30} color='gray' />
+          <Heading2 size={25} color='gray' />
         </div>
         <div onClick={() => onClick('### ')} className='cursor-pointer'>
-          <Heading3 size={30} color='gray' />
+          <Heading3 size={25} color='gray' />
         </div>
         <div onClick={() => onClick('#### ')} className='cursor-pointer'>
-          <Heading4 size={30} color='gray' />
+          <Heading4 size={25} color='gray' />
         </div>
       </div>
       <Separator orientation='vertical' className='max-h-full' />
       <div className='flex gap-4 h-fit'>
         <div onClick={() => onClick('**텍스트**')} className='cursor-pointer'>
-          <Bold size={30} color='gray' />
+          <Bold size={25} color='gray' />
         </div>
         <div onClick={() => onClick('*텍스트*')} className='cursor-pointer'>
-          <Italic size={30} color='gray' />
+          <Italic size={25} color='gray' />
         </div>
         <div onClick={() => onClick('~~텍스트~~')} className='cursor-pointer'>
-          <Minus size={30} color='gray' />
+          <Minus size={25} color='gray' />
         </div>
       </div>
       <Separator orientation='vertical' className='max-h-full' />
       <div className='flex gap-4 h-fit'>
         <div onClick={() => onClick('> 텍스트')} className='cursor-pointer'>
-          <ChevronRight size={30} color='gray' />
+          <ChevronRight size={25} color='gray' />
         </div>
         <div
           onClick={() => onClick('[링크텍스트](url)')}
           className='cursor-pointer'
         >
-          <Link size={30} color='gray' />
+          <Link size={25} color='gray' />
         </div>
         <div>
           <Label className='cursor-pointer'>
-            <ImageIcon size={30} color='gray' />
+            <ImageIcon size={25} color='gray' />
             <input type='file' className='hidden' onChange={isEdit} />
           </Label>
         </div>
@@ -113,7 +113,7 @@ export default function ToolBar({
           onClick={() => onClick('```\n텍스트\n```')}
           className='cursor-pointer'
         >
-          <Code size={30} color='gray' />
+          <Code size={25} color='gray' />
         </div>
       </div>
     </div>

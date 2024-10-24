@@ -5,7 +5,7 @@ import OAuthForm from '../sign-in/_components/oauth-form';
 
 export default async function Page() {
   return (
-    <div className='flex flex-col items-center h-[calc(100vh-52px)]'>
+    <div className='flex flex-col items-center max-h-[calc(100vh-52px)] w-full'>
       <div className='flex flex-col gap-3 max-w-96 w-full px-5 py-10'>
         <RegisterForm />
         <div className='flex items-center justify-center gap-3 w-full'>
@@ -14,7 +14,7 @@ export default async function Page() {
           <Separator className='w-2/5' />
         </div>
         <OAuthForm />
-        <p className='text-base text-center font-semibold'>
+        <p className='text-base text-center text-gray-600 font-semibold'>
           다른 플랫폼으로 가입해보세요!
         </p>
       </div>

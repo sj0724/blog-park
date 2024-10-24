@@ -5,7 +5,7 @@ import { Separator } from '@/components/ui/separator';
 
 export default async function Page() {
   return (
-    <div className='flex flex-col justify-center items-center h-[calc(100vh-52px)]'>
+    <div className='flex flex-col justify-center items-center max-h-[calc(100vh-52px)] w-full'>
       <div className='flex flex-col gap-3 max-w-96 w-full px-5'>
         <LoginForm />
         <div className='flex items-center justify-center gap-3 w-full'>
@@ -14,8 +14,8 @@ export default async function Page() {
           <Separator className='w-2/5' />
         </div>
         <OAuthForm />
-        <div className='flex justify-center gap-1 items-center'>
-          <p className='text-sm'>회원이 아니라면</p>
+        <div className='flex justify-center gap-1 items-center text-gray-500'>
+          <p className='text-base'>회원이 아니라면</p>
           <Link href='/sign-up'>
             <p className='text-base w-fit h-fit font-bold'>가입하기!</p>
           </Link>

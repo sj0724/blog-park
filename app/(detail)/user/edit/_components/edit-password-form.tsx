@@ -74,7 +74,7 @@ export default function EditPasswordForm({ Oauth }: { Oauth: boolean }) {
                             form.getFieldState(
                               field.name as keyof EditPasswordSchemaType
                             ).error && 'bg-red bg-opacity-10 border-red',
-                            'border border-gray-300'
+                            'shadow-md h-12 text-base'
                           )}
                           {...controllerField}
                         />
@@ -105,7 +105,11 @@ export default function EditPasswordForm({ Oauth }: { Oauth: boolean }) {
         <div className='flex flex-col gap-2 w-full'>
           <p className='font-bold'>비밀번호</p>
           <div className='flex gap-3'>
-            <Input disabled value='********' className='w-full' />
+            <Input
+              disabled
+              value='********'
+              className='w-full h-12 shadow-md'
+            />
             <Button type='button' onClick={toggleIsEdit} disabled={Oauth}>
               수정
             </Button>
