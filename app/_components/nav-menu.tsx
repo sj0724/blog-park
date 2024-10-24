@@ -41,7 +41,7 @@ export default function NavMenu({ userId }: { userId?: string }) {
     <NavigationMenu className='lg:text-lg text-base'>
       <NavigationMenuList className='flex gap-1'>
         <NavigationMenuItem>
-          <Link href='/post/create'>
+          <Link href='/editor/create'>
             <div className='relative hover:-translate-y-1 transition-transform'>
               <NotebookPen size={25} />
             </div>

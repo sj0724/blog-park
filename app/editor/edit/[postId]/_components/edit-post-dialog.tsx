@@ -1,7 +1,7 @@
 'use client';
 
 import { editPost } from '@/app/action/post';
-import TagInput from '@/app/post/create/_components/tag-input';
+import TagInput from '@/app/editor/create/_components/tag-input';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
