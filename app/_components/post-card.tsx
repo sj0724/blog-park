@@ -46,7 +46,10 @@ export default function PostCard({
           </div>
           <div className='flex flex-col gap-2'>
             <div className='flex gap-2'>
-              {tags && tags.map((item) => <TagBadge key={item} tag={item} />)}
+              {tags &&
+                tags.map((item) => (
+                  <TagBadge key={item} tag={item} type='badge' />
+                ))}
             </div>
             <div className='flex items-center h-5 gap-1'>
               <p className='text-sm text-gray-600'>{formatDate}</p>
