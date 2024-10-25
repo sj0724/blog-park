@@ -15,14 +15,16 @@ export const metadata: Metadata = {
 };
 
 export default async function Home({
-  searchParams: { page },
+  searchParams: { page, tags },
 }: {
-  searchParams: { page: string };
+  searchParams: { page: string; tags: string[] | string };
 }) {
+  const tagsArray = Array.isArray(tags) ? tags : tags ? [tags] : []; // 태그 한개인 경우 문자열 리턴되서 배열로 변경
   const currentPage = page ? Number(page) : 1;
   const { data: postList, count } = await getPostList({
     page: currentPage,
     limit: 6,
+    tags: tagsArray,
   });
 
   if (!postList) return <div>포스트 없음</div>;

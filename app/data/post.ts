@@ -4,16 +4,24 @@ import { getSessionUserData } from './user';
 export const getPostList = async ({
   page = 1,
   limit = 5,
+  tags,
 }: {
   page: number;
   limit: number;
+  tags?: string[];
 }) => {
-  const postList = await supabase
+  let query = supabase
     .from('posts')
     .select(`*, posts_user_id_fkey(*)`, { count: 'exact' })
     .order('createdAt', { ascending: false })
     .eq('isPublished', true)
     .range((page - 1) * limit, page * limit - 1);
+
+  if (tags && tags.length > 0) {
+    query = query.or(tags.map((tag) => `tag.cs.{${tag}}`).join(',')); // 태그 한개라도 일치하면 데이터 불러옴, cs -> contain
+  }
+
+  const postList = await query;
 
   return postList;
 };
