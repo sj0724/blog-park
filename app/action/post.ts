@@ -46,6 +46,7 @@ export const creatPost = async ({
 
     revalidatePath(`/user/${session?.id}`);
     revalidatePath('/post/list');
+    revalidatePath('/', 'page');
 
     return {
       success: true,
@@ -118,7 +119,9 @@ export const editPost = async ({
     }
     revalidatePath(`/user/${session?.id}`);
     revalidatePath(`/post/${postId}`);
-    revalidatePath(`/post/edit/${postId}`);
+    revalidatePath(`/editor/edit/${postId}`);
+    revalidatePath('/', 'page');
+
     return {
       success: true,
       message: '포스트를 수정했습니다.',
