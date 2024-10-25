@@ -13,18 +13,12 @@ export default function TagInput({ tags, editTagList }: Props) {
   const [newTag, setNewTag] = useState('');
 
   const addTag = () => {
-    if (tags.length === 3) {
-      return;
-    }
     editTagList([...tags, newTag]);
   };
 
   const handleInputEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      if (tags.length === 3) {
-        return;
-      }
       addTag();
       setNewTag('');
     }
@@ -56,7 +50,7 @@ export default function TagInput({ tags, editTagList }: Props) {
         onBlur={handleInputBlur}
         onKeyDown={handleInputEnter}
       />
-      <ul className='flex gap-1 items-center'>
+      <ul className='flex gap-1 items-center flex-wrap'>
         {tags.map((tag) => (
           <li key={tag}>
             <div className='flex items-center gap-1 px-2 py-1 bg-blue-400/70 text-white rounded-lg'>
