@@ -451,7 +451,12 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      get_unique_tags: {
+        Args: Record<PropertyKey, never>;
+        Returns: {
+          tag: string;
+        }[];
+      };
     };
     Enums: {
       [_ in never]: never;
