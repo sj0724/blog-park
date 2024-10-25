@@ -56,7 +56,9 @@ export default async function PostContents({
           </div>
           <div className='flex gap-2'>
             {post.tag &&
-              post.tag.map((item) => <TagBadge key={item} tag={item} />)}
+              post.tag.map((item) => (
+                <TagBadge key={item} tag={item} type='badge' />
+              ))}
           </div>
         </div>
       </div>

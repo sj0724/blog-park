@@ -6,6 +6,7 @@ import { Metadata } from 'next';
 import MostFavoriteContainer from './_components/most-favorite-container';
 import Image from 'next/image';
 import Logo from '@/public/logo-icon-white.png';
+import TagContainer from './_components/tag-container';
 
 export const metadata: Metadata = {
   title: 'Blog Park',
@@ -14,15 +15,18 @@ export const metadata: Metadata = {
 };
 
 export default async function Home({
-  searchParams: { page },
+  searchParams: { page, tags },
 }: {
-  searchParams: { page: string };
+  searchParams: { page: string; tags: string[] | string };
 }) {
+  const tagsArray = Array.isArray(tags) ? tags : tags ? [tags] : []; // 태그 한개인 경우 문자열 리턴되서 배열로 변경
   const currentPage = page ? Number(page) : 1;
   const { data: postList, count } = await getPostList({
     page: currentPage,
     limit: 6,
+    tags: tagsArray,
   });
+
   if (!postList) return <div>포스트 없음</div>;
 
   return (
@@ -32,7 +36,7 @@ export default async function Home({
           <Image src={Logo} alt='로고이미지' height={60} />
         </div>
       </div>
-      <div className='flex justify-center w-full py-12 px-5 gap-4'>
+      <div className='flex justify-center w-full py-12 px-5 gap-8'>
         <div className='w-full max-w-[800px]'>
           <PostContainer list={postList} title='전체 리스트' />
           <div className='py-4 flex justify-center'>
@@ -44,7 +48,10 @@ export default async function Home({
             />
           </div>
         </div>
-        <MostFavoriteContainer />
+        <div className='hidden md:flex lg:flex flex-col gap-5 h-fit'>
+          <MostFavoriteContainer />
+          <TagContainer />
+        </div>
       </div>
       <Footer />
     </div>
