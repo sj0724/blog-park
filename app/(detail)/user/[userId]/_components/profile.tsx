@@ -21,6 +21,9 @@ export default async function Profile({ userId }: { userId: string }) {
         {session?.id !== userId && (
           <FollowButtonContainer userId={userId} followStatus={followStatus} />
         )}
+        {session?.id === userId && session.OAuth === 'github' && (
+          <div>깃허브 추가</div>
+        )}
       </div>
     </div>
   );

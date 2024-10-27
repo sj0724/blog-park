@@ -11,6 +11,7 @@ export type SeesionData = {
   name: string;
   image: string | null;
   email: string;
+  OAuth?: string;
 };
 
 export type Post = Database['public']['Tables']['posts']['Row'];
