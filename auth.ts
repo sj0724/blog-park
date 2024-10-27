@@ -72,13 +72,16 @@ export const authConfig = {
               .single();
 
             user.id = newUser!.id; // 생성한 유저 id값 세션 id로 지정
+            user.OAuth = account?.provider;
             return true;
           }
           if (supabaseUser.data && !supabaseUser.data.oauth_account) {
             user.id = supabaseUser.data.id; // OAuth로 로그인한 유저 id값 db id로 변경
+            user.OAuth = account?.provider;
             return true;
           }
           user.id = supabaseUser.data.id; // OAuth로 로그인한 유저 id값 db id로 변경
+          user.OAuth = account?.provider;
           return true;
         } catch {
           console.log('로그인 도중 에러가 발생했습니다. ');
@@ -90,11 +93,13 @@ export const authConfig = {
     jwt({ token, user }) {
       if (user) {
         token.id = user.id!;
+        token.OAuth = user.OAuth;
       }
       return token;
     },
     session({ session, token }) {
       session.user.id = token.id;
+      session.user.OAuth = token.OAuth;
       return session;
     },
   },
