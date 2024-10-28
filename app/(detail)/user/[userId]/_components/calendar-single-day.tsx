@@ -2,6 +2,8 @@
 
 import { Log } from '@/type';
 import { formatDateRange, getDateFromDay } from '@/utils/formatData';
+import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 
 interface Props {
@@ -32,6 +34,7 @@ export default function CalendarSingleDay({
   const [xDirection, setXDirection] = useState('right');
   const [yDirection, setYDirection] = useState('top');
   const infoRef = useRef<HTMLDivElement | null>(null);
+  const boxRef = useRef<HTMLDivElement | null>(null);
   const transformDay = getDateFromDay(year, day);
   const formatDate = formatDateRange({ dateString: transformDay });
   const logColor = (rate: number) => {
@@ -64,14 +67,35 @@ export default function CalendarSingleDay({
     }
   }, [containerRef]);
 
+  useEffect(() => {
+    const pageClickEvent = (e: MouseEvent) => {
+      if (
+        infoRef.current &&
+        !infoRef.current.contains(e.target as Node) &&
+        boxRef.current &&
+        !boxRef.current.contains(e.target as Node)
+      ) {
+        setIsHover(!isHover);
+      }
+    };
+
+    if (isHover) {
+      window.addEventListener('click', pageClickEvent);
+    }
+
+    return () => {
+      window.removeEventListener('click', pageClickEvent);
+    };
+  }, [isHover]);
+
   return (
     <div className='relative'>
       <div
-        className={`w-3 h-3 border rounded cursor-pointer ${
+        ref={boxRef}
+        className={`w-3 h-3 border rounded cursor-pointer hover:bg-gray-300 hover:border-gray-300 ${
           log[0] && logColor(log[0].rate!)
         }`}
-        onMouseEnter={() => setIsHover(true)}
-        onMouseLeave={() => setIsHover(false)}
+        onClick={() => setIsHover(!isHover)}
       />
       <div
         ref={infoRef}
@@ -86,6 +110,14 @@ export default function CalendarSingleDay({
           <p>포스트 : {log[0] ? log[0].post_count : 0}회</p>
           <p>댓글 : {log[0] ? log[0].comment_count : 0}회</p>
           <p>좋아요 : {log[0] ? log[0].like_count : 0}회</p>
+          <div className='flex gap-1 items-center w-full justify-between'>
+            <p>PR : {log[0] ? log[0].pr_count : 0}회</p>
+            {log[0] && log[0].pr_count && log[0].pr_count > 0 && (
+              <Link href={log[0].pr_url ? log[0].pr_url : ''} target='_blank'>
+                <ArrowRight size={20} />
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </div>
