@@ -19,7 +19,7 @@ export const getLogById = async ({
 };
 
 const headers = {
-  Authorization: process.env.NEXT_PUBLIC_GITHUB_TOKEN as string,
+  Authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN as string}`,
 };
 
 export const getAllRepo = async () => {
