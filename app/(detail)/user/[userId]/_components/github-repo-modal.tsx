@@ -1,4 +1,3 @@
-// import { getAllRepo } from '@/app/data/log';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -9,23 +8,11 @@ import {
 } from '@/components/ui/dialog';
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import RepoList from './repo-list';
+import { getAllRepo } from '@/app/data/log';
 
 export default async function GithubRepoModal() {
-  // const list = await getAllRepo();
-  const list = [
-    '10000time',
-    '5-Weekly-Mission',
-    'blog-park',
-    'dino',
-    'first-web-site',
-    'first-web-site-2',
-    'MIRYANG',
-    'OpenMind',
-    'searchmovie',
-    'shopping',
-    'to-do-list.ver2',
-    'todolist',
-  ];
+  const list = await getAllRepo();
+
   return (
     <Dialog>
       <DialogTrigger asChild>
