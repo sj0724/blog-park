@@ -156,7 +156,7 @@ export const addGithubLog = async (
     }
     return {
       success: true,
-      message: 'PR 로그가 성공적으로 추가 또는 업데이트되었습니다.',
+      message: 'commit 로그가 성공적으로 추가 또는 업데이트되었습니다.',
     };
   } catch {
     console.error('에러가 발생했습니다.');
