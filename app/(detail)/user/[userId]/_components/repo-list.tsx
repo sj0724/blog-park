@@ -8,6 +8,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
 import { toast } from 'sonner';
+import RepoSkeleton from './repo-skeleton';
 
 interface Props {
   toggleModal: () => void;
@@ -15,6 +16,7 @@ interface Props {
   handlePage: (page: number) => void;
   page: number;
   isNext: boolean;
+  isPending: boolean;
 }
 
 export default function RepoList({
@@ -23,6 +25,7 @@ export default function RepoList({
   handlePage,
   page,
   isNext,
+  isPending,
 }: Props) {
   const [repo, setRepo] = useState('');
   const router = useRouter();
@@ -52,23 +55,27 @@ export default function RepoList({
 
   return (
     <div className='h-80 flex flex-col justify-between'>
-      <ul className='flex flex-col gap-1'>
-        {list.map((item) => (
-          <li key={item} className='flex items-center gap-3'>
-            <input
-              id={item}
-              type='checkbox'
-              value={item}
-              checked={repo === item}
-              onChange={handleCheckbox}
-              className='w-4 h-4'
-            />
-            <label className='font-semibold text-base' htmlFor={item}>
-              {item}
-            </label>
-          </li>
-        ))}
-      </ul>
+      {isPending ? (
+        <RepoSkeleton />
+      ) : (
+        <ul className='flex flex-col gap-1'>
+          {list.map((item) => (
+            <li key={item} className='flex items-center gap-3'>
+              <input
+                id={item}
+                type='checkbox'
+                value={item}
+                checked={repo === item}
+                onChange={handleCheckbox}
+                className='w-4 h-4'
+              />
+              <label className='font-semibold text-base' htmlFor={item}>
+                {item}
+              </label>
+            </li>
+          ))}
+        </ul>
+      )}
       <div className='w-full flex justify-between items-center gap-2'>
         <div className='flex items-center gap-2'>
           <button
