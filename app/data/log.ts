@@ -26,7 +26,7 @@ export const getAllRepo = async (page = 1) => {
   const user = await getSessionUserData();
   const repoList = [];
 
-  const url = `https://api.github.com/users/${user?.name}/repos?page=${page}&per_page=10`;
+  const url = `https://api.github.com/users/${user?.OAuthId}/repos?page=${page}&per_page=10`;
   const response = await fetch(url, { headers });
 
   if (!response.ok) {
@@ -52,7 +52,7 @@ export const getCommitByRepo = async (repo: string) => {
   let page = 1;
 
   while (true) {
-    const url = `https://api.github.com/repos/${user?.name}/${repo}/commits?author=${user?.name}&page=${page}&per_page=100`; // 모든 PR 가져오기
+    const url = `https://api.github.com/repos/${user?.OAuthId}/${repo}/commits?author=${user?.OAuthId}&page=${page}&per_page=100`; // 모든 PR 가져오기
     const response = await fetch(url, { headers });
 
     if (!response.ok) {
