@@ -10,14 +10,40 @@ import {
 } from '@/components/ui/dialog';
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import RepoList from './repo-list';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getAllRepo } from '@/app/data/log';
 
-export default function GithubRepoModal({ list }: { list: string[] }) {
+export default function GithubRepoModal() {
+  const [page, setPage] = useState(1);
+  const [isNext, setIsNext] = useState(true);
+  const [list, setList] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
   };
+
+  const handlePage = (page: number) => {
+    if (page === 1) {
+      setIsNext(true);
+    }
+    setPage(page);
+  };
+
+  useEffect(() => {
+    const fetchRepoList = async () => {
+      const data = await getAllRepo(page);
+      if (data && data.length > 0) {
+        setList([...data]);
+        if (data.length < 10) {
+          setIsNext(false);
+        }
+      } else {
+        setIsNext(false);
+      }
+    };
+    fetchRepoList();
+  }, [page]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -29,8 +55,14 @@ export default function GithubRepoModal({ list }: { list: string[] }) {
       </DialogTrigger>
       <DialogContent>
         <DialogTitle>레포지토리 목록</DialogTitle>
-        <DialogDescription aria-hidden />
-        <RepoList list={list} toggleModal={toggleModal} />
+        <DialogDescription aria-describedby='undefined' />
+        <RepoList
+          list={list}
+          toggleModal={toggleModal}
+          handlePage={handlePage}
+          page={page}
+          isNext={isNext}
+        />
       </DialogContent>
     </Dialog>
   );

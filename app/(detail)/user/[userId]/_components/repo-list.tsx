@@ -4,6 +4,7 @@ import { addGithubLog } from '@/app/action/log';
 import { getPrByRepo } from '@/app/data/log';
 import { getSessionUserData } from '@/app/data/user';
 import { Button } from '@/components/ui/button';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
 import { toast } from 'sonner';
@@ -11,9 +12,18 @@ import { toast } from 'sonner';
 interface Props {
   toggleModal: () => void;
   list: string[];
+  handlePage: (page: number) => void;
+  page: number;
+  isNext: boolean;
 }
 
-export default function RepoList({ list, toggleModal }: Props) {
+export default function RepoList({
+  list,
+  toggleModal,
+  handlePage,
+  page,
+  isNext,
+}: Props) {
   const [repo, setRepo] = useState('');
   const router = useRouter();
 
@@ -41,7 +51,7 @@ export default function RepoList({ list, toggleModal }: Props) {
   };
 
   return (
-    <div>
+    <div className='h-80 flex flex-col justify-between'>
       <ul className='flex flex-col gap-1'>
         {list.map((item) => (
           <li key={item} className='flex items-center gap-3'>
@@ -59,7 +69,26 @@ export default function RepoList({ list, toggleModal }: Props) {
           </li>
         ))}
       </ul>
-      <div className='w-full flex flex-row-reverse gap-2'>
+      <div className='w-full flex justify-between items-center gap-2'>
+        <div className='flex items-center gap-2'>
+          <button
+            className='w-5'
+            disabled={page === 1}
+            type='button'
+            onClick={() => handlePage(page - 1)}
+          >
+            <ArrowLeft size={20} color={`${page > 1 ? 'black' : 'gray'}`} />
+          </button>
+          {page}
+          <button
+            className='w-5'
+            type='button'
+            onClick={() => handlePage(page + 1)}
+            disabled={!isNext}
+          >
+            <ArrowRight size={20} color={`${isNext ? 'black' : 'gray'}`} />
+          </button>
+        </div>
         <Button type='button' onClick={connectRepo}>
           연동하기
         </Button>
