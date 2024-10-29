@@ -8,7 +8,7 @@ export default async function FollowContainer() {
     <div className='max-w-[800px] w-full'>
       {!followList || followList.length === 0 ? (
         <ul className='flex flex-col items-center'>
-          <div className='bg-white flex items-center justify-center gap-5 rounded-lg shadow-lg w-full md:w-1/2 lg:w-1/2 h-52 px-8 py-4 hover:-translate-y-1 transition-transform text-2xl font-semibold'>
+          <div className='bg-white flex items-center justify-center gap-5 rounded-lg shadow-lg w-full h-40 px-8 py-4 hover:-translate-y-1 transition-transform text-2xl font-semibold'>
             팔로우한 유저가 없습니다!
           </div>
         </ul>
