@@ -3,11 +3,14 @@ import { UserAvatar } from '@/components/user-avatar';
 import FollowButtonContainer from './follow-button-container';
 import { getFollowStatus } from '@/app/data/follow';
 import GithubRepoModal from './github-repo-modal';
+import { getAllRepo } from '@/app/data/log';
 
 export default async function Profile({ userId }: { userId: string }) {
   const session = await getSessionUserData();
   const userData = await getUserById(userId);
   const followStatus = await getFollowStatus(userId);
+  const repoList: string[] = await getAllRepo();
+
   return (
     <div className='flex flex-col items-center gap-5 py-5'>
       <UserAvatar image={userData.image} size='lg' />
@@ -23,7 +26,7 @@ export default async function Profile({ userId }: { userId: string }) {
           <FollowButtonContainer userId={userId} followStatus={followStatus} />
         )}
         {session?.id === userId && session.OAuth === 'github' && (
-          <GithubRepoModal />
+          <GithubRepoModal list={repoList} />
         )}
       </div>
     </div>

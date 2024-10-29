@@ -2,12 +2,18 @@
 
 import { addGithubLog } from '@/app/action/log';
 import { getPrByRepo } from '@/app/data/log';
+import { getSessionUserData } from '@/app/data/user';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
 import { toast } from 'sonner';
 
-export default function RepoList({ list }: { list: string[] }) {
+interface Props {
+  toggleModal: () => void;
+  list: string[];
+}
+
+export default function RepoList({ list, toggleModal }: Props) {
   const [repo, setRepo] = useState('');
   const router = useRouter();
 
@@ -16,17 +22,20 @@ export default function RepoList({ list }: { list: string[] }) {
   };
 
   const connectRepo = async () => {
+    const session = await getSessionUserData();
     const prList = await getPrByRepo(repo);
     const objectToArr = Object.keys(prList).map((date) => ({
       createdAt: date,
       count: prList[date].count,
-      url: prList[date].url,
+      url: `https://github.com/${session?.name}/${repo}/pulls?q=is%3Apr+created%3A${date}+`,
     }));
     const result = await addGithubLog(objectToArr);
     if (result.success) {
       toast.message(result.message);
+      toggleModal();
       router.refresh();
     } else {
+      toggleModal();
       toast.error(result.message);
     }
   };

@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -8,13 +10,17 @@ import {
 } from '@/components/ui/dialog';
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import RepoList from './repo-list';
-import { getAllRepo } from '@/app/data/log';
+import { useState } from 'react';
 
-export default async function GithubRepoModal() {
-  const list = await getAllRepo();
+export default function GithubRepoModal({ list }: { list: string[] }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button type='button' className='gap-2'>
           <GitHubLogoIcon width={30} height={30} />
@@ -24,7 +30,7 @@ export default async function GithubRepoModal() {
       <DialogContent>
         <DialogTitle>레포지토리 목록</DialogTitle>
         <DialogDescription aria-hidden />
-        <RepoList list={list} />
+        <RepoList list={list} toggleModal={toggleModal} />
       </DialogContent>
     </Dialog>
   );
