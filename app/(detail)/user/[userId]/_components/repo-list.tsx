@@ -40,7 +40,7 @@ export default function RepoList({
     const objectToArr = Object.keys(commitList).map((date) => ({
       createdAt: date,
       count: commitList[date].count,
-      url: `https://github.com/${session?.name}/${repo}/commits/main/?author=${session?.name}&since=${date}&until=${date}`,
+      url: `https://github.com/${session?.OAuthId}/${repo}/commits/main/?author=${session?.OAuthId}&since=${date}&until=${date}`,
     }));
     const result = await addGithubLog(objectToArr);
     if (result.success) {
