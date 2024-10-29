@@ -22,6 +22,7 @@ const directionStyle: DirectionStyle = {
   left: 'origin-top-right right-0 -translate-x-4',
   top: 'top-0',
   bottom: 'bottom-0',
+  center: 'top-0 -translate-y-1/2',
 };
 
 export default function CalendarSingleDay({
@@ -60,7 +61,10 @@ export default function CalendarSingleDay({
         // 컨테이너 넓이 - 로그 태그 넓이
         setXDirection('left');
       }
-      if (topPosition > parent.height - 110) {
+      if (topPosition > parent.height - 130) {
+        setYDirection('center');
+      }
+      if (topPosition > parent.height - 100) {
         // 컨테이너 높이 - 로그 태그 높이
         setYDirection('bottom');
       }
@@ -112,8 +116,8 @@ export default function CalendarSingleDay({
           <p>좋아요 : {log[0] ? log[0].like_count : 0}회</p>
           <div className='flex gap-1 items-center w-full justify-between'>
             <p>PR : {log[0] ? log[0].pr_count : 0}회</p>
-            {log[0] && log[0].pr_count && log[0].pr_count > 0 && (
-              <Link href={log[0].pr_url ? log[0].pr_url : ''} target='_blank'>
+            {log[0] && log[0].pr_url && (
+              <Link href={log[0].pr_url} target='_blank'>
                 <ArrowRight size={20} />
               </Link>
             )}

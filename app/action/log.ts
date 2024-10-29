@@ -20,7 +20,7 @@ export const addLog = async ({ type }: Props) => {
       .from('activity_logs')
       .select('*')
       .eq('user_id', session.id)
-      .gte('updated_at', today);
+      .gte('created_at', today);
 
     if (data && data[0]) {
       if (type === 'post') {
@@ -103,7 +103,7 @@ export const addGithubLog = async (
       .eq('user_id', session.id)
       .in('created_at', logDates); // 날짜 배열에 해당하는게 있는지 검사
 
-    if (existingLogs) {
+    if (existingLogs && existingLogs.length > 0) {
       // 기존 로그 url와 신규 로그 url비교
       if (
         existingLogs[existingLogs.length - 1].pr_url ===
