@@ -39,7 +39,7 @@ export default function CalendarContainer({
   const totalDay = getDayInYear(currentYear);
 
   const logByDate: Record<string, Log[]> = log!.reduce((acc, entry) => {
-    const date = formatDateTz(entry.updated_at!);
+    const date = formatDateTz(entry.created_at!);
     acc[date] = acc[date] || [];
     acc[date].push(entry);
     return acc;

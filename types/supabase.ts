@@ -96,6 +96,8 @@ export type Database = {
           id: string;
           like_count: number | null;
           post_count: number | null;
+          pr_count: number | null;
+          pr_url: string | null;
           rate: number | null;
           updated_at: string | null;
           user_id: string | null;
@@ -106,6 +108,8 @@ export type Database = {
           id?: string;
           like_count?: number | null;
           post_count?: number | null;
+          pr_count?: number | null;
+          pr_url?: string | null;
           rate?: number | null;
           updated_at?: string | null;
           user_id?: string | null;
@@ -116,6 +120,8 @@ export type Database = {
           id?: string;
           like_count?: number | null;
           post_count?: number | null;
+          pr_count?: number | null;
+          pr_url?: string | null;
           rate?: number | null;
           updated_at?: string | null;
           user_id?: string | null;
