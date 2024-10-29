@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dialog';
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import RepoList from './repo-list';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { getAllRepo } from '@/app/data/log';
 
 export default function GithubRepoModal() {
@@ -18,6 +18,7 @@ export default function GithubRepoModal() {
   const [isNext, setIsNext] = useState(true);
   const [list, setList] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
@@ -31,17 +32,18 @@ export default function GithubRepoModal() {
   };
 
   useEffect(() => {
-    const fetchRepoList = async () => {
-      const data = await getAllRepo(page);
-      if (data && data.length > 0) {
-        setList([...data]);
-        if (data.length < 10) {
+    const fetchRepoList = () =>
+      startTransition(async () => {
+        const data = await getAllRepo(page);
+        if (data && data.length > 0) {
+          setList([...data]);
+          if (data.length < 10) {
+            setIsNext(false);
+          }
+        } else {
           setIsNext(false);
         }
-      } else {
-        setIsNext(false);
-      }
-    };
+      });
     fetchRepoList();
   }, [page]);
 
@@ -62,6 +64,7 @@ export default function GithubRepoModal() {
           handlePage={handlePage}
           page={page}
           isNext={isNext}
+          isPending={isPending}
         />
       </DialogContent>
     </Dialog>

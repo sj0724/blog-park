@@ -43,7 +43,7 @@ export const authConfig = {
     }),
   ],
   callbacks: {
-    signIn: async ({ user, account }) => {
+    signIn: async ({ user, account, profile }) => {
       if (account?.provider === 'github' || 'google' || 'kakao') {
         try {
           const supabaseUser = await supabase // supabase에서 email같은 유저 찾기
@@ -70,18 +70,20 @@ export const authConfig = {
               ])
               .select('*')
               .single();
-
             user.id = newUser!.id; // 생성한 유저 id값 세션 id로 지정
             user.OAuth = account?.provider;
+            user.OAuthId = profile?.login;
             return true;
           }
           if (supabaseUser.data && !supabaseUser.data.oauth_account) {
             user.id = supabaseUser.data.id; // OAuth로 로그인한 유저 id값 db id로 변경
             user.OAuth = account?.provider;
+            user.OAuthId = profile?.login;
             return true;
           }
           user.id = supabaseUser.data.id; // OAuth로 로그인한 유저 id값 db id로 변경
           user.OAuth = account?.provider;
+          user.OAuthId = profile?.login;
           return true;
         } catch {
           console.log('로그인 도중 에러가 발생했습니다. ');
@@ -94,12 +96,14 @@ export const authConfig = {
       if (user) {
         token.id = user.id!;
         token.OAuth = user.OAuth;
+        token.OAuthId = user.OAuthId;
       }
       return token;
     },
     session({ session, token }) {
       session.user.id = token.id;
       session.user.OAuth = token.OAuth;
+      session.user.OAuthId = token.OAuthId;
       return session;
     },
   },
