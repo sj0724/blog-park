@@ -42,7 +42,7 @@ export default function CalendarSingleDay({
     if (50 > rate && rate !== 0) {
       return 'bg-blue-100 border-blue-100';
     }
-    if (rate >= 50 && rate < 150) {
+    if (rate >= 50 && rate < 50) {
       return 'bg-blue-300 border-blue-300';
     }
     if (rate >= 100) {
@@ -115,7 +115,9 @@ export default function CalendarSingleDay({
           <p>댓글 : {log[0] ? log[0].comment_count : 0}회</p>
           <p>좋아요 : {log[0] ? log[0].like_count : 0}회</p>
           <div className='flex gap-1 items-center w-full justify-between'>
-            <p>Commit : {log[0] ? log[0].pr_count : 0}회</p>
+            <p className='text-nowrap'>
+              Commit : {log[0] ? log[0].pr_count : 0}회
+            </p>
             {log[0] && log[0].pr_url && (
               <Link href={log[0].pr_url} target='_blank'>
                 <ArrowRight size={20} />
