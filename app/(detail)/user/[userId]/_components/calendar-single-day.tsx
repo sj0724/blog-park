@@ -115,7 +115,7 @@ export default function CalendarSingleDay({
           <p>댓글 : {log[0] ? log[0].comment_count : 0}회</p>
           <p>좋아요 : {log[0] ? log[0].like_count : 0}회</p>
           <div className='flex gap-1 items-center w-full justify-between'>
-            <p>PR : {log[0] ? log[0].pr_count : 0}회</p>
+            <p>Commit : {log[0] ? log[0].pr_count : 0}회</p>
             {log[0] && log[0].pr_url && (
               <Link href={log[0].pr_url} target='_blank'>
                 <ArrowRight size={20} />

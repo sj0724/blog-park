@@ -1,7 +1,7 @@
 'use client';
 
 import { addGithubLog } from '@/app/action/log';
-import { getPrByRepo } from '@/app/data/log';
+import { getCommitByRepo } from '@/app/data/log';
 import { getSessionUserData } from '@/app/data/user';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
@@ -33,11 +33,11 @@ export default function RepoList({
 
   const connectRepo = async () => {
     const session = await getSessionUserData();
-    const prList = await getPrByRepo(repo);
-    const objectToArr = Object.keys(prList).map((date) => ({
+    const commitList = await getCommitByRepo(repo);
+    const objectToArr = Object.keys(commitList).map((date) => ({
       createdAt: date,
-      count: prList[date].count,
-      url: `https://github.com/${session?.name}/${repo}/pulls?q=is%3Apr+created%3A${date}+`,
+      count: commitList[date].count,
+      url: `https://github.com/${session?.name}/${repo}/commits/main/?author=${session?.name}&since=${date}&until=${date}`,
     }));
     const result = await addGithubLog(objectToArr);
     if (result.success) {
