@@ -1,4 +1,5 @@
 import { editComment } from '@/app/action/comment';
+import ServerActionButton from '@/components/server-action-button';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -60,13 +61,17 @@ export default function CommentEditForm({
         <Button
           onClick={toggleEdit}
           type='button'
-          className='bg-red-500 hover:bg-red-400'
+          className='bg-white text-black hover:bg-gray-200'
         >
           취소
         </Button>
-        <Button onClick={() => mutation.mutate()} type='button'>
+        <ServerActionButton
+          onClick={() => mutation.mutate()}
+          type='button'
+          isPending={mutation.isPending}
+        >
           확인
-        </Button>
+        </ServerActionButton>
       </div>
     </div>
   );

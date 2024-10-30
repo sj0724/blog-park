@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -19,10 +18,13 @@ import { register } from '@/app/action/user';
 import { registerFields } from '@/constants/form-filed';
 import { useRouter } from 'next/navigation';
 import PasswordInput from '@/components/password-input';
+import { useTransition } from 'react';
+import ServerActionButton from '@/components/server-action-button';
 
 export type RegisterSchemaType = z.infer<typeof RegisterSchema>;
 
 export default function RegisterForm() {
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(RegisterSchema),
@@ -36,8 +38,10 @@ export default function RegisterForm() {
   });
 
   const onSubmit = async (values: RegisterSchemaType) => {
-    const result = await register(values);
-    if (result.success) router.replace('/sign-in');
+    startTransition(async () => {
+      const result = await register(values);
+      if (result.success) router.replace('/sign-in');
+    });
   };
 
   return (
@@ -151,13 +155,14 @@ export default function RegisterForm() {
             </FormItem>
           )}
         />
-        <Button
+        <ServerActionButton
           type='submit'
           disabled={!form.formState.isValid}
           className='w-full'
+          isPending={isPending}
         >
           가입
-        </Button>
+        </ServerActionButton>
       </form>
     </Form>
   );

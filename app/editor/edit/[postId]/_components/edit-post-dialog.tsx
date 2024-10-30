@@ -2,6 +2,7 @@
 
 import { editPost } from '@/app/action/post';
 import TagInput from '@/app/editor/create/_components/tag-input';
+import ServerActionButton from '@/components/server-action-button';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -26,7 +27,7 @@ import { cn } from '@/lib/utils';
 import { PostSchema } from '@/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -50,6 +51,7 @@ export function EditPostDialog({
   isPublished,
   postTagList,
 }: Props) {
+  const [isPending, startTransition] = useTransition();
   const [isPublish, setIsPublish] = useState(isPublished);
   const [tagList, setTagList] = useState<string[]>(postTagList);
   const router = useRouter();
@@ -66,16 +68,18 @@ export function EditPostDialog({
   };
 
   const onSubmit = async (values: PostSchemaType) => {
-    const result = await editPost({
-      postId,
-      title: title,
-      content: postContent,
-      summation: values.summation,
-      isPublished: isPublish,
-      tagList,
+    startTransition(async () => {
+      const result = await editPost({
+        postId,
+        title: title,
+        content: postContent,
+        summation: values.summation,
+        isPublished: isPublish,
+        tagList,
+      });
+      toast.message(result.message);
+      if (result.success) router.replace(`/post/${postId}`);
     });
-    toast.message(result.message);
-    if (result.success) router.replace(`/post/${postId}`);
   };
 
   const editTagList = (tagList: string[]) => {
@@ -140,12 +144,14 @@ export function EditPostDialog({
               <p className='text-base font-bold'>공개 여부</p>
               <Switch onClick={toggleSwitch} checked={isPublish} />
             </div>
-            <Button
+            <ServerActionButton
               type='submit'
               disabled={!form.formState.isValid || !title || !postContent}
+              className='w-full'
+              isPending={isPending}
             >
               수정
-            </Button>
+            </ServerActionButton>
           </form>
         </Form>
       </DialogContent>

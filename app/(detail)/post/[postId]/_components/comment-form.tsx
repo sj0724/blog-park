@@ -1,7 +1,7 @@
 'use client';
 
 import { createComment } from '@/app/action/comment';
-import { Button } from '@/components/ui/button';
+import ServerActionButton from '@/components/server-action-button';
 import { Textarea } from '@/components/ui/textarea';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FormEvent, useState } from 'react';
@@ -53,9 +53,13 @@ export default function CommentForm({ postId, createrId, updateList }: Props) {
         placeholder='댓글을 작성해주세요.'
         value={content}
       />
-      <Button type='submit' className='w-20 h-10'>
+      <ServerActionButton
+        type='submit'
+        className='w-20 h-10'
+        isPending={mutation.isPending}
+      >
         등록
-      </Button>
+      </ServerActionButton>
     </form>
   );
 }

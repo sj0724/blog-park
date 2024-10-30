@@ -1,7 +1,7 @@
 'use client';
 
 import { editIntroduce } from '@/app/action/user';
-import { Button } from '@/components/ui/button';
+import ServerActionButton from '@/components/server-action-button';
 import {
   Form,
   FormControl,
@@ -14,6 +14,7 @@ import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -33,6 +34,7 @@ export default function EditIntroductionForm({
 }: {
   introduction: string;
 }) {
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const form = useForm<EditIntroductionSchemaType>({
     resolver: zodResolver(EditIntroductionSchema),
@@ -43,11 +45,13 @@ export default function EditIntroductionForm({
   });
 
   const onSubmit = async (values: EditIntroductionSchemaType) => {
-    const result = await editIntroduce(values.introduction);
-    if (result.success) {
-      toast.message(result.message);
-      router.refresh();
-    }
+    startTransition(async () => {
+      const result = await editIntroduce(values.introduction);
+      if (result.success) {
+        toast.message(result.message);
+        router.refresh();
+      }
+    });
   };
 
   return (
@@ -80,15 +84,16 @@ export default function EditIntroductionForm({
             </FormItem>
           )}
         />
-        <Button
+        <ServerActionButton
           type='submit'
           disabled={
             introduction === form.getValues('introduction') ||
             !form.formState.isValid
           }
+          isPending={isPending}
         >
           수정
-        </Button>
+        </ServerActionButton>
       </form>
     </Form>
   );
