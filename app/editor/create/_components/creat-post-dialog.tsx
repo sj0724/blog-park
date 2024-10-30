@@ -25,11 +25,12 @@ import { cn } from '@/lib/utils';
 import { PostSchema } from '@/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import TagInput from './tag-input';
+import ServerActionButton from '@/components/server-action-button';
 
 export type PostSchemaType = z.infer<typeof PostSchema>;
 
@@ -39,6 +40,7 @@ interface Props {
 }
 
 export function CreatPostDialog({ postContent, title }: Props) {
+  const [isPending, startTransition] = useTransition();
   const [isPublic, setIsPublic] = useState(true);
   const [tagList, setTagList] = useState<string[]>([]);
   const router = useRouter();
@@ -59,15 +61,17 @@ export function CreatPostDialog({ postContent, title }: Props) {
   };
 
   const onSubmit = async (values: PostSchemaType) => {
-    const result = await creatPost({
-      title: title,
-      content: postContent,
-      summation: values.summation,
-      isPublished: isPublic,
-      tagList,
+    startTransition(async () => {
+      const result = await creatPost({
+        title: title,
+        content: postContent,
+        summation: values.summation,
+        isPublished: isPublic,
+        tagList,
+      });
+      toast.message(result.message);
+      if (result.success) router.replace('/');
     });
-    toast.message(result.message);
-    if (result.success) router.replace('/');
   };
 
   return (
@@ -125,12 +129,14 @@ export function CreatPostDialog({ postContent, title }: Props) {
               <p className='text-base font-bold'>공개 여부</p>
               <Switch onClick={toggleSwitch} checked={isPublic} />
             </div>
-            <Button
+            <ServerActionButton
               type='submit'
               disabled={!form.formState.isValid || !title || !postContent}
+              className='w-full'
+              isPending={isPending}
             >
               제출
-            </Button>
+            </ServerActionButton>
           </form>
         </Form>
       </DialogContent>
