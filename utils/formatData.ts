@@ -15,7 +15,7 @@ export const formatDateRange = ({
 
 export const getFirstDay = (year: number) => {
   const firstDay = new Date(year, 0, 1);
-  return firstDay.getDate();
+  return firstDay.getDay();
 };
 
 export const getDayInYear = (year: number) => {
