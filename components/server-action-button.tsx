@@ -13,11 +13,17 @@ export default function ServerActionButton({
   type,
   isPending,
   className,
+  onClick,
 }: Props) {
   return (
     <div className='relative'>
       {isPending && <Spinner />}
-      <Button disabled={disabled} type={type} className={className}>
+      <Button
+        disabled={disabled}
+        type={type}
+        className={className}
+        onClick={onClick}
+      >
         {children}
       </Button>
     </div>
