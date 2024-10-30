@@ -53,7 +53,7 @@ export default function EditPasswordForm({ Oauth }: { Oauth: boolean }) {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='w-full flex gap-3 items-center'
+            className='w-full flex gap-3 h-full'
           >
             <div className='flex flex-col w-full'>
               {editPasswordFields.map((field) => (
@@ -63,7 +63,7 @@ export default function EditPasswordForm({ Oauth }: { Oauth: boolean }) {
                   name={field.name as keyof EditPasswordSchemaType}
                   render={({ field: controllerField }) => (
                     <FormItem className='relative w-full'>
-                      <FormLabel className='text-base font-bold'>
+                      <FormLabel className='text-base font-bold h-5'>
                         {field.label}
                       </FormLabel>
                       <FormControl>
@@ -87,24 +87,32 @@ export default function EditPasswordForm({ Oauth }: { Oauth: boolean }) {
                 />
               ))}
             </div>
-            <div className='h-full flex flex-col justify-between'>
-              <Button className='mb-6' type='button' onClick={toggleIsEdit}>
-                취소
-              </Button>
-              <Button
-                type='submit'
-                className='mt-9'
-                disabled={!form.formState.isValid}
-              >
-                수정
-              </Button>
+            <div className='min-h-full flex flex-col'>
+              <div className='h-1/2 flex justify-center items-center'>
+                <Button
+                  className='bg-white text-black hover:bg-gray-200'
+                  type='button'
+                  onClick={toggleIsEdit}
+                >
+                  취소
+                </Button>
+              </div>
+              <div className='h-1/2 flex justify-center items-center'>
+                <Button
+                  type='submit'
+                  className=''
+                  disabled={!form.formState.isValid}
+                >
+                  수정
+                </Button>
+              </div>
             </div>
           </form>
         </Form>
       ) : (
         <div className='flex flex-col gap-2 w-full'>
           <p className='font-bold'>비밀번호</p>
-          <div className='flex gap-3'>
+          <div className='flex gap-3 items-center'>
             <Input
               disabled
               value='********'
