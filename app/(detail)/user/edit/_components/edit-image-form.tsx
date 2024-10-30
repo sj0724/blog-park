@@ -67,7 +67,7 @@ export default function EditImageForm({ image }: { image: string }) {
     <div className='flex flex-col items-center gap-4'>
       <div className='relative'>
         <UserAvatar image={userImage} size='lg' />
-        <Label className='absolute bottom-3 -right-2 rounded-full bg-blue-500 cursor-pointer z-10'>
+        <Label className='absolute bottom-3 -right-2 rounded-full bg-blue-500 cursor-pointer z-10 hover:bg-blue-400'>
           <PlusIcon size={40} color='white' />
           <input type='file' className='hidden' onChange={isEdit} />
         </Label>

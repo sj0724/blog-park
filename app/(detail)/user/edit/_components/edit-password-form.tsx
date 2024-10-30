@@ -1,6 +1,7 @@
 'use client';
 
 import { editPassword } from '@/app/action/user';
+import ServerActionButton from '@/components/server-action-button';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -16,7 +17,7 @@ import { cn } from '@/lib/utils';
 import { EditPasswordSchema } from '@/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -24,6 +25,7 @@ import { z } from 'zod';
 export type EditPasswordSchemaType = z.infer<typeof EditPasswordSchema>;
 
 export default function EditPasswordForm({ Oauth }: { Oauth: boolean }) {
+  const [isPending, startTransition] = useTransition();
   const [isEdit, setIsEdit] = useState(false);
   const router = useRouter();
   const form = useForm<EditPasswordSchemaType>({
@@ -36,11 +38,13 @@ export default function EditPasswordForm({ Oauth }: { Oauth: boolean }) {
   });
 
   const onSubmit = async (values: EditPasswordSchemaType) => {
-    const result = await editPassword(values.password);
-    if (result.success) {
-      toast.message(result.message);
-      router.refresh();
-    }
+    startTransition(async () => {
+      const result = await editPassword(values.password);
+      if (result.success) {
+        toast.message(result.message);
+        router.refresh();
+      }
+    });
   };
 
   const toggleIsEdit = () => {
@@ -98,13 +102,14 @@ export default function EditPasswordForm({ Oauth }: { Oauth: boolean }) {
                 </Button>
               </div>
               <div className='h-1/2 flex justify-center items-center'>
-                <Button
+                <ServerActionButton
                   type='submit'
                   className=''
                   disabled={!form.formState.isValid}
+                  isPending={isPending}
                 >
                   수정
-                </Button>
+                </ServerActionButton>
               </div>
             </div>
           </form>

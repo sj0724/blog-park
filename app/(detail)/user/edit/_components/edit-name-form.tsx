@@ -1,7 +1,7 @@
 'use client';
 
 import { editName } from '@/app/action/user';
-import { Button } from '@/components/ui/button';
+import ServerActionButton from '@/components/server-action-button';
 import {
   Form,
   FormControl,
@@ -14,6 +14,7 @@ import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -29,6 +30,7 @@ const EditNameSchema = z.object({
 export type EditNameSchemaType = z.infer<typeof EditNameSchema>;
 
 export default function EditNameForm({ name }: { name: string }) {
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const form = useForm<EditNameSchemaType>({
     resolver: zodResolver(EditNameSchema),
@@ -39,11 +41,13 @@ export default function EditNameForm({ name }: { name: string }) {
   });
 
   const onSubmit = async (values: EditNameSchemaType) => {
-    const result = await editName(values.name);
-    if (result.success) {
-      toast.message(result.message);
-      router.refresh();
-    }
+    startTransition(async () => {
+      const result = await editName(values.name);
+      if (result.success) {
+        toast.message(result.message);
+        router.refresh();
+      }
+    });
   };
 
   return (
@@ -76,13 +80,14 @@ export default function EditNameForm({ name }: { name: string }) {
             </FormItem>
           )}
         />
-        <Button
+        <ServerActionButton
           type='submit'
           disabled={name === form.getValues('name') || !form.formState.isValid}
           className='h-fit'
+          isPending={isPending}
         >
           수정
-        </Button>
+        </ServerActionButton>
       </form>
     </Form>
   );
