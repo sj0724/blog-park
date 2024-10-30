@@ -3,12 +3,12 @@
 import { addGithubLog } from '@/app/action/log';
 import { getCommitByRepo } from '@/app/data/log';
 import { getSessionUserData } from '@/app/data/user';
-import { Button } from '@/components/ui/button';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState, useTransition } from 'react';
 import { toast } from 'sonner';
 import RepoSkeleton from './repo-skeleton';
+import ServerActionButton from '@/components/server-action-button';
 
 interface Props {
   toggleModal: () => void;
@@ -27,6 +27,7 @@ export default function RepoList({
   isNext,
   isPending,
 }: Props) {
+  const [connectPending, startTransition] = useTransition();
   const [repo, setRepo] = useState('');
   const router = useRouter();
 
@@ -34,23 +35,25 @@ export default function RepoList({
     setRepo(e.target.value);
   };
 
-  const connectRepo = async () => {
-    const session = await getSessionUserData();
-    const commitList = await getCommitByRepo(repo);
-    const objectToArr = Object.keys(commitList).map((date) => ({
-      createdAt: date,
-      count: commitList[date].count,
-      url: `https://github.com/${session?.OAuthId}/${repo}/commits/main/?author=${session?.OAuthId}&since=${date}&until=${date}`,
-    }));
-    const result = await addGithubLog(objectToArr);
-    if (result.success) {
-      toast.message(result.message);
-      toggleModal();
-      router.refresh();
-    } else {
-      toggleModal();
-      toast.error(result.message);
-    }
+  const connectRepo = () => {
+    startTransition(async () => {
+      const session = await getSessionUserData();
+      const commitList = await getCommitByRepo(repo);
+      const objectToArr = Object.keys(commitList).map((date) => ({
+        createdAt: date,
+        count: commitList[date].count,
+        url: `https://github.com/${session?.OAuthId}/${repo}/commits/main/?author=${session?.OAuthId}&since=${date}&until=${date}`,
+      }));
+      const result = await addGithubLog(objectToArr);
+      if (result.success) {
+        toast.message(result.message);
+        toggleModal();
+        router.refresh();
+      } else {
+        toggleModal();
+        toast.error(result.message);
+      }
+    });
   };
 
   return (
@@ -96,9 +99,13 @@ export default function RepoList({
             <ArrowRight size={20} color={`${isNext ? 'black' : 'gray'}`} />
           </button>
         </div>
-        <Button type='button' onClick={connectRepo}>
+        <ServerActionButton
+          type='button'
+          onClick={connectRepo}
+          isPending={connectPending}
+        >
           연동하기
-        </Button>
+        </ServerActionButton>
       </div>
     </div>
   );
