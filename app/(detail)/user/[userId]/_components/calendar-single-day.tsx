@@ -39,7 +39,7 @@ export default function CalendarSingleDay({
   const transformDay = getDateFromDay(year, day);
   const formatDate = formatDateRange({ dateString: transformDay });
   const logColor = (rate: number) => {
-    if (50 > rate && rate !== 0) {
+    if (50 >= rate && rate !== 0) {
       return 'bg-blue-100 border-blue-100';
     }
     if (rate >= 50 && rate < 50) {
