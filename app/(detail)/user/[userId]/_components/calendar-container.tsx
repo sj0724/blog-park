@@ -83,8 +83,7 @@ export default function CalendarContainer({
               return (
                 <CalendarSingleDay
                   key={day}
-                  day={day}
-                  year={currentYear}
+                  day={formatDate}
                   log={matchLog}
                   containerRef={containerRef}
                 />
