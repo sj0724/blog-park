@@ -101,7 +101,14 @@ export const addGithubLog = async (
       .from('activity_logs')
       .select('created_at, id, pr_url')
       .eq('user_id', session.id)
-      .in('created_at', logDates); // 날짜 배열에 해당하는게 있는지 검사
+      .or(
+        logDates
+          .map(
+            (date) =>
+              `created_at.gte.${date}T00:00:00,created_at.lt.${date}T23:59:59`
+          )
+          .join(',')
+      ); // 날짜 배열에 해당하는게 있는지 검사(0시부터 23시까지)
 
     if (existingLogs && existingLogs.length > 0) {
       // 기존 로그 url와 신규 로그 url비교
@@ -138,7 +145,6 @@ export const addGithubLog = async (
             rate: 100,
           })
           .eq('user_id', session.id)
-          .eq('created_at', log.created_at)
       );
       await Promise.all(updatePromises); // 모든 업데이트 요청을 병렬로 처리
     }
