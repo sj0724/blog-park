@@ -22,7 +22,7 @@ export default async function PostContents({
   const currentUser = await getSessionUserData();
   const formatData = formatDateRange({ dateString: post.createdAt });
   return (
-    <div className='lg:w-[800px] max-w-[800px] flex flex-col gap-12 w-full'>
+    <div className='max-w-[800px] flex flex-col gap-12 w-full'>
       <div className='flex flex-col gap-2'>
         <h1 className='text-4xl md:text-6xl lg:text-6xl font-extrabold'>
           {post.title}
