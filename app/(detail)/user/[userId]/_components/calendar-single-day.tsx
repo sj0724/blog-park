@@ -1,14 +1,12 @@
 'use client';
 
 import { Log } from '@/type';
-import { formatDateRange, getDateFromDay } from '@/utils/formatData';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 
 interface Props {
-  day: number;
-  year: number;
+  day: string;
   log?: Log;
   containerRef: MutableRefObject<HTMLDivElement | null>;
 }
@@ -25,19 +23,12 @@ const directionStyle: DirectionStyle = {
   center: 'top-0 -translate-y-1/2',
 };
 
-export default function CalendarSingleDay({
-  day,
-  year,
-  log,
-  containerRef,
-}: Props) {
-  const [isHover, setIsHover] = useState(false);
+export default function CalendarSingleDay({ day, log, containerRef }: Props) {
+  const [isActive, setIsActive] = useState(false);
   const [xDirection, setXDirection] = useState('right');
   const [yDirection, setYDirection] = useState('top');
   const infoRef = useRef<HTMLDivElement | null>(null);
   const boxRef = useRef<HTMLDivElement | null>(null);
-  const transformDay = getDateFromDay(year, day);
-  const formatDate = formatDateRange({ dateString: transformDay });
   const logColor = (rate: number) => {
     if (50 >= rate && rate !== 0) {
       return 'bg-blue-100 border-blue-100';
@@ -79,18 +70,18 @@ export default function CalendarSingleDay({
         boxRef.current &&
         !boxRef.current.contains(e.target as Node)
       ) {
-        setIsHover(!isHover);
+        setIsActive(!isActive);
       }
     };
 
-    if (isHover) {
+    if (isActive) {
       window.addEventListener('click', pageClickEvent);
     }
 
     return () => {
       window.removeEventListener('click', pageClickEvent);
     };
-  }, [isHover]);
+  }, [isActive]);
 
   return (
     <div className='relative'>
@@ -99,17 +90,17 @@ export default function CalendarSingleDay({
         className={`w-3 h-3 border rounded cursor-pointer hover:bg-gray-300 hover:border-gray-300 ${
           log && logColor(log.rate!)
         }`}
-        onClick={() => setIsHover(!isHover)}
+        onClick={() => setIsActive(!isActive)}
       />
       <div
         ref={infoRef}
-        className={`${isHover ? 'flex scale-100' : 'scale-0'} absolute z-10 ${
+        className={`${isActive ? 'flex scale-100' : 'scale-0'} absolute z-10 ${
           directionStyle[xDirection]
         } ${
           directionStyle[yDirection]
         } bg-white shadow-md flex-col w-32 h-fit p-2 gap-1 rounded-md transition-transform duration-900`}
       >
-        <p className='text-sm font-semibold text-nowrap'>{formatDate}</p>
+        <p className='text-sm font-semibold text-nowrap'>{day}</p>
         <div className='text-sm font-semibold text-gray-600'>
           <p>포스트 : {log ? log.post_count : 0}회</p>
           <p>댓글 : {log ? log.comment_count : 0}회</p>

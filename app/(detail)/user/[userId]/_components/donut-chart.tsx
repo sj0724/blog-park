@@ -123,19 +123,7 @@ export default function DonutChart({ post, commnet, like }: Props) {
             strokeLinecap='round'
           />
         )}
-        {!postHover && !commentHover && !likeHover && (
-          <text
-            x='150'
-            y='155'
-            fontSize='20'
-            fontWeight={600}
-            fill='#4b5563'
-            textAnchor='middle'
-          >
-            전체 {total}회
-          </text>
-        )}
-        {(postHover || commentHover || likeHover) && (
+        {postHover || commentHover || likeHover ? (
           <text
             x='150'
             y='155'
@@ -146,6 +134,17 @@ export default function DonutChart({ post, commnet, like }: Props) {
             {postHover && `포스트 ${post}회`}
             {commentHover && `댓글 ${commnet}회`}
             {likeHover && `좋아요 ${like}회`}
+          </text>
+        ) : (
+          <text
+            x='150'
+            y='155'
+            fontSize='20'
+            fontWeight={600}
+            fill='#4b5563'
+            textAnchor='middle'
+          >
+            전체 {total}회
           </text>
         )}
       </svg>
