@@ -112,10 +112,7 @@ export const addGithubLog = async (
 
     if (existingLogs && existingLogs.length > 0) {
       // 기존 로그 url와 신규 로그 url비교
-      if (
-        existingLogs[existingLogs.length - 1].pr_url ===
-        transformLog[transformLog.length - 1].pr_url
-      ) {
+      if (existingLogs[0].pr_url === transformLog[0].pr_url) {
         return {
           success: false,
           message: '이미 등록된 로그입니다.',
