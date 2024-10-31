@@ -2,6 +2,7 @@
 
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import generateSafeFileName from '@/utils/encodingName';
 import { supabase, supabaseUrl } from '@/utils/supabase';
 import {
   Bold,
@@ -33,7 +34,7 @@ export default function ToolBar({
 
       if (file.type.startsWith('image/')) {
         try {
-          const existingFileName = `images/${file.name}`;
+          const existingFileName = `images/${generateSafeFileName(file.name)}`;
 
           // 같은 이름의 파일 있을 경우 삭제
           const { error: removeError } = await supabase.storage
