@@ -38,12 +38,11 @@ export default function CalendarContainer({
   const firstDayIndex = getFirstDay(currentYear);
   const totalDay = getDayInYear(currentYear);
 
-  const logByDate: Record<string, Log[]> = log!.reduce((acc, entry) => {
+  const logByDate: Record<string, Log> = log!.reduce((acc, entry) => {
     const date = formatDateTz(entry.created_at!);
-    acc[date] = acc[date] || [];
-    acc[date].push(entry);
+    acc[date] = { ...entry };
     return acc;
-  }, {} as Record<string, Log[]>);
+  }, {} as Record<string, Log>);
 
   return (
     <div className='overflow-x-auto flex flex-col gap-2'>
@@ -79,7 +78,7 @@ export default function CalendarContainer({
               const day = index + 1;
               const dayByYear = getDateFromDay(currentYear, day); // 현재 연도에서 해당 일수의 날짜로 변환
               const formatDate = formatDateTz(dayByYear); // 날짜를 시간 제외한 포멧으로 변경
-              const matchLog = logByDate[formatDate] || [];
+              const matchLog = logByDate[formatDate];
 
               return (
                 <CalendarSingleDay

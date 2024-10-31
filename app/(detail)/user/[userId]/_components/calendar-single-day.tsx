@@ -9,7 +9,7 @@ import { MutableRefObject, useEffect, useRef, useState } from 'react';
 interface Props {
   day: number;
   year: number;
-  log: Log[];
+  log?: Log;
   containerRef: MutableRefObject<HTMLDivElement | null>;
 }
 
@@ -97,7 +97,7 @@ export default function CalendarSingleDay({
       <div
         ref={boxRef}
         className={`w-3 h-3 border rounded cursor-pointer hover:bg-gray-300 hover:border-gray-300 ${
-          log[0] && logColor(log[0].rate!)
+          log && logColor(log.rate!)
         }`}
         onClick={() => setIsHover(!isHover)}
       />
@@ -111,15 +111,13 @@ export default function CalendarSingleDay({
       >
         <p className='text-sm font-semibold text-nowrap'>{formatDate}</p>
         <div className='text-sm font-semibold text-gray-600'>
-          <p>포스트 : {log[0] ? log[0].post_count : 0}회</p>
-          <p>댓글 : {log[0] ? log[0].comment_count : 0}회</p>
-          <p>좋아요 : {log[0] ? log[0].like_count : 0}회</p>
+          <p>포스트 : {log ? log.post_count : 0}회</p>
+          <p>댓글 : {log ? log.comment_count : 0}회</p>
+          <p>좋아요 : {log ? log.like_count : 0}회</p>
           <div className='flex gap-1 items-center w-full justify-between'>
-            <p className='text-nowrap'>
-              Commit : {log[0] ? log[0].pr_count : 0}회
-            </p>
-            {log[0] && log[0].pr_url && (
-              <Link href={log[0].pr_url} target='_blank'>
+            <p className='text-nowrap'>Commit : {log ? log.pr_count : 0}회</p>
+            {log && log.pr_url && (
+              <Link href={log.pr_url} target='_blank'>
                 <ArrowRight size={20} />
               </Link>
             )}
