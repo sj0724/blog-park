@@ -124,7 +124,7 @@ export const addGithubLog = async (
     }
 
     const existingLogDates = new Set(
-      existingLogs?.map((log) => log.created_at)
+      existingLogs?.map((log) => log.created_at.split('T')[0])
     ); // 존재하는 로그 날짜 배열
 
     const logsToUpdate = transformLog.filter((log) =>
