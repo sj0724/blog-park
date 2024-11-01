@@ -9,6 +9,8 @@ import { getSessionUserData, getUserById } from '@/app/data/user';
 import Pagination from '@/components/pagination';
 import { Metadata } from 'next';
 import ActivityCalendar from './_components/activity-calendar';
+import { Suspense } from 'react';
+import LandingListSkeleton from '@/app/_components/landing-list-skeleton';
 
 interface Props {
   searchParams: { page: string; menu: string };
@@ -54,7 +56,9 @@ export default async function Page({
             <div className='flex flex-col items-center'>
               {menu === 'list' && (
                 <>
-                  <PostContainer list={postList} />
+                  <Suspense fallback={<LandingListSkeleton />}>
+                    <PostContainer list={postList} />
+                  </Suspense>
                   <div className='py-4 flex justify-center'>
                     <Pagination
                       total={count!}

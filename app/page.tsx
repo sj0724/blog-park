@@ -7,6 +7,8 @@ import MostFavoriteContainer from './_components/most-favorite-container';
 import Image from 'next/image';
 import Logo from '@/public/logo-icon-white.png';
 import TagContainer from './_components/tag-container';
+import { Suspense } from 'react';
+import LandingListSkeleton from './_components/landing-list-skeleton';
 
 export const metadata: Metadata = {
   title: 'Blog Park',
@@ -32,21 +34,23 @@ export default async function Home({
   return (
     <div className='flex flex-col items-center justify-center w-full max-w-[1100px]'>
       <div className='mt-10 px-4 w-full'>
-        <div className='flex justify-center bg-gray-700 shadow-lg rounded-lg py-9 w-full'>
+        <div className='flex justify-center items-center bg-gray-700 shadow-lg rounded-lg w-full h-32'>
           <Image src={Logo} alt='로고이미지' height={60} />
         </div>
       </div>
       <div className='flex justify-center w-full py-12 px-5 gap-8'>
         <div className='w-full max-w-[800px]'>
-          <PostContainer list={postList} title='전체 리스트' />
-          <div className='py-4 flex justify-center'>
-            <Pagination
-              total={count!}
-              currentPage={currentPage}
-              route='/'
-              limit={6}
-            />
-          </div>
+          <Suspense fallback={<LandingListSkeleton />}>
+            <PostContainer list={postList} title='전체 리스트' />
+            <div className='py-4 flex justify-center'>
+              <Pagination
+                total={count!}
+                currentPage={currentPage}
+                route='/'
+                limit={6}
+              />
+            </div>
+          </Suspense>
         </div>
         <div className='hidden md:flex lg:flex flex-col gap-5 h-fit'>
           <MostFavoriteContainer />
