@@ -1,19 +1,36 @@
 import { supabase } from '@/utils/supabase';
 import { getSessionUserData } from './user';
 
-export const getMyAlarmList = async (userId: string) => {
-  const { data, error } = await supabase
+interface Props {
+  userId: string;
+  page?: number;
+  limit?: number;
+}
+
+export const getMyAlarmList = async ({
+  userId,
+  page = 1,
+  limit = 7,
+}: Props) => {
+  const start = (page - 1) * limit;
+  const end = page * limit - 1;
+
+  const { data, count, error } = await supabase
     .from('alarms')
-    .select('*, user:alarms_owner_id_fkey(*)')
+    .select('*, user:alarms_owner_id_fkey(*)', { count: 'exact' })
     .eq('user_id', userId)
-    .order('createdAt', { ascending: false });
+    .order('createdAt', { ascending: false })
+    .range(start, end);
 
   if (error) {
+    console.log(error);
     throw new Error(`Error fetching comments: ${error.message}`);
   }
 
   return {
     alarms: data,
+    total: count,
+    page,
   };
 };
 
