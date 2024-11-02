@@ -23,6 +23,8 @@ export type SupabaseUser = Database['public']['Tables']['users']['Row'];
 
 export type Log = Database['public']['Tables']['activity_logs']['Row'];
 
+export type Alarm = Database['public']['Tables']['alarms']['Row'];
+
 export type GitHubLog = {
   createdAt: string;
   count: number;
