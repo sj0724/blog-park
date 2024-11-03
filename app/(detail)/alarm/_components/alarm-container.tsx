@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default function AlarmContainer({ list, userId, totalCount }: Props) {
-  const [alarmList, setAlarmList] = useState(list);
+  const [alarmList, setAlarmList] = useState<Alarm[]>([]);
   const [page, setPage] = useState(2);
   const [isNext, setIsNext] = useState(true);
   const [isPending, startTransition] = useTransition();
@@ -33,15 +33,24 @@ export default function AlarmContainer({ list, userId, totalCount }: Props) {
     isNext,
   });
 
+  const deleteAlarm = (alarmId: string) => {
+    const newAlarmList = alarmList.filter((item) => item.id !== alarmId);
+    setAlarmList([...newAlarmList]);
+  };
+
   useEffect(() => {
     if (totalCount === alarmList.length) {
       setIsNext(false);
     }
   }, [alarmList, totalCount]);
 
+  useEffect(() => {
+    setAlarmList([...list]);
+  }, [list]);
+
   return (
     <div className='flex flex-col items-center justify-center gap-10 relative'>
-      {list.length === 0 ? (
+      {alarmList.length === 0 ? (
         <div className='flex items-center justify-center gap-5 rounded-lg shadow-lg w-full h-28 px-8 py-4 hover:-translate-y-1 transition-transform text-xl font-semibold bg-white'>
           알림이 없습니다!
         </div>
@@ -49,14 +58,7 @@ export default function AlarmContainer({ list, userId, totalCount }: Props) {
         <ul className='flex flex-col gap-3 w-full'>
           {alarmList.map((item) => (
             <li key={item.id}>
-              <AlarmCard
-                id={item.id}
-                content={item.content}
-                isRead={item.isRead}
-                createdAt={item.createdAt}
-                user={item.user}
-                link={item.routePath}
-              />
+              <AlarmCard alarm={item} editList={deleteAlarm} />
             </li>
           ))}
           <div ref={obsRef} />
