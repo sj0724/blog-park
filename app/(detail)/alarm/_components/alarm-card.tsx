@@ -2,49 +2,36 @@
 
 import { deleteAlarm, toggleAlarm } from '@/app/action/alarm';
 import { UserAvatar } from '@/components/user-avatar';
-import { SupabaseUser } from '@/type';
+import { Alarm } from '@/type';
 import calculateDate from '@/utils/calculateData';
 import { Circle, CircleCheckBig, X } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { MouseEvent, useState } from 'react';
 import { toast } from 'sonner';
 
 interface Props {
-  id: string;
-  content: string;
-  isRead: boolean;
-  createdAt: string | null;
-  user: SupabaseUser;
-  link: string | null;
+  alarm: Alarm;
+  editList: (alarmId: string) => void;
 }
 
-export default function AlarmCard({
-  id,
-  content,
-  isRead,
-  createdAt,
-  user,
-  link,
-}: Props) {
-  const [readAlarm, setReadAlarm] = useState(isRead);
-  const router = useRouter();
-  const calculateData = calculateDate(createdAt ? createdAt : '');
+export default function AlarmCard({ alarm, editList }: Props) {
+  const [readAlarm, setReadAlarm] = useState(alarm.isRead);
+  const calculateData = calculateDate(alarm.createdAt ? alarm.createdAt : '');
   const handleRead = async (e: MouseEvent) => {
     e.preventDefault();
     setReadAlarm(!readAlarm);
-    const result = await toggleAlarm(id);
+    const result = await toggleAlarm(alarm.id);
     toast.message(result.message);
   };
   const isDelete = async (e: MouseEvent) => {
     e.preventDefault();
-    const result = await deleteAlarm(id);
+    const result = await deleteAlarm(alarm.id);
+    editList(alarm.id);
     toast.message(result.message);
-    router.refresh();
   };
 
   return (
-    <Link href={link ? link : '/'}>
+    <Link href={alarm.routePath ? alarm.routePath : '/'}>
       <div
         className={`relative rounded-lg flex flex-col py-3 px-5 shadow hover:shadow-lg hover:-translate-y-1 transition-transform w-full ${
           readAlarm ? 'bg-gray-300' : 'bg-white'
@@ -52,11 +39,11 @@ export default function AlarmCard({
       >
         <div className='flex gap-1'>
           <div className='flex items-center gap-2 text-sm'>
-            <UserAvatar image={user.image} size='sm' />
+            <UserAvatar image={alarm.user.image} size='sm' />
             <div className='flex items-center'>
               <p className='text-wrap'>
-                <span className='font-semibold'>{user.name}</span>
-                {`님이 ${content}`}
+                <span className='font-semibold'>{alarm.user.name}</span>
+                {`님이 ${alarm.content}`}
                 <span className='text-nowrap text-xs text-gray-400 pl-1'>{`${calculateData.time}${calculateData.result}전`}</span>
               </p>
             </div>
