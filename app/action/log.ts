@@ -95,20 +95,20 @@ export const addGithubLog = async (
       created_at: item.createdAt,
     }));
 
-    const logDates = transformLog.map((log) => log.created_at); // 깃허브 로그 날짜 배열
+    const logDates = transformLog.map((log) => log.created_at).reverse(); // 깃허브 로그 날짜 배열
 
-    const { data: existingLogs } = await supabase // 기존 로그 조회
+    const start = logDates[0];
+    const end = `${logDates[logDates.length - 1]}T23:59:59Z`;
+
+    const { data: existingLogs, error } = await supabase // 기존 로그 조회
       .from('activity_logs')
       .select('created_at, id, pr_url')
       .eq('user_id', session.id)
-      .or(
-        logDates
-          .map(
-            (date) =>
-              `created_at.gte.${date}T00:00:00,created_at.lt.${date}T23:59:59`
-          )
-          .join(',')
-      ); // 날짜 배열에 해당하는게 있는지 검사(0시부터 23시까지)
+      .gte('created_at', start)
+      .lte('created_at', end)
+      .order('created_at', { ascending: false });
+
+    if (error) console.error('Error:', error);
 
     if (existingLogs && existingLogs.length > 0) {
       // 기존 로그 url와 신규 로그 url비교
