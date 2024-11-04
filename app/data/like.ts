@@ -21,7 +21,8 @@ export const getMyLikeList = async () => {
   const { data: likeList } = await supabase
     .from('likes')
     .select('*, posts!likes_post_id_fkey(*)')
-    .eq('user_id', session.id);
+    .eq('user_id', session.id)
+    .order('createdAt', { ascending: false });
 
   return likeList;
 };

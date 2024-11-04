@@ -16,14 +16,7 @@ export default async function LikeContainer() {
         <ul className='flex flex-col gap-4 items-center justify-center'>
           {likeList.map((post) => (
             <li key={post.id} className='w-full'>
-              <PostCard
-                id={post.posts?.id}
-                title={post.posts?.title}
-                createdAt={post.posts?.createdAt}
-                summation={post.posts?.summation}
-                tags={post.posts?.tag}
-                isPublished={post.posts?.isPublished}
-              />
+              <PostCard post={post.posts!} />
             </li>
           ))}
         </ul>

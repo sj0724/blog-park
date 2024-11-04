@@ -20,15 +20,7 @@ export default async function PostContainer({ list, title }: Props) {
         <ul className='flex flex-col items-center justify-center gap-4'>
           {list.map((post) => (
             <li key={post.id} className='flex flex-col w-full'>
-              <PostCard
-                id={post.id}
-                title={post.title}
-                summation={post.summation}
-                createdAt={post.createdAt}
-                owner={post.posts_user_id_fkey}
-                tags={post.tag}
-                isPublished={post.isPublished}
-              />
+              <PostCard post={post} owner={post.posts_user_id_fkey} />
             </li>
           ))}
         </ul>
