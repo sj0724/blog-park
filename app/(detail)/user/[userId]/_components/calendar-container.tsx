@@ -45,7 +45,7 @@ export default function CalendarContainer({
   }, {} as Record<string, Log>);
 
   return (
-    <div className='overflow-x-auto flex flex-col gap-2'>
+    <div className='overflow-x-auto flex flex-col gap-2 w-full'>
       <p className='ml-3 font-semibold text-gray-600'>{currentYear}년</p>
       <div
         className='flex flex-col gap-3 border p-3 rounded-lg w-full overflow-x-auto'

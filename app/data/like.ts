@@ -14,17 +14,23 @@ export const getMyLikeByPostId = async ({ postId }: { postId: string }) => {
   return true;
 };
 
-export const getMyLikeList = async () => {
+interface Props {
+  page: number;
+  limit: number;
+}
+
+export const getMyLikeList = async ({ page, limit }: Props) => {
   const session = await getSessionUserData();
   if (!session) throw new Error('인증이 필요한 기능입니다.');
 
-  const { data: likeList } = await supabase
+  const { data: likeList, count } = await supabase
     .from('likes')
-    .select('*, posts!likes_post_id_fkey(*)')
+    .select('*, posts!likes_post_id_fkey(*)', { count: 'exact' })
     .eq('user_id', session.id)
+    .range((page - 1) * limit, page * limit - 1)
     .order('createdAt', { ascending: false });
 
-  return likeList;
+  return { likeList, count };
 };
 
 export const getLikeTotalCount = async ({ userId }: { userId: string }) => {

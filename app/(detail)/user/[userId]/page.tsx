@@ -36,7 +36,7 @@ export default async function Page({
   const { data: postList, count } = await getPostListByUserId({
     userId,
     page: currentPage,
-    limit: 6,
+    limit: 5,
   });
   if (!postList) return <div>포스트 없음</div>;
 
@@ -64,13 +64,15 @@ export default async function Page({
                       total={count!}
                       currentPage={currentPage}
                       route={`/user/${userId}`}
-                      limit={6}
+                      limit={5}
                     />
                   </div>
                 </>
               )}
               {menu === 'follow' && <FollowContainer />}
-              {menu === 'like' && <LikeContainer />}
+              {menu === 'like' && (
+                <LikeContainer currentPage={currentPage} userId={userId} />
+              )}
             </div>
           </div>
         </div>
