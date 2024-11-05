@@ -9,7 +9,7 @@ export default function ProfileUserMenu({
   userId: string;
 }) {
   return (
-    <div className='flex justify-between w-full px-10 py-5 mb-5'>
+    <div className='flex justify-between w-full lg:px-10 px-5 py-5 mb-5'>
       <ProfileMenuButton
         href={`/user/${userId}?menu=list`}
         id='list'
