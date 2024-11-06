@@ -38,7 +38,6 @@ export default async function Page({
     page: currentPage,
     limit: 5,
   });
-  if (!postList) return <div>포스트 없음</div>;
 
   return (
     <>
@@ -57,7 +56,7 @@ export default async function Page({
               {menu === 'list' && (
                 <>
                   <Suspense fallback={<LandingListSkeleton />}>
-                    <PostContainer list={postList} />
+                    <PostContainer list={postList ? postList : []} />
                   </Suspense>
                   <div className='py-4 flex justify-center'>
                     <Pagination
