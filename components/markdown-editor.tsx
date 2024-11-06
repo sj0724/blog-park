@@ -55,15 +55,21 @@ export default function MarkdownEditor({
           </h1>
         ),
         h2: (props) => (
-          <h1 id={String(props.children).replace(/#/g, '').trim()}>
+          <h2 id={String(props.children).replace(/#/g, '').trim()}>
             {props.children}
-          </h1>
+          </h2>
         ),
         h3: (props) => (
-          <h1 id={String(props.children).replace(/#/g, '').trim()}>
+          <h3 id={String(props.children).replace(/#/g, '').trim()}>
             {props.children}
-          </h1>
+          </h3>
         ),
+        h4: (props) => (
+          <h4 id={String(props.children).replace(/#/g, '').trim()}>
+            {props.children}
+          </h4>
+        ),
+        p: (props) => <p className='py-3'>{props.children}</p>,
       }}
     >
       {markdownText}

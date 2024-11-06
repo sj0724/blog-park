@@ -314,7 +314,7 @@ export type Database = {
           createdAt?: string;
           id?: string;
           isPublished?: boolean;
-          like_count?: number | null;
+          like_count?: number;
           summation: string;
           tag?: string[] | null;
           thumbnail?: string | null;
