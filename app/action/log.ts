@@ -88,14 +88,16 @@ export const addGithubLog = async (
     };
 
   try {
-    const transformLog = log.map((item) => ({
-      user_id: session.id,
-      pr_count: item.count,
-      pr_url: item.url,
-      created_at: item.createdAt,
-    }));
+    const transformLog = log
+      .map((item) => ({
+        user_id: session.id,
+        pr_count: item.count,
+        pr_url: item.url,
+        created_at: item.createdAt,
+      }))
+      .reverse();
 
-    const logDates = transformLog.map((log) => log.created_at).reverse(); // 깃허브 로그 날짜 배열
+    const logDates = transformLog.map((log) => log.created_at); // 깃허브 로그 날짜 배열
 
     const start = logDates[0];
     const end = `${logDates[logDates.length - 1]}T23:59:59Z`;
@@ -106,7 +108,7 @@ export const addGithubLog = async (
       .eq('user_id', session.id)
       .gte('created_at', start)
       .lte('created_at', end)
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: true });
 
     if (error) console.error('Error:', error);
 
