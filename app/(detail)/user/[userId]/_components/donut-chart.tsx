@@ -8,10 +8,10 @@ interface Props {
   like: number; // 세 번째 값
 }
 
+type HoverArea = 'post' | 'comment' | 'like' | 'all';
+
 export default function DonutChart({ post, commnet, like }: Props) {
-  const [postHover, setPostHover] = useState(false);
-  const [commentHover, setCommentHover] = useState(false);
-  const [likeHover, setLikeHover] = useState(false);
+  const [isHover, setIsHover] = useState<HoverArea>('all');
 
   const total = post + commnet + like;
   const radius = 90; // 원의 반지름
@@ -22,12 +22,13 @@ export default function DonutChart({ post, commnet, like }: Props) {
   const commentRatio = total > 0 ? commnet / total : 0;
   const likeRatio = total > 0 ? like / total : 0;
 
-  // 각 부분의 비율에 따른 strokeDasharray 및 strokeDashoffset 계산
-  const dasharray1 = postRatio * circumference;
-  const dasharray2 = commentRatio * circumference;
-  const dasharray3 = likeRatio * circumference;
+  // 각 부분의 비율에 따른 strokeDasharray - round 값 20
+  const dasharray1 = postRatio * circumference - 20;
+  const dasharray2 = commentRatio * circumference - 20;
+  const dasharray3 = likeRatio * circumference - 20;
 
-  const offset = circumference * 0.25; // 위치 조정을 위한 offset
+  const offset = circumference * 0.25 - 10; // 위치 조정을 위한 offset
+
   if (total === 0) {
     return (
       <svg viewBox='0 0 300 300' width='250' height='250'>
@@ -45,10 +46,12 @@ export default function DonutChart({ post, commnet, like }: Props) {
     );
   }
 
+  const handleHover = (area: HoverArea) => {
+    setIsHover(area);
+  };
+
   const resetState = () => {
-    setPostHover(false);
-    setCommentHover(false);
-    setLikeHover(false);
+    setIsHover('all');
   };
 
   return (
@@ -62,18 +65,14 @@ export default function DonutChart({ post, commnet, like }: Props) {
             fill='none'
             stroke='#3b82f6'
             strokeWidth='20'
-            strokeDasharray={`${dasharray1 - 20} ${
-              circumference - dasharray1 + 20
-            }`}
-            strokeDashoffset={offset - 10}
+            strokeDasharray={`${dasharray1} ${circumference - dasharray1}`}
+            strokeDashoffset={offset}
             className={`${
-              postHover && 'scale-125'
+              isHover === 'post' && 'scale-125'
             } origin-center sclae-100 cursor-pointer transition-all duration-300 ease-in-out`}
             strokeLinecap='round'
             onMouseOver={() => {
-              setPostHover(!postHover);
-              setCommentHover(false);
-              setLikeHover(false);
+              handleHover('post');
             }}
           />
         )}
@@ -85,17 +84,13 @@ export default function DonutChart({ post, commnet, like }: Props) {
             fill='none'
             stroke='#ef4444'
             strokeWidth='20'
-            strokeDasharray={`${dasharray2 - 20} ${
-              circumference - dasharray2 + 20
-            }`}
-            strokeDashoffset={offset - dasharray1 - 10}
+            strokeDasharray={`${dasharray2} ${circumference - dasharray2}`}
+            strokeDashoffset={offset - (dasharray1 + 20)} // round 값 추가 적용
             onMouseOver={() => {
-              setPostHover(false);
-              setCommentHover(!commentHover);
-              setLikeHover(false);
+              handleHover('comment');
             }}
             className={`${
-              commentHover && 'scale-125'
+              isHover === 'comment' && 'scale-125'
             } origin-center sclae-100 cursor-pointer transition-all duration-300 ease-in-out`}
             strokeLinecap='round'
           />
@@ -108,22 +103,18 @@ export default function DonutChart({ post, commnet, like }: Props) {
             fill='none'
             stroke='#10b981'
             strokeWidth='20'
-            strokeDasharray={`${dasharray3 - 20} ${
-              circumference - dasharray3 + 20
-            }`}
-            strokeDashoffset={offset - (dasharray1 + dasharray2) - 10}
+            strokeDasharray={`${dasharray3} ${circumference - dasharray3}`}
+            strokeDashoffset={offset - (dasharray1 + dasharray2 + 40)} // round 값 추가 적용
             onMouseOver={() => {
-              setPostHover(false);
-              setCommentHover(false);
-              setLikeHover(!likeHover);
+              handleHover('like');
             }}
             className={`${
-              likeHover && 'scale-125'
+              isHover === 'like' && 'scale-125'
             } origin-center sclae-100 cursor-pointer transition-all duration-300 ease-in-out`}
             strokeLinecap='round'
           />
         )}
-        {postHover || commentHover || likeHover ? (
+        {isHover !== 'all' ? (
           <text
             x='150'
             y='155'
@@ -131,9 +122,9 @@ export default function DonutChart({ post, commnet, like }: Props) {
             fontWeight={600}
             textAnchor='middle'
           >
-            {postHover && `포스트 ${post}회`}
-            {commentHover && `댓글 ${commnet}회`}
-            {likeHover && `좋아요 ${like}회`}
+            {isHover === 'post' && `포스트 ${post}회`}
+            {isHover === 'comment' && `댓글 ${commnet}회`}
+            {isHover === 'like' && `좋아요 ${like}회`}
           </text>
         ) : (
           <text
