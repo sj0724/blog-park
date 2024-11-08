@@ -31,7 +31,7 @@ export default function EditorButtonContainer({
         <Button
           type='button'
           className='w-20 h-12 font-semibold text-lg bg-white text-black hover:bg-gray-200'
-          onClick={() => router.back()}
+          onClick={() => router.replace('/')}
         >
           취소
         </Button>

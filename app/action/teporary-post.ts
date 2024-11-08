@@ -3,6 +3,7 @@
 import { ActionType, TemporaryPost } from '@/type';
 import { getSessionUserData } from '../data/user';
 import { supabase } from '@/utils/supabase';
+import { revalidatePath } from 'next/cache';
 
 export const createTemporary = async ({
   title,
@@ -78,6 +79,34 @@ export const updateTemporary = async ({
     return {
       success: true,
       message: '저장 중 에러가 발생했습니다.',
+    };
+  }
+};
+
+export const deleteTemporaryPost = async (
+  postId: string
+): Promise<ActionType<null>> => {
+  try {
+    const { data, error } = await supabase
+      .from('temporary_posts')
+      .delete()
+      .eq('id', postId); // postId에 해당하는 포스트 삭제
+
+    if (error) {
+      throw new Error(`Error deleting post: ${error.message}`);
+    }
+
+    revalidatePath('/post/temporary');
+
+    return {
+      success: true,
+      message: '임시 저장 포스트를 삭제했습니다.',
+      data,
+    };
+  } catch {
+    return {
+      success: false,
+      message: '삭제중 에러가 발생했습니다.',
     };
   }
 };

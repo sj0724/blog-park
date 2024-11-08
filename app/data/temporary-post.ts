@@ -4,10 +4,15 @@ import { TemporaryPost } from '@/type';
 import { supabase } from '@/utils/supabase';
 
 export const getTemporaryList = async (userId: string) => {
-  const data = await supabase
+  const { data, error } = await supabase
     .from('temporary_posts')
     .select('*')
     .eq('user_id', userId);
+
+  if (error) {
+    console.log(error);
+    throw new Error(`Error fetching comments: ${error.message}`);
+  }
 
   return data;
 };
@@ -22,7 +27,9 @@ export const getTemporaryPostById = async (
     .single();
 
   if (error) {
-    console.error(error);
+    console.log(error);
+    throw new Error(`Error fetching comments: ${error.message}`);
   }
+
   return post;
 };
