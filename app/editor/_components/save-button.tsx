@@ -3,6 +3,7 @@
 import { createTemporary, updateTemporary } from '@/app/action/teporary-post';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import { useCallback, useEffect } from 'react';
 import { toast } from 'sonner';
 
 interface Props {
@@ -14,7 +15,7 @@ interface Props {
 export default function SaveButton({ id, title, content }: Props) {
   const router = useRouter();
 
-  const isSave = async () => {
+  const isSave = useCallback(async () => {
     if (id) {
       const result = await updateTemporary({
         id,
@@ -34,7 +35,15 @@ export default function SaveButton({ id, title, content }: Props) {
         router.push(`/editor/create?id=${result.data?.id}`);
       }
     }
-  };
+  }, [content, id, router, title]);
+
+  useEffect(() => {
+    // 1분마다 isSave 함수 실행
+    const interval = setInterval(isSave, 60 * 1000);
+
+    // 컴포넌트 언마운트 시 타이머 정리
+    return () => clearInterval(interval);
+  }, [id, title, content, isSave]); // id, title, content가 변경될 때마다 타이머 재설정
 
   return (
     <Button
