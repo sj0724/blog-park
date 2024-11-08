@@ -1,19 +1,19 @@
 'use client';
 
 import { Textarea } from '@/components/ui/textarea';
-import { DragEvent, useRef, useState } from 'react';
+import { DragEvent, useEffect, useRef, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
 import { supabase, supabaseUrl } from '@/utils/supabase';
 import { toast } from 'sonner';
 import generateSafeFileName from '@/utils/encodingName';
 import MarkdownEditor from '../../../components/markdown-editor';
 import { Post } from '@/type';
 import ToolBar from '@/app/editor/_components/toolbar';
-import { EditPostDialog } from '@/app/editor/edit/[postId]/_components/edit-post-dialog';
-import { CreatPostDialog } from '@/app/editor/create/_components/creat-post-dialog';
+import EditorButtonContainer from './\beditor-button-container';
+import { useSearchParams } from 'next/navigation';
+import { getTemporaryPostById } from '@/app/data/temporary-post';
+import SaveButton from './save-button';
 
 interface Props {
   postId?: string;
@@ -25,8 +25,9 @@ interface Props {
 export default function PostEditor({ postId, post, content, title }: Props) {
   const [markdown, setMarkdown] = useState(content ? content : '');
   const [postTitle, setPostTitle] = useState(title ? title : '');
-  const router = useRouter();
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const searchParams = useSearchParams();
+  const temporaryId = searchParams.get('id');
 
   const dropImage = async (e: DragEvent) => {
     e.preventDefault(); // textarea 기본 동작 방지
@@ -78,6 +79,17 @@ export default function PostEditor({ postId, post, content, title }: Props) {
     }
   };
 
+  useEffect(() => {
+    const getTemporaryData = async (temporaryId: string) => {
+      const data = await getTemporaryPostById(temporaryId);
+      setMarkdown(data ? data.content : '');
+      setPostTitle(data ? data.title : '');
+    };
+    if (temporaryId) {
+      getTemporaryData(temporaryId);
+    }
+  }, [temporaryId]);
+
   return (
     <div className='flex px-4 py-7 w-screen'>
       <form className='relative w-full'>
@@ -112,29 +124,16 @@ export default function PostEditor({ postId, post, content, title }: Props) {
             </div>
           </div>
         </div>
-        <div className='fixed bottom-0 right-0 px-4 h-fit flex justify-end items-center w-screen bg-white shadow-[0_-4px_10px_rgba(0,0,0,0.1)]'>
-          <div className='py-4 flex gap-2'>
-            <Button
-              type='button'
-              className='w-20 h-12 font-semibold text-lg bg-white text-black hover:bg-gray-200'
-              onClick={() => router.back()}
-            >
-              취소
-            </Button>
-            {postId ? (
-              <EditPostDialog
-                postContent={markdown}
-                title={postTitle}
-                postId={postId}
-                postTagList={post ? post.tag! : []}
-                summation={post ? post.summation : ''}
-                isPublished={post ? post.isPublished : true}
-              />
-            ) : (
-              <CreatPostDialog postContent={markdown} title={postTitle} />
-            )}
-          </div>
-        </div>
+        <EditorButtonContainer
+          postId={postId}
+          post={post}
+          title={postTitle}
+          content={markdown}
+        >
+          {!postId && (
+            <SaveButton id={temporaryId} title={postTitle} content={markdown} />
+          )}
+        </EditorButtonContainer>
       </form>
     </div>
   );
