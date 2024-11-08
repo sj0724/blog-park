@@ -90,6 +90,7 @@ export const addGithubLog = async (
   try {
     const transformLog = log
       .map((item) => ({
+        id: '',
         user_id: session.id,
         pr_count: item.count,
         pr_url: item.url,
@@ -104,7 +105,7 @@ export const addGithubLog = async (
 
     const { data: existingLogs, error } = await supabase // 기존 로그 조회
       .from('activity_logs')
-      .select('created_at, id, pr_url')
+      .select('created_at, id, pr_url, pr_count, id')
       .eq('user_id', session.id)
       .gte('created_at', start)
       .lte('created_at', end)
@@ -114,7 +115,10 @@ export const addGithubLog = async (
 
     if (existingLogs && existingLogs.length > 0) {
       // 기존 로그 url와 신규 로그 url비교
-      if (existingLogs[0].pr_url === transformLog[0].pr_url) {
+      if (
+        existingLogs[existingLogs.length - 1].pr_url ===
+        transformLog[transformLog.length - 1].pr_url
+      ) {
         return {
           success: false,
           message: '이미 등록된 로그입니다.',
@@ -122,16 +126,28 @@ export const addGithubLog = async (
       }
     }
 
-    const existingLogDates = new Set(
-      existingLogs?.map((log) => log.created_at.split('T')[0])
-    ); // 존재하는 로그 날짜 배열
+    const existingLogMap = existingLogs!.reduce((map, log) => {
+      const date = log.created_at.split('T')[0];
+      map[date] = { pr_count: log.pr_count, pr_url: log.pr_url, id: log.id };
+      return map;
+    }, {} as Record<string, { pr_count: number | null; pr_url: string | null; id: string }>); // 존재하는 로그 객체로 변경
 
-    const logsToUpdate = transformLog.filter((log) =>
-      existingLogDates.has(log.created_at)
-    ); // 업데이트 필요한 로그
+    const logsToUpdate = transformLog
+      .filter((log) => {
+        const existingLog = existingLogMap[log.created_at];
+        return (
+          existingLog &&
+          (existingLog.pr_url !== log.pr_url ||
+            existingLog.pr_count !== log.pr_count)
+        );
+      }) // 존재하는 로그의 pr_url이나 pr_count가 다른 로그만 필터링
+      .map((log) => {
+        const existingLog = existingLogMap[log.created_at];
+        return { ...log, id: existingLog.id };
+      }); // 업데이트할 로그에 기존 id값 부여
     const logsToInsert = transformLog.filter(
-      (log) => !existingLogDates.has(log.created_at)
-    ); // 추가할 로그
+      (log) => !existingLogMap[log.created_at]
+    );
 
     // 필요한 경우 업데이트
     if (logsToUpdate.length > 0) {
@@ -144,6 +160,7 @@ export const addGithubLog = async (
             rate: 100,
           })
           .eq('user_id', session.id)
+          .eq('id', log.id)
       );
       await Promise.all(updatePromises); // 모든 업데이트 요청을 병렬로 처리
     }
