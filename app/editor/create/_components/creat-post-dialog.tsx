@@ -24,13 +24,14 @@ import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { PostSchema } from '@/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import TagInput from './tag-input';
+import TagInput from '../../_components/tag-input';
 import ServerActionButton from '@/components/server-action-button';
+import { deleteTemporaryPost } from '@/app/action/teporary-post';
 
 export type PostSchemaType = z.infer<typeof PostSchema>;
 
@@ -51,6 +52,8 @@ export function CreatPostDialog({ postContent, title }: Props) {
     },
     mode: 'all',
   });
+  const searchParams = useSearchParams();
+  const temporaryId = searchParams.get('id');
 
   const toggleSwitch = () => {
     setIsPublic(!isPublic);
@@ -69,8 +72,14 @@ export function CreatPostDialog({ postContent, title }: Props) {
         isPublished: isPublic,
         tagList,
       });
+
       toast.message(result.message);
-      if (result.success) router.replace('/');
+      if (result.success) {
+        if (temporaryId) {
+          await deleteTemporaryPost(temporaryId);
+        }
+        router.replace('/');
+      }
     });
   };
 

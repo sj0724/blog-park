@@ -25,6 +25,9 @@ export type Log = Database['public']['Tables']['activity_logs']['Row'];
 
 export type Alarm = Database['public']['Tables']['alarms']['Row'];
 
+export type TemporaryPost =
+  Database['public']['Tables']['temporary_posts']['Row'];
+
 export type GitHubLog = {
   createdAt: string;
   count: number;

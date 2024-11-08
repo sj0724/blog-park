@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 
 const userMenu: { title: string; href: string }[] = [
   { title: '포스트 작성하기', href: '/editor/create' },
+  { title: '임시 저장 포스트', href: '/post/temporary' },
   {
     title: '내 블로그',
     href: '/user',
