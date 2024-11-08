@@ -39,10 +39,10 @@ export default function SaveButton({ id, title, content }: Props) {
 
   useEffect(() => {
     // 1분마다 isSave 함수 실행
-    const interval = setInterval(isSave, 60 * 1000);
+    const timer = setTimeout(isSave, 60 * 1000);
 
     // 컴포넌트 언마운트 시 타이머 정리
-    return () => clearInterval(interval);
+    return () => clearTimeout(timer);
   }, [id, title, content, isSave]); // id, title, content가 변경될 때마다 타이머 재설정
 
   return (
