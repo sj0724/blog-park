@@ -29,7 +29,7 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import TagInput from './tag-input';
+import TagInput from '../../_components/tag-input';
 import ServerActionButton from '@/components/server-action-button';
 
 export type PostSchemaType = z.infer<typeof PostSchema>;

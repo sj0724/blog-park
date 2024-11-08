@@ -1,5 +1,5 @@
 import { supabase } from '@/utils/supabase';
-import PostEditor from '@/components/post-editor';
+import PostEditor from '@/app/editor/_components/post-editor';
 
 export default async function Page({ params }: { params: { postId: string } }) {
   const { data: post } = await supabase
@@ -12,7 +12,12 @@ export default async function Page({ params }: { params: { postId: string } }) {
 
   return (
     <div className='flex max-w-screen justify-center max-h-[calc(100vh-80px-80px)] h-screen'>
-      <PostEditor post={post} postId={params.postId} />
+      <PostEditor
+        post={post}
+        postId={params.postId}
+        title={post.title}
+        content={post.content}
+      />
     </div>
   );
 }

@@ -9,20 +9,22 @@ import { useRouter } from 'next/navigation';
 import { supabase, supabaseUrl } from '@/utils/supabase';
 import { toast } from 'sonner';
 import generateSafeFileName from '@/utils/encodingName';
-import MarkdownEditor from './markdown-editor';
+import MarkdownEditor from '../../../components/markdown-editor';
 import { Post } from '@/type';
-import ToolBar from '@/app/editor/create/_components/toolbar';
+import ToolBar from '@/app/editor/_components/toolbar';
 import { EditPostDialog } from '@/app/editor/edit/[postId]/_components/edit-post-dialog';
 import { CreatPostDialog } from '@/app/editor/create/_components/creat-post-dialog';
 
 interface Props {
   postId?: string;
+  title?: string;
+  content?: string;
   post?: Post;
 }
 
-export default function PostEditor({ postId, post }: Props) {
-  const [markdown, setMarkdown] = useState(post ? post.content : '');
-  const [postTitle, setPostTitle] = useState(post ? post.title : '');
+export default function PostEditor({ postId, post, content, title }: Props) {
+  const [markdown, setMarkdown] = useState(content ? content : '');
+  const [postTitle, setPostTitle] = useState(title ? title : '');
   const router = useRouter();
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
