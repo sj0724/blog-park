@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Post, SupabaseUser } from '@/type';
 import { formatDateRange } from '@/utils/formatData';
 import { Dot, Lock } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 interface Props {
@@ -26,9 +27,18 @@ export default function PostCard({ post, owner }: Props) {
             </div>
           </CardTitle>
         </CardHeader>
-        <CardContent className='flex flex-col h-[170px]'>
-          <div className='flex flex-col justify-center h-full'>
-            <div className='text-base text-gray-600'>{post.summation}</div>
+        <CardContent className='flex flex-col'>
+          <div className='flex items-center justify-between h-24'>
+            <p className='text-base text-gray-600'>{post.summation}</p>
+            {post.thumbnail && (
+              <Image
+                src={post.thumbnail}
+                width={130}
+                height={130}
+                style={{ objectFit: 'contain', borderRadius: '16px' }}
+                alt='이미지'
+              />
+            )}
           </div>
           <div className='flex flex-col gap-2'>
             <div className='flex gap-2'>
