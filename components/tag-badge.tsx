@@ -36,7 +36,7 @@ export default function TagBadge({ tag, type }: Props) {
   return (
     <>
       {type === 'badge' ? (
-        <div className='px-3 py-1 text-blue-500 bg-gray-100 rounded-full w-fit'>
+        <div className='px-3 py-1 text-blue-500 bg-gray-100 rounded-full w-fit text-nowrap text-sm md:text-base'>
           {tag}
         </div>
       ) : (
