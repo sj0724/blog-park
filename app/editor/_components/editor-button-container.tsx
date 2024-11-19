@@ -43,6 +43,7 @@ export default function EditorButtonContainer({
             postTagList={post ? post.tag! : []}
             summation={post ? post.summation : ''}
             isPublished={post ? post.isPublished : true}
+            thumbnail={post ? post.thumbnail : ''}
           />
         ) : (
           <CreatPostDialog postContent={content} title={title} />

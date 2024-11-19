@@ -32,6 +32,7 @@ import { z } from 'zod';
 import TagInput from '../../_components/tag-input';
 import ServerActionButton from '@/components/server-action-button';
 import { deleteTemporaryPost } from '@/app/action/teporary-post';
+import ThumbnailInput from '../../_components/thumbnail-input';
 
 export type PostSchemaType = z.infer<typeof PostSchema>;
 
@@ -44,6 +45,7 @@ export function CreatPostDialog({ postContent, title }: Props) {
   const [isPending, startTransition] = useTransition();
   const [isPublic, setIsPublic] = useState(true);
   const [tagList, setTagList] = useState<string[]>([]);
+  const [thumbnail, setThumbnail] = useState('');
   const router = useRouter();
   const form = useForm<PostSchemaType>({
     resolver: zodResolver(PostSchema),
@@ -63,6 +65,10 @@ export function CreatPostDialog({ postContent, title }: Props) {
     setTagList(tagList);
   };
 
+  const editThumbnail = (image: string) => {
+    setThumbnail(image);
+  };
+
   const onSubmit = async (values: PostSchemaType) => {
     startTransition(async () => {
       const result = await creatPost({
@@ -71,6 +77,7 @@ export function CreatPostDialog({ postContent, title }: Props) {
         summation: values.summation,
         isPublished: isPublic,
         tagList,
+        thumbnail,
       });
 
       toast.message(result.message);
@@ -133,6 +140,10 @@ export function CreatPostDialog({ postContent, title }: Props) {
             <div className='flex flex-col gap-2'>
               <p className='text-base font-bold'>태그</p>
               <TagInput tags={tagList} editTagList={editTagList} />
+            </div>
+            <div className='flex flex-col gap-2'>
+              <p className='text-base font-bold'>썸네일</p>
+              <ThumbnailInput editThumbnail={editThumbnail} />
             </div>
             <div className='flex gap-3'>
               <p className='text-base font-bold'>공개 여부</p>
