@@ -12,6 +12,7 @@ interface ContentProps {
   summation: string;
   isPublished: boolean;
   tagList: string[];
+  thumbnail: string;
 }
 
 export const creatPost = async ({
@@ -20,6 +21,7 @@ export const creatPost = async ({
   summation,
   isPublished = false,
   tagList,
+  thumbnail,
 }: ContentProps): Promise<ActionType<null>> => {
   const session = await getSessionUserData();
   if (!session) throw new Error('인증이 필요합니다.');
@@ -32,6 +34,7 @@ export const creatPost = async ({
         summation,
         isPublished,
         tag: tagList,
+        thumbnail,
       },
     ]);
 
@@ -93,6 +96,7 @@ export const editPost = async ({
   summation,
   isPublished = true,
   tagList,
+  thumbnail,
 }: {
   postId: string;
   content: string;
@@ -100,6 +104,7 @@ export const editPost = async ({
   summation: string;
   isPublished?: boolean;
   tagList: string[];
+  thumbnail: string;
 }): Promise<ActionType<null>> => {
   const session = await getSessionUserData();
   try {
@@ -111,6 +116,7 @@ export const editPost = async ({
         summation,
         isPublished,
         tag: tagList,
+        thumbnail,
       })
       .eq('id', postId); // postId에 해당하는 포스트 수정
 
