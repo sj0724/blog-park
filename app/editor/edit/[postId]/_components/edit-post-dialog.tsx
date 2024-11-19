@@ -149,8 +149,11 @@ export function EditPostDialog({
               <TagInput tags={tagList} editTagList={editTagList} />
             </div>
             <div className='flex flex-col gap-2'>
-              <p className='text-base font-bold'>썸네일</p>
+              <p className='text-base font-bold'>대표 이미지</p>
               <ThumbnailInput editThumbnail={editThumbnail} />
+              <p className='text-[12px] text-gray-500'>
+                ※ 정사각형 이미지를 권장합니다.
+              </p>
             </div>
             <div className='flex gap-3'>
               <p className='text-base font-bold'>공개 여부</p>

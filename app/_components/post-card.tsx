@@ -55,7 +55,7 @@ export default function PostCard({ post, owner }: Props) {
             <Image
               src={post.thumbnail}
               fill
-              style={{ objectFit: 'contain', borderRadius: '16px' }}
+              style={{ objectFit: 'cover', borderRadius: '16px' }}
               alt='이미지'
             />
           )}
