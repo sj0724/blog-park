@@ -66,7 +66,7 @@ export default function ToolBar({
   };
 
   return (
-    <div className='flex w-full px-4 gap-4 items-center'>
+    <div className='flex w-full px-4 gap-4 items-center overflow-x-scroll scrollbar-hidden h-8'>
       <div className='flex gap-4 h-fit'>
         <div onClick={() => onClick('# ')} className='cursor-pointer'>
           <Heading1 size={25} color='gray' />

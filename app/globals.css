@@ -133,3 +133,11 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.scrollbar-hidden {
+  -ms-overflow-style: none; /* IE 및 Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
