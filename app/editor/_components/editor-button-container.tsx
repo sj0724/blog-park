@@ -25,7 +25,7 @@ export default function EditorButtonContainer({
   const router = useRouter();
 
   return (
-    <div className='fixed bottom-0 right-0 px-4 py-4 h-fit flex justify-between items-center w-screen bg-white shadow-[0_-4px_10px_rgba(0,0,0,0.1)]'>
+    <div className='fixed bottom-0 right-0 left-0 px-4 py-4 h-fit flex justify-between items-center w-screen bg-white shadow-[0_-4px_10px_rgba(0,0,0,0.1)]'>
       <div>{children}</div>
       <div className='flex gap-2'>
         <Button

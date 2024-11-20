@@ -114,7 +114,7 @@ export default function PostEditor({ postId, post, content, title }: Props) {
               ref={textareaRef}
             />
           </div>
-          <Separator orientation='vertical' />
+          <Separator orientation='vertical' className='hidden lg:block' />
           <div className='lg:flex hidden flex-col w-1/2 gap-1'>
             <div className='flex flex-col px-3 py-8'>
               <p className='text-3xl font-semibold break-words'>{postTitle}</p>
