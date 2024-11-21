@@ -10,10 +10,9 @@ import { toast } from 'sonner';
 interface Props {
   postId: string;
   createrId: string;
-  updateList: () => void;
 }
 
-export default function CommentForm({ postId, createrId, updateList }: Props) {
+export default function CommentForm({ postId, createrId }: Props) {
   const [content, setContent] = useState('');
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -30,7 +29,6 @@ export default function CommentForm({ postId, createrId, updateList }: Props) {
         setContent(''); // 입력 필드 비우기
         toast.success(result.message); // 성공 메시지 표시
         queryClient.invalidateQueries({ queryKey: [`${postId}:comment`] }); // 댓글 목록 갱신
-        updateList();
       } else {
         toast.error(result.message); // 에러 메시지 표시
       }

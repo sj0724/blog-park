@@ -12,10 +12,9 @@ interface Props {
   comment: Comment;
   userId?: string;
   postId: string;
-  page: number;
 }
 
-export default function CommentCard({ comment, userId, postId, page }: Props) {
+export default function CommentCard({ comment, userId, postId }: Props) {
   const [isEdit, setIsEdit] = useState(false);
 
   const toggleEdit = () => {
@@ -47,7 +46,6 @@ export default function CommentCard({ comment, userId, postId, page }: Props) {
             toggleEdit={toggleEdit}
             postId={postId}
             commentId={comment.id}
-            page={page}
           />
         ) : (
           <MarkdownEditor markdownText={comment.content} />

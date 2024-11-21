@@ -11,7 +11,6 @@ interface Props {
   toggleEdit: () => void;
   postId: string;
   commentId: string;
-  page: number;
 }
 
 export default function CommentEditForm({
@@ -19,7 +18,6 @@ export default function CommentEditForm({
   toggleEdit,
   postId,
   commentId,
-  page,
 }: Props) {
   const formatContent = content.replace(/<br\s*\/?>/gi, '\n');
   const [newContent, setNewContent] = useState(formatContent);
