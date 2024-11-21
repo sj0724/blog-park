@@ -28,7 +28,7 @@ export default function AlarmContainer({ list, userId, totalCount }: Props) {
   }, [page, userId]);
 
   const obsRef = useInfiniteScroll({
-    callback: loadMoreAnswer,
+    callback: () => loadMoreAnswer(),
     isLoading: isPending,
     isNext,
   });

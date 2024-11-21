@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 
 interface Props {
-  callback: () => Promise<void>;
+  callback: () => void;
   isLoading: boolean;
   isNext: boolean;
 }

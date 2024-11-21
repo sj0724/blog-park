@@ -4,7 +4,6 @@ import FloatingContainer from './_components/floating-container';
 import { getMyLikeByPostId } from '@/app/data/like';
 import { getPostById } from '@/app/data/post';
 import { Metadata } from 'next';
-import { getCommentList } from '@/app/data/commnet';
 import { getSessionUserData } from '@/app/data/user';
 import PostHeadingList from './_components/post-heading-list';
 
@@ -26,12 +25,6 @@ export default async function Page({ params }: Props) {
   const session = await getSessionUserData();
   const post = await getPostById(params.postId);
   const personalStatus = await getMyLikeByPostId({ postId: params.postId });
-  const { totalCount } = await getCommentList({
-    postId: params.postId,
-    page: 1,
-    limit: 5,
-  });
-
   if (!post) return <div>없는 포스트</div>;
 
   return (
@@ -44,8 +37,8 @@ export default async function Page({ params }: Props) {
       <CommentContainer
         postId={params.postId}
         createrId={post.user_id}
-        totalCount={totalCount!}
         currentUser={session?.id}
+        limit={5}
       />
       <FloatingContainer
         totalLike={post.like_count ? post.like_count : 0}
