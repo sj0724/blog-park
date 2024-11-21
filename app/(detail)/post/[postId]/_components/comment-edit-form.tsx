@@ -2,7 +2,7 @@ import { editComment } from '@/app/action/comment';
 import ServerActionButton from '@/components/server-action-button';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -11,6 +11,7 @@ interface Props {
   toggleEdit: () => void;
   postId: string;
   commentId: string;
+  isRefetch: () => void;
 }
 
 export default function CommentEditForm({
@@ -18,10 +19,10 @@ export default function CommentEditForm({
   toggleEdit,
   postId,
   commentId,
+  isRefetch,
 }: Props) {
   const formatContent = content.replace(/<br\s*\/?>/gi, '\n');
   const [newContent, setNewContent] = useState(formatContent);
-  const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async () => {
       const formatNewContent = newContent.replace(/\n/g, '\n\n');
@@ -34,9 +35,7 @@ export default function CommentEditForm({
     onSuccess: (result) => {
       if (result.success) {
         toast.success(result.message); // 성공 메시지 표시
-        queryClient.invalidateQueries({
-          queryKey: [`${postId}:comment`, page],
-        }); // 댓글 목록 갱신
+        isRefetch();
         toggleEdit();
       } else {
         toast.error(result.message); // 에러 메시지 표시

@@ -21,25 +21,25 @@ export default function CommentContainer({
   currentUser,
   limit,
 }: Props) {
-  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
-    queryKey: ['commnet', postId],
-    queryFn: async ({ pageParam = 0 }) => {
-      const result = await getCommentList({
-        postId,
-        page: pageParam + 1,
-        limit,
-      });
-      return result;
-    },
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages) => {
-      const loadedComment = allPages.flatMap((page) => page.comments);
-      console.log(loadedComment);
-      return lastPage.totalCount! !== loadedComment.length
-        ? allPages.length
-        : undefined;
-    },
-  });
+  const { data, fetchNextPage, hasNextPage, isLoading, refetch } =
+    useInfiniteQuery({
+      queryKey: ['commnet', postId],
+      queryFn: async ({ pageParam = 0 }) => {
+        const result = await getCommentList({
+          postId,
+          page: pageParam + 1,
+          limit,
+        });
+        return result;
+      },
+      initialPageParam: 0,
+      getNextPageParam: (lastPage, allPages) => {
+        const loadedComment = allPages.flatMap((page) => page.comments);
+        return lastPage.totalCount! !== loadedComment.length
+          ? allPages.length
+          : undefined;
+      },
+    });
 
   const obsRef = useInfiniteScroll({
     callback: () => fetchNextPage(),
@@ -47,13 +47,21 @@ export default function CommentContainer({
     isNext: hasNextPage,
   });
 
+  const refetchingData = () => {
+    refetch();
+  };
+
   return (
     <div className='w-full max-w-[800px] gap-3 flex flex-col'>
       <div className='flex flex-col gap-2'>
         <p className='text-xl font-semibold'>
           {data?.pages[0].totalCount}개의 댓글
         </p>
-        <CommentForm postId={postId} createrId={createrId} />
+        <CommentForm
+          postId={postId}
+          createrId={createrId}
+          isRefetch={refetchingData}
+        />
       </div>
       {isLoading && <CommentSkeleton />}
       <ul className='flex flex-col gap-3'>
@@ -65,6 +73,7 @@ export default function CommentContainer({
                   comment={comment}
                   userId={currentUser}
                   postId={postId}
+                  isRefetch={refetchingData}
                 />
               </li>
             ))}

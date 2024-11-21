@@ -4,25 +4,23 @@ import { deleteComment } from '@/app/action/comment';
 import DeleteButton from './post-delete-button';
 import { toast } from 'sonner';
 import { useState } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
 
 interface Props {
   commentId: string;
   toggleEdit: () => void;
   isEdit: boolean;
   postId: string;
+  isRefetch: () => void;
 }
 
 export default function CommentButtonContainer({
   commentId,
   toggleEdit,
   isEdit,
-  postId,
+  isRefetch,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
-  const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async () => {
       const result = await deleteComment(commentId);
@@ -31,8 +29,8 @@ export default function CommentButtonContainer({
     onSuccess: (result) => {
       if (result.success) {
         toast.success(result.message); // 성공 메시지 표시
-        queryClient.invalidateQueries({ queryKey: [`${postId}:comment`] }); // 댓글 목록 갱신
-        router.refresh();
+        isRefetch();
+        setIsOpen(false);
       } else {
         toast.error(result.message); // 에러 메시지 표시
       }

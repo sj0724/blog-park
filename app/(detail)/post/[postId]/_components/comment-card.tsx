@@ -12,9 +12,15 @@ interface Props {
   comment: Comment;
   userId?: string;
   postId: string;
+  isRefetch: () => void;
 }
 
-export default function CommentCard({ comment, userId, postId }: Props) {
+export default function CommentCard({
+  comment,
+  userId,
+  postId,
+  isRefetch,
+}: Props) {
   const [isEdit, setIsEdit] = useState(false);
 
   const toggleEdit = () => {
@@ -36,6 +42,7 @@ export default function CommentCard({ comment, userId, postId }: Props) {
             toggleEdit={toggleEdit}
             isEdit={isEdit}
             postId={postId}
+            isRefetch={isRefetch}
           />
         )}
       </div>
@@ -46,6 +53,7 @@ export default function CommentCard({ comment, userId, postId }: Props) {
             toggleEdit={toggleEdit}
             postId={postId}
             commentId={comment.id}
+            isRefetch={isRefetch}
           />
         ) : (
           <MarkdownEditor markdownText={comment.content} />
