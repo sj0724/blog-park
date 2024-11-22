@@ -2,7 +2,8 @@
 
 interface Props {
   text: string;
-  count: number;
+  isActive: boolean;
+  id: string;
 }
 
 const space = {
@@ -11,11 +12,15 @@ const space = {
   3: 'pl-12',
 };
 
-export default function Heading({ text, count }: Props) {
+export default function Heading({ text, isActive, id }: Props) {
   const replaceText = text.replace(/#/g, '');
-  const headingId = text.replace(/#/g, '').trim();
+  const countSpace = (heading: string) => {
+    const matches = heading.match(new RegExp('#', 'g'));
+    return matches ? matches.length : 0;
+  };
+
   const scrollToElementById = () => {
-    const element = document.getElementById(headingId);
+    const element = document.getElementById(id);
     if (element) {
       const elementPosition =
         element.getBoundingClientRect().top + window.scrollY;
@@ -29,9 +34,11 @@ export default function Heading({ text, count }: Props) {
 
   return (
     <div
-      className={`cursor-pointer text-[15px] text-gray-500 ${
-        space[count as 1 | 2 | 3]
-      } hover:text-blue-500 min-h-6`}
+      className={`cursor-pointer text-[15px] ${
+        space[countSpace(text) as 1 | 2 | 3]
+      } hover:text-blue-500 ${
+        isActive ? 'text-blue-500' : 'text-gray-500'
+      } min-h-6`}
       onClick={scrollToElementById}
     >
       <p className='break-keep'>{`${replaceText}`}</p>
