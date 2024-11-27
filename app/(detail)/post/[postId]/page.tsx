@@ -6,6 +6,7 @@ import { getPostById } from '@/app/data/post';
 import { Metadata } from 'next';
 import { getSessionUserData } from '@/app/data/user';
 import PostHeadingList from './_components/post-heading-list';
+import GiscusComment from '@/components/giscus';
 
 interface Props {
   params: { postId: string };
@@ -40,6 +41,7 @@ export default async function Page({ params }: Props) {
         currentUser={session?.id}
         limit={5}
       />
+      <GiscusComment />
       <FloatingContainer
         totalLike={post.like_count ? post.like_count : 0}
         createrId={post.user_id}
