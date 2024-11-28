@@ -8,7 +8,8 @@ import {
 } from '@/utils/formatData';
 import CalendarSingleDay from './calendar-single-day';
 import { Log } from '@/type';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import CalendarYearSelector from './calendar-year-selector';
 
 const DAYS_KOREAN = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -34,19 +35,32 @@ export default function CalendarContainer({
   log: Log[];
   currentYear: number;
 }) {
+  const [logList, setLogList] = useState<Record<string, Log>>({});
+  const [calendarYear, setCalendarYear] = useState(currentYear);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const firstDayIndex = getFirstDay(currentYear);
-  const totalDay = getDayInYear(currentYear);
+  const firstDayIndex = getFirstDay(calendarYear);
+  const totalDay = getDayInYear(calendarYear);
 
-  const logByDate: Record<string, Log> = log!.reduce((acc, entry) => {
-    const date = formatDateTz(entry.created_at!);
-    acc[date] = { ...entry };
-    return acc;
-  }, {} as Record<string, Log>);
+  const changeYear = (value: string) => {
+    setCalendarYear(Number(value));
+    console.log(1111);
+  };
+
+  useEffect(() => {
+    const logByDate: Record<string, Log> = log!.reduce((acc, entry) => {
+      const date = formatDateTz(entry.created_at!);
+      acc[date] = { ...entry };
+      return acc;
+    }, {} as Record<string, Log>);
+    setLogList(logByDate);
+  }, [log]);
 
   return (
     <div className='overflow-x-auto flex flex-col gap-2 w-full'>
-      <p className='ml-3 font-semibold text-gray-600'>{currentYear}년</p>
+      <CalendarYearSelector
+        calendarYear={calendarYear}
+        changeYear={changeYear}
+      />
       <div
         className='flex flex-col gap-3 border p-3 rounded-lg w-full overflow-x-auto'
         ref={containerRef}
@@ -78,7 +92,7 @@ export default function CalendarContainer({
               const day = index + 1;
               const dayByYear = getDateFromDay(currentYear, day); // 현재 연도에서 해당 일수의 날짜로 변환
               const formatDate = formatDateTz(dayByYear); // 날짜를 시간 제외한 포멧으로 변경
-              const matchLog = logByDate[formatDate];
+              const matchLog = logList[formatDate];
 
               return (
                 <CalendarSingleDay
