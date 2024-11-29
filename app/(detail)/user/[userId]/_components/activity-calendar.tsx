@@ -2,8 +2,13 @@ import { getLogById } from '@/app/data/log';
 import CalendarContainer from './calendar-container';
 import SummaryConatiner from './summary-container';
 
-export default async function ActivityCalendar({ userId }: { userId: string }) {
-  const currentYear = new Date().getFullYear();
+interface Props {
+  year: string | null;
+  userId: string;
+}
+
+export default async function ActivityCalendar({ userId, year }: Props) {
+  const currentYear = year ? Number(year) : new Date().getFullYear();
   const log = await getLogById({ userId, year: currentYear });
 
   return (

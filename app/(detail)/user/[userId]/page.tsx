@@ -13,7 +13,7 @@ import { Suspense } from 'react';
 import LandingListSkeleton from '@/app/_components/landing-list-skeleton';
 
 interface Props {
-  searchParams: { page: string; menu: string };
+  searchParams: { page: string; menu: string; year: string };
   params: { userId: string };
 }
 
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({
-  searchParams: { page, menu = 'list' },
+  searchParams: { page, menu = 'list', year },
   params: { userId },
 }: Props) {
   const session = await getSessionUserData();
@@ -46,12 +46,10 @@ export default async function Page({
           <div className='flex flex-col gap-2 w-full max-w-[800px] bg-white shadow-md rounded-lg px-5 py-5'>
             <Profile userId={userId} />
             <Separator />
-            <ActivityCalendar userId={userId} />
+            <ActivityCalendar userId={userId} year={year} />
           </div>
           <div className='flex flex-col w-full'>
-            {session?.id === userId && (
-              <ProfileUserMenu menu={menu} userId={userId} />
-            )}
+            {session?.id === userId && <ProfileUserMenu menu={menu} />}
             <div className='flex flex-col items-center'>
               {menu === 'list' && (
                 <>

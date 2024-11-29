@@ -9,6 +9,7 @@ import {
 import CalendarSingleDay from './calendar-single-day';
 import { Log } from '@/type';
 import { useRef } from 'react';
+import CalendarYearSelector from './calendar-year-selector';
 
 const DAYS_KOREAN = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -45,8 +46,8 @@ export default function CalendarContainer({
   }, {} as Record<string, Log>);
 
   return (
-    <div className='overflow-x-auto flex flex-col gap-2 w-full'>
-      <p className='ml-3 font-semibold text-gray-600'>{currentYear}년</p>
+    <div className='overflow-x-auto flex flex-col gap-2 w-full h-full'>
+      <CalendarYearSelector calendarYear={currentYear} />
       <div
         className='flex flex-col gap-3 border p-3 rounded-lg w-full overflow-x-auto'
         ref={containerRef}
@@ -79,7 +80,6 @@ export default function CalendarContainer({
               const dayByYear = getDateFromDay(currentYear, day); // 현재 연도에서 해당 일수의 날짜로 변환
               const formatDate = formatDateTz(dayByYear); // 날짜를 시간 제외한 포멧으로 변경
               const matchLog = logByDate[formatDate];
-
               return (
                 <CalendarSingleDay
                   key={day}
