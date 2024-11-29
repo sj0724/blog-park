@@ -11,6 +11,10 @@ interface Props {
   containerRef: MutableRefObject<HTMLDivElement | null>;
 }
 
+type XDirectionType = 'right' | 'left';
+
+type YDirectionType = 'top' | 'bottom' | 'center';
+
 type DirectionStyle = {
   [key: string]: string;
 };
@@ -25,8 +29,8 @@ const directionStyle: DirectionStyle = {
 
 export default function CalendarSingleDay({ day, log, containerRef }: Props) {
   const [isActive, setIsActive] = useState(false);
-  const [xDirection, setXDirection] = useState('right');
-  const [yDirection, setYDirection] = useState('top');
+  const [xDirection, setXDirection] = useState<XDirectionType>('right');
+  const [yDirection, setYDirection] = useState<YDirectionType>('top');
   const infoRef = useRef<HTMLDivElement | null>(null);
   const boxRef = useRef<HTMLDivElement | null>(null);
   const logColor = (rate: number) => {
