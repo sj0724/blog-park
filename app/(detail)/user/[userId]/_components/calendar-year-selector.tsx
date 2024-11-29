@@ -7,16 +7,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useRouter } from 'next/navigation';
 
 const YEAR = [2023, 2024, 2025];
 
 export default function CalendarYearSelector({
   calendarYear,
-  changeYear,
 }: {
   calendarYear: number;
-  changeYear: (value: string) => void;
 }) {
+  const router = useRouter();
+
+  const changeYear = (value: string) => {
+    const url = new URL(window.location.href);
+    const isUrl = url.searchParams.get('year');
+    if (isUrl) {
+      url.searchParams.set('year', value);
+    } else {
+      url.searchParams.append('year', value);
+    }
+    router.push(url.toString());
+  };
+
   return (
     <Select onValueChange={changeYear}>
       <SelectTrigger className='w-[100px] font-semibold text-gray-600'>
