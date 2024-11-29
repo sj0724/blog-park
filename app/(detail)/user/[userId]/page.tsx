@@ -49,9 +49,7 @@ export default async function Page({
             <ActivityCalendar userId={userId} year={year} />
           </div>
           <div className='flex flex-col w-full'>
-            {session?.id === userId && (
-              <ProfileUserMenu menu={menu} userId={userId} />
-            )}
+            {session?.id === userId && <ProfileUserMenu menu={menu} />}
             <div className='flex flex-col items-center'>
               {menu === 'list' && (
                 <>
