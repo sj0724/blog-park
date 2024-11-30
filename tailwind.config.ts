@@ -10,6 +10,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        xl: '1320px',
+      },
       animation: {
         'fade-in': 'fadeIn 0.3s ease-in-out',
       },
