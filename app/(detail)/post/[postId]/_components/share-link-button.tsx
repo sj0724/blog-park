@@ -15,7 +15,12 @@ declare global {
   }
 }
 
-export default function ShareLinkButton({ post }: { post: Post }) {
+interface Props {
+  post: Post;
+  type: 'float' | 'title';
+}
+
+export default function ShareLinkButton({ post, type }: Props) {
   const [isHover, setIsHover] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -68,6 +73,38 @@ export default function ShareLinkButton({ post }: { post: Post }) {
       window.removeEventListener('click', pageClickEvent);
     };
   }, [isHover]);
+
+  if (type === 'title') {
+    return (
+      <div className='relative'>
+        <div
+          ref={containerRef}
+          onClick={() => setIsHover(!isHover)}
+          className='p-2 cursor-pointer'
+        >
+          <Share size={20} />
+        </div>
+        {isHover && (
+          <div className='absolute flex transform items-center right-0 -bottom-10 rounded-lg shadow'>
+            <div className='p-2 cursor-pointer' onClick={copyLink}>
+              <Paperclip size={22} />
+            </div>
+            <div
+              className='p-2 cursor-pointer w-9 h-9 flex justify-center items-center'
+              onClick={shareKakao}
+            >
+              <Image
+                src={KakaoIcon}
+                alt='카카오 아이콘'
+                width={20}
+                height={20}
+              />
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className='relative'>

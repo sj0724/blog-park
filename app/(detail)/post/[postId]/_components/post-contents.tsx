@@ -7,6 +7,7 @@ import { Post } from '@/type';
 import LikeButton from './like-button';
 import MarkdownEditor from '@/components/markdown-editor';
 import TagBadge from '@/components/tag-badge';
+import ShareLinkButton from './share-link-button';
 
 interface Props {
   totalLike: number;
@@ -33,26 +34,29 @@ export default async function PostContents({
           )}
         </div>
         <div className='flex flex-col gap-2'>
-          <div className='flex gap-2 items-center text-center'>
-            <Link href={`/user/${post.posts_user_id_fkey.id}`}>
-              <p className='font-semibold text-lg'>
-                {post.posts_user_id_fkey.name}
-              </p>
-            </Link>
-            <DotFilledIcon width={10} height={10} />
-            <p className='text-gray-600'>{formatData}</p>
-            <div className='flex gap-2 items-center lg:hidden'>
+          <div className='flex justify-between'>
+            <div className='flex gap-2 items-center text-center'>
+              <Link href={`/user/${post.posts_user_id_fkey.id}`}>
+                <p className='font-semibold text-lg'>
+                  {post.posts_user_id_fkey.name}
+                </p>
+              </Link>
               <DotFilledIcon width={10} height={10} />
+              <p className='text-gray-600'>{formatData}</p>
               <div className='flex gap-2 items-center'>
-                <LikeButton
-                  postId={post.id}
-                  personalStatus={personalStatus}
-                  createrId={post.user_id}
-                  size={20}
-                />
-                <p>{totalLike}</p>
+                <DotFilledIcon width={10} height={10} />
+                <div className='flex gap-2 items-center'>
+                  <LikeButton
+                    postId={post.id}
+                    personalStatus={personalStatus}
+                    createrId={post.user_id}
+                    size={20}
+                  />
+                  <p>{totalLike}</p>
+                </div>
               </div>
             </div>
+            <ShareLinkButton type='title' post={post} />
           </div>
           <div className='flex gap-2'>
             {post.tag &&
