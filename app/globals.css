@@ -38,7 +38,7 @@ body {
     @apply mb-0; /* 리스트 항목 간격 */
   }
   .prose blockquote {
-    @apply border-l-4 border-blue-400 pl-4 italic text-gray-600 mb-4 bg-gray-100 py-2; /* 인용문 스타일 */
+    @apply border-l-4 border-blue-400 px-4 text-gray-800 mb-4 bg-gray-100 py-2 text-base md:text-lg lg:text-lg; /* 인용문 스타일 */
     @apply my-3; /* 인용문 간격 조절 */
   }
   .prose code {
