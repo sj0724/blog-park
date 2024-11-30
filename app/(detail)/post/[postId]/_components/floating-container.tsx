@@ -28,7 +28,7 @@ export default function FloatingContainer({
         </div>
         <p className='font-semibold'>{totalLike}</p>
       </div>
-      <ShareLinkButton post={post} />
+      <ShareLinkButton post={post} type='float' />
     </div>
   );
 }
