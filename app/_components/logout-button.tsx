@@ -10,6 +10,7 @@ export default function LogoutButton() {
     if (result.success) {
       router.refresh();
       router.replace('/');
+      window.location.reload();
     }
   };
 
