@@ -56,7 +56,9 @@ export default async function PostContents({
                 </div>
               </div>
             </div>
-            <ShareLinkButton type='title' post={post} />
+            <div className='lg:hidden'>
+              <ShareLinkButton type='title' post={post} />
+            </div>
           </div>
           <div className='flex gap-2'>
             {post.tag &&
