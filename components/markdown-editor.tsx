@@ -45,7 +45,11 @@ export default function MarkdownEditor({
           </span>
         ),
         a: (props) => (
-          <Link href={props.href ? props.href : ''} target='_blank'>
+          <Link
+            href={props.href ? props.href : ''}
+            target='_blank'
+            className='break-words'
+          >
             {props.children}
           </Link>
         ),

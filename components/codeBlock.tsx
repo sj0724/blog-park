@@ -10,7 +10,7 @@ const customStyle = {
   ...materialOceanic,
   'code[class*="language-"]': {
     ...materialOceanic['code[class*="language-"]'],
-    fontSize: '14px',
+    fontSize: '12px',
   },
 };
 
