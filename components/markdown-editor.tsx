@@ -74,6 +74,7 @@ export default function MarkdownEditor({
           </h4>
         ),
         p: (props) => <p className='py-3'>{props.children}</p>,
+        ol: (props) => <ol className='list-decimal pl-5'>{props.children}</ol>,
       }}
     >
       {markdownText}
