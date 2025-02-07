@@ -1,9 +1,13 @@
+'use client';
+
 import TagBadge from '@/components/tag-badge';
+import { Separator } from '@/components/ui/separator';
 import { Post, SupabaseUser } from '@/type';
 import { formatDateRange } from '@/utils/formatData';
 import { Dot, Lock } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 
 interface Props {
   post: Post;
@@ -11,13 +15,18 @@ interface Props {
 }
 
 export default function PostCard({ post, owner }: Props) {
+  const [isHover, setIsHover] = useState(false);
   if (!post) return <div>잘못된 포스트 정보입니다.</div>;
 
   const formatDate = formatDateRange({ dateString: post.createdAt });
 
   return (
     <Link href={`/post/${post.id}`}>
-      <div className='w-full hover:shadow-lg hover:-translate-y-1 transition-transform flex justify-between border-none hover:text-blue-500 p-6 bg-card shadow rounded-xl gap-5'>
+      <div
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
+        className='w-full flex justify-between hover:text-blue-500 px-6 py-8 rounded-xl gap-5'
+      >
         <div className='w-4/5 min-w-52 flex flex-col'>
           <div className='flex text-base md:text-xl font-extrabold gap-2'>
             {post.title}
@@ -31,7 +40,7 @@ export default function PostCard({ post, owner }: Props) {
                 {post.summation}
               </p>
             </div>
-            <div className='flex flex-col gap-2'>
+            <div className='flex flex-col gap-3'>
               <div className='flex gap-2'>
                 {post.tag &&
                   post.tag.map((item) => (
@@ -50,7 +59,11 @@ export default function PostCard({ post, owner }: Props) {
             </div>
           </div>
         </div>
-        <div className='relative max-w-[130px] w-full aspect-square h-fit'>
+        <div
+          className={`relative max-w-[130px] w-full aspect-square h-fit ${
+            isHover && '-translate-y-2 transition-transform ease-linear'
+          }`}
+        >
           {post.thumbnail && (
             <Image
               src={post.thumbnail}
@@ -61,6 +74,7 @@ export default function PostCard({ post, owner }: Props) {
           )}
         </div>
       </div>
+      <Separator />
     </Link>
   );
 }
