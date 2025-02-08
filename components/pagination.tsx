@@ -1,6 +1,14 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
+import { useSearchParams } from 'next/navigation';
 
 interface Props {
   total: number;
@@ -9,46 +17,61 @@ interface Props {
   limit: number;
 }
 
-export default function Pagination({
+export default function BlogPagination({
   total,
   currentPage = 1,
   route,
   limit,
 }: Props) {
-  const router = useRouter();
+  const searchParams = useSearchParams();
   const totalPages = Math.ceil(total / limit);
   const changePage = (page: number) => {
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set('page', page.toString());
-    router.push(`${route}?${searchParams.toString()}`);
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    newSearchParams.set('page', page.toString());
+    return `${route}?${newSearchParams.toString()}`;
   };
 
   const maxVisibleButtons = 5;
-  const startPage = Math.max(
-    1,
-    currentPage - Math.floor(maxVisibleButtons / 2)
-  );
+  const half = Math.floor(maxVisibleButtons / 2);
+
+  let startPage = Math.max(1, currentPage - half);
+  let endPage = startPage + maxVisibleButtons - 1;
+
+  // endPage가 totalPages를 초과하면 조정
+  if (endPage > totalPages) {
+    endPage = totalPages;
+    startPage = Math.max(1, endPage - maxVisibleButtons + 1);
+  }
+
   const pageArr = Array.from(
-    { length: Math.min(maxVisibleButtons, totalPages) },
+    { length: endPage - startPage + 1 },
     (_, index) => startPage + index
-  ).filter((page) => page <= totalPages);
+  );
 
   return (
-    <ul className='flex space-x-2'>
-      {pageArr.map((page) => (
-        <li key={page}>
-          <button
-            onClick={() => changePage(page)}
-            className={`px-4 py-2 rounded-lg font-bold transition-colors ${
-              currentPage === page
-                ? 'bg-blue-500 text-white hover:bg-blue-900'
-                : 'bg-gray-200 hover:bg-gray-400'
-            }`}
-          >
-            {page}
-          </button>
-        </li>
-      ))}
-    </ul>
+    <Pagination>
+      <PaginationContent>
+        {currentPage !== 1 && (
+          <PaginationItem>
+            <PaginationPrevious href={changePage(currentPage - 1)} />
+          </PaginationItem>
+        )}
+        {pageArr.map((page) => (
+          <PaginationItem key={page}>
+            <PaginationLink
+              href={changePage(page)}
+              isActive={currentPage === page}
+            >
+              {page}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
+        {currentPage !== totalPages && (
+          <PaginationItem>
+            <PaginationNext href={changePage(currentPage + 1)} />
+          </PaginationItem>
+        )}
+      </PaginationContent>
+    </Pagination>
   );
 }
