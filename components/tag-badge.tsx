@@ -15,6 +15,7 @@ export default function TagBadge({ tag, type }: Props) {
 
   const onClick = () => {
     const url = new URL(window.location.href);
+    url.searchParams.delete('page');
     const tagList = url.searchParams.getAll('tags');
     if (tagList.includes(tag)) {
       url.searchParams.delete('tags', tag);
