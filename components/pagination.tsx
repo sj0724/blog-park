@@ -61,6 +61,7 @@ export default function BlogPagination({
             <PaginationLink
               href={changePage(page)}
               isActive={currentPage === page}
+              className='hover:text-blue-500 font-semibold'
             >
               {page}
             </PaginationLink>

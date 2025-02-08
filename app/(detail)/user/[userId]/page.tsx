@@ -6,7 +6,7 @@ import ProfileUserMenu from './_components/profile-user-menu';
 import FollowContainer from './_components/follow-container';
 import LikeContainer from './_components/like-container';
 import { getSessionUserData, getUserById } from '@/app/data/user';
-import Pagination from '@/components/pagination';
+import BlogPagination from '@/components/pagination';
 import { Metadata } from 'next';
 import ActivityCalendar from './_components/activity-calendar';
 import { Suspense } from 'react';
@@ -59,7 +59,7 @@ export default async function Page({
                     <PostContainer list={postList ? postList : []} />
                   </Suspense>
                   <div className='py-4 flex justify-center'>
-                    <Pagination
+                    <BlogPagination
                       total={count!}
                       currentPage={currentPage}
                       route={`/user/${userId}`}

@@ -1,4 +1,3 @@
-import Pagination from '@/components/pagination';
 import Footer from './_components/footer';
 import PostContainer from './_components/post-container';
 import { getPostList } from './data/post';
@@ -9,6 +8,7 @@ import Logo from '@/public/logo-icon-white.png';
 import TagContainer from './_components/tag-container';
 import { Suspense } from 'react';
 import LandingListSkeleton from './_components/landing-list-skeleton';
+import BlogPagination from '@/components/pagination';
 
 export const metadata: Metadata = {
   title: 'Blog Park',
@@ -43,7 +43,7 @@ export default async function Home({
           <Suspense fallback={<LandingListSkeleton />}>
             <PostContainer list={postList} title='전체 리스트' />
             <div className='py-4 flex justify-center'>
-              <Pagination
+              <BlogPagination
                 total={count!}
                 currentPage={currentPage}
                 route='/'

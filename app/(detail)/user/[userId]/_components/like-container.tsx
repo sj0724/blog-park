@@ -1,6 +1,6 @@
 import PostCard from '@/app/_components/post-card';
 import { getMyLikeList } from '@/app/data/like';
-import Pagination from '@/components/pagination';
+import BlogPagination from '@/components/pagination';
 
 export default async function LikeContainer({
   currentPage,
@@ -34,7 +34,7 @@ export default async function LikeContainer({
         )}
       </div>
       <div className='py-4 flex justify-center'>
-        <Pagination
+        <BlogPagination
           total={count!}
           currentPage={currentPage}
           route={`/user/${userId}`}
