@@ -6,6 +6,7 @@ import Toaster from '@/components/ui/sonner';
 import KakaoScript from '@/KakaoScript';
 import QeuryProviders from '@/components/query-provider';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import Footer from './_components/footer';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -31,15 +32,16 @@ export default function RootLayout({
   return (
     <html lang='ko'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-50`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-50 flex flex-col items-center justify-center`}
       >
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID as string} />
         <QeuryProviders>
           <Toaster />
           <Nav />
-          <main className='flex justify-center mt-[80px] min-h-[calc(100vh-80px)] max-w-screen'>
+          <main className='flex justify-center mt-[80px] min-h-[calc(100vh-80px)] w-full max-w-screen'>
             {children}
           </main>
+          <Footer />
           <KakaoScript />
         </QeuryProviders>
       </body>

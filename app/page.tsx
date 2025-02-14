@@ -1,4 +1,3 @@
-import Footer from './_components/footer';
 import PostContainer from './_components/post-container';
 import { getPostList } from './data/post';
 import { Metadata } from 'next';
@@ -57,7 +56,6 @@ export default async function Home({
           <TagContainer />
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

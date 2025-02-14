@@ -6,7 +6,7 @@ import { Separator } from '@/components/ui/separator';
 export default async function Page() {
   return (
     <div className='flex flex-col justify-center items-center max-h-[calc(100vh-52px)] w-full'>
-      <div className='flex flex-col gap-3 max-w-96 w-full px-5'>
+      <div className='flex flex-col gap-3 w-full px-5 max-w-96'>
         <LoginForm />
         <div className='flex items-center justify-center gap-3 w-full'>
           <Separator className='w-2/5' />

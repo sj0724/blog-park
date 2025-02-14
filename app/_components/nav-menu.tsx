@@ -61,7 +61,7 @@ export default function NavMenu({ userId }: { userId?: string }) {
         <Menu size={30} />
       </div>
       <div
-        className={`absolute flex justify-center top-20 right-0 left-0 h-fit shadow-md bg-slate-50/80 backdrop-blur rounded-b-lg z-40 transform transition-all duration-300 ease-in-out ${
+        className={`absolute flex justify-center top-20 right-0 left-0 h-fit bg-slate-50/80 backdrop-blur rounded-b-lg z-40 transform transition-all duration-300 ease-in-out ${
           isOpen
             ? 'opacity-100 translate-y-0'
             : 'opacity-0 -translate-y-5 pointer-events-none'

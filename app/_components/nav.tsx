@@ -9,7 +9,7 @@ export default async function Nav() {
   const session = await getSessionUserData();
 
   return (
-    <nav className='fixed top-0 left-0 right-0 flex justify-between items-center px-4 py-2 h-20 bg-slate-50 z-50 border-b'>
+    <nav className='fixed w-full max-w-[1300px] top-0 left-1/2 -translate-x-1/2 right-0 flex justify-between items-center px-4 py-2 h-20 bg-slate-50 z-50'>
       <div className='flex items-center gap-4'>
         <Link href='/'>
           <Image src={Logo} alt='로고' width={210} height={50} />
