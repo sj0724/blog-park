@@ -1,7 +1,12 @@
+'use client';
+
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Footer() {
+  const path = usePathname();
+  if (path.split('/')[1] === 'editor') return;
   return (
     <footer className='h-28 max-w-[1300px] flex justify-center w-full'>
       <div className='flex flex-col border-t-[1px] pt-5 gap-2 w-full mx-5'>
