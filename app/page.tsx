@@ -38,7 +38,7 @@ export default async function Home({
         </div>
       </div>
       <div className='flex justify-center w-full py-12 px-5 gap-8'>
-        <div className='w-full max-w-[800px]'>
+        <div className='w-full'>
           <Suspense fallback={<LandingListSkeleton />}>
             <PostContainer list={postList} title='전체 리스트' />
             <div className='py-4 flex justify-center'>
@@ -51,7 +51,7 @@ export default async function Home({
             </div>
           </Suspense>
         </div>
-        <div className='hidden md:flex lg:flex flex-col gap-5 h-fit'>
+        <div className='hidden md:flex lg:flex flex-col gap-5 h-fit max-w-[350px] '>
           <MostFavoriteContainer />
           <TagContainer />
         </div>
